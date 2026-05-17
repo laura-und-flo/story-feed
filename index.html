@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Flo & Laura</title>
+    <title>Laura & Flo</title>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
     <style>
         * {
@@ -28,6 +28,55 @@
             background: var(--bg-dark);
             font-family: 'Inter', sans-serif;
             color: var(--text-cream);
+        }
+
+        /* SVG Flower Decorations */
+        .flower-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.12;
+            overflow: hidden;
+        }
+
+        .flower-bg svg {
+            position: absolute;
+        }
+
+        .flower-top-left {
+            top: -5%;
+            left: -5%;
+            width: 45vw;
+            max-width: 350px;
+            transform: rotate(-5deg);
+        }
+
+        .flower-bottom-right {
+            bottom: -5%;
+            right: -5%;
+            width: 45vw;
+            max-width: 350px;
+            transform: rotate(175deg);
+        }
+
+        .flower-top-right {
+            top: 5%;
+            right: -2%;
+            width: 25vw;
+            max-width: 180px;
+            transform: rotate(15deg);
+        }
+
+        .flower-bottom-left {
+            bottom: 8%;
+            left: -3%;
+            width: 25vw;
+            max-width: 180px;
+            transform: rotate(-20deg);
         }
 
         /* Password Overlay */
@@ -142,6 +191,8 @@
             overflow-y: scroll;
             scroll-snap-type: y mandatory;
             -webkit-overflow-scrolling: touch;
+            position: relative;
+            z-index: 1;
         }
 
         #story-feed.visible {
@@ -296,9 +347,104 @@
     </style>
 </head>
 <body>
+    <!-- Flower Background Decorations -->
+    <div class="flower-bg">
+        <!-- Large flower top-left -->
+        <svg class="flower-top-left" viewBox="0 0 400 500" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <!-- Stem and leaves -->
+            <path d="M180 480 C180 400, 160 350, 170 280 C175 240, 185 200, 190 160" stroke="#8FA98F" stroke-width="3" fill="none"/>
+            <path d="M170 350 C140 330, 120 340, 100 360 C120 350, 140 345, 170 350Z" fill="#7A9B7A"/>
+            <path d="M175 300 C150 280, 130 285, 110 300 C130 290, 150 288, 175 300Z" fill="#8FA98F"/>
+            <path d="M180 400 C210 380, 230 385, 250 400 C230 390, 210 388, 180 400Z" fill="#7A9B7A"/>
+            <path d="M170 420 C140 405, 120 410, 100 425 C120 415, 140 412, 170 420Z" fill="#8FA98F"/>
+            <!-- Large flower 1 -->
+            <path d="M190 160 C160 130, 130 110, 120 80 C130 100, 150 120, 190 160Z" fill="#D4728C"/>
+            <path d="M190 160 C170 120, 180 80, 200 50 C195 80, 185 120, 190 160Z" fill="#C4627C"/>
+            <path d="M190 160 C220 120, 250 110, 270 80 C255 105, 230 125, 190 160Z" fill="#D4728C"/>
+            <path d="M190 160 C230 140, 260 150, 280 140 C255 148, 225 145, 190 160Z" fill="#E88AA3"/>
+            <path d="M190 160 C160 150, 130 155, 110 145 C135 152, 160 152, 190 160Z" fill="#E88AA3"/>
+            <!-- Flower center -->
+            <circle cx="190" cy="160" r="12" fill="#4A2040"/>
+            <!-- White vein lines on petals -->
+            <path d="M190 160 C170 135, 150 115, 135 90" stroke="rgba(255,255,255,0.3)" stroke-width="1" fill="none"/>
+            <path d="M190 160 C190 130, 192 100, 200 70" stroke="rgba(255,255,255,0.3)" stroke-width="1" fill="none"/>
+            <path d="M190 160 C210 135, 235 120, 255 95" stroke="rgba(255,255,255,0.3)" stroke-width="1" fill="none"/>
+            <!-- Small buds -->
+            <circle cx="130" cy="250" r="6" fill="#F0D0C0"/>
+            <circle cx="145" cy="240" r="5" fill="#F0D0C0"/>
+            <path d="M130 250 C130 260, 140 270, 150 275" stroke="#8FA98F" stroke-width="2" fill="none"/>
+            <!-- Second flower lower -->
+            <path d="M160 430 C130 400, 100 385, 85 355 C100 375, 120 395, 160 430Z" fill="#D4728C"/>
+            <path d="M160 430 C140 390, 150 355, 170 325 C165 355, 155 390, 160 430Z" fill="#C4627C"/>
+            <path d="M160 430 C190 395, 220 385, 240 360 C225 380, 200 400, 160 430Z" fill="#D4728C"/>
+            <path d="M160 430 C200 415, 225 420, 245 415 C225 420, 195 418, 160 430Z" fill="#E88AA3"/>
+            <path d="M160 430 C130 420, 100 425, 80 418 C105 422, 130 422, 160 430Z" fill="#E88AA3"/>
+            <circle cx="160" cy="430" r="10" fill="#4A2040"/>
+            <path d="M160 430 C140 405, 120 390, 100 370" stroke="rgba(255,255,255,0.3)" stroke-width="1" fill="none"/>
+            <path d="M160 430 C155 400, 158 370, 168 345" stroke="rgba(255,255,255,0.3)" stroke-width="1" fill="none"/>
+            <path d="M160 430 C180 405, 205 393, 225 375" stroke="rgba(255,255,255,0.3)" stroke-width="1" fill="none"/>
+        </svg>
+
+        <!-- Small branch top-right -->
+        <svg class="flower-top-right" viewBox="0 0 200 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M100 280 C100 220, 90 180, 95 120 C98 90, 100 60, 105 30" stroke="#8FA98F" stroke-width="2.5" fill="none"/>
+            <path d="M95 120 C75 105, 60 108, 50 120 C65 112, 78 110, 95 120Z" fill="#7A9B7A"/>
+            <path d="M100 180 C120 165, 135 168, 145 178 C130 172, 115 170, 100 180Z" fill="#8FA98F"/>
+            <!-- Small pink tulip buds -->
+            <path d="M105 30 C100 20, 95 10, 100 5 C105 10, 110 20, 105 30Z" fill="#E88AA3"/>
+            <path d="M105 30 C108 18, 115 12, 112 5 C115 15, 110 22, 105 30Z" fill="#D4728C"/>
+            <!-- Small buds on branch -->
+            <circle cx="80" cy="85" r="4" fill="#F0D0C0"/>
+            <circle cx="75" cy="75" r="3.5" fill="#F0D0C0"/>
+            <path d="M80 85 C85 90, 90 100, 95 110" stroke="#8FA98F" stroke-width="1.5" fill="none"/>
+            <!-- Another small flower -->
+            <path d="M100 200 C90 190, 82 182, 78 172 C84 180, 90 188, 100 200Z" fill="#E88AA3"/>
+            <path d="M100 200 C98 188, 100 178, 105 170 C103 180, 100 190, 100 200Z" fill="#D4728C"/>
+            <path d="M100 200 C110 190, 118 184, 122 175 C116 183, 108 190, 100 200Z" fill="#E88AA3"/>
+            <circle cx="100" cy="200" r="5" fill="#4A2040"/>
+        </svg>
+
+        <!-- Bottom-right decoration -->
+        <svg class="flower-bottom-right" viewBox="0 0 400 500" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M180 480 C180 400, 160 350, 170 280 C175 240, 185 200, 190 160" stroke="#8FA98F" stroke-width="3" fill="none"/>
+            <path d="M170 350 C140 330, 120 340, 100 360 C120 350, 140 345, 170 350Z" fill="#7A9B7A"/>
+            <path d="M175 300 C150 280, 130 285, 110 300 C130 290, 150 288, 175 300Z" fill="#8FA98F"/>
+            <path d="M180 400 C210 380, 230 385, 250 400 C230 390, 210 388, 180 400Z" fill="#7A9B7A"/>
+            <path d="M190 160 C160 130, 130 110, 120 80 C130 100, 150 120, 190 160Z" fill="#D4728C"/>
+            <path d="M190 160 C170 120, 180 80, 200 50 C195 80, 185 120, 190 160Z" fill="#C4627C"/>
+            <path d="M190 160 C220 120, 250 110, 270 80 C255 105, 230 125, 190 160Z" fill="#D4728C"/>
+            <path d="M190 160 C230 140, 260 150, 280 140 C255 148, 225 145, 190 160Z" fill="#E88AA3"/>
+            <path d="M190 160 C160 150, 130 155, 110 145 C135 152, 160 152, 190 160Z" fill="#E88AA3"/>
+            <circle cx="190" cy="160" r="12" fill="#4A2040"/>
+            <path d="M190 160 C170 135, 150 115, 135 90" stroke="rgba(255,255,255,0.3)" stroke-width="1" fill="none"/>
+            <path d="M190 160 C190 130, 192 100, 200 70" stroke="rgba(255,255,255,0.3)" stroke-width="1" fill="none"/>
+            <path d="M190 160 C210 135, 235 120, 255 95" stroke="rgba(255,255,255,0.3)" stroke-width="1" fill="none"/>
+            <circle cx="130" cy="250" r="6" fill="#F0D0C0"/>
+            <circle cx="145" cy="240" r="5" fill="#F0D0C0"/>
+            <path d="M160 430 C130 400, 100 385, 85 355 C100 375, 120 395, 160 430Z" fill="#D4728C"/>
+            <path d="M160 430 C140 390, 150 355, 170 325 C165 355, 155 390, 160 430Z" fill="#C4627C"/>
+            <path d="M160 430 C190 395, 220 385, 240 360 C225 380, 200 400, 160 430Z" fill="#D4728C"/>
+            <circle cx="160" cy="430" r="10" fill="#4A2040"/>
+            <path d="M160 430 C140 405, 120 390, 100 370" stroke="rgba(255,255,255,0.3)" stroke-width="1" fill="none"/>
+            <path d="M160 430 C180 405, 205 393, 225 375" stroke="rgba(255,255,255,0.3)" stroke-width="1" fill="none"/>
+        </svg>
+
+        <!-- Small branch bottom-left -->
+        <svg class="flower-bottom-left" viewBox="0 0 200 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M100 280 C100 220, 90 180, 95 120 C98 90, 100 60, 105 30" stroke="#8FA98F" stroke-width="2.5" fill="none"/>
+            <path d="M95 150 C75 135, 60 138, 50 150 C65 142, 78 140, 95 150Z" fill="#7A9B7A"/>
+            <path d="M98 200 C118 185, 133 188, 143 198 C128 192, 113 190, 98 200Z" fill="#8FA98F"/>
+            <path d="M105 50 C100 40, 95 30, 100 22 C105 30, 110 40, 105 50Z" fill="#E88AA3"/>
+            <path d="M105 50 C108 38, 115 32, 112 22 C115 35, 110 42, 105 50Z" fill="#D4728C"/>
+            <circle cx="78" cy="105" r="4" fill="#F0D0C0"/>
+            <circle cx="72" cy="95" r="3.5" fill="#F0D0C0"/>
+            <path d="M78 105 C83 115, 88 125, 93 135" stroke="#8FA98F" stroke-width="1.5" fill="none"/>
+        </svg>
+    </div>
+
     <!-- Password Overlay -->
     <div id="password-overlay">
-        <h1>Flo & Laura</h1>
+        <h1>Laura & Flo</h1>
         <p class="subtitle">Ein Geschenk in Worten</p>
         <form id="password-form" onsubmit="return false;">
             <input type="password" id="password-input" placeholder="Passwort eingeben" autocomplete="off">
@@ -324,7 +470,7 @@
             { quote: "Seit Laura in Florians Leben ist, redet er immerhin mit mir. Und er hat festgestellt, dass ich eigentlich auch ganz cool bin.", name: "Pia", relation: "Kleine Schwester" },
             { quote: "TM-Vorlesung, Grundsemester. Flo kommt viel zu spät, läuft rein, völlig verschossen, hockt sich hin, dreht sich einmal kurz um – und pennt ein. Anderthalb Stunden. Komplett durch.", name: "Nico", relation: "Studienfreund" },
             { quote: "Wenn sie zusammen sind, haben sie so ein Strahlen im Gesicht.", name: "Simone", relation: "Patentante" },
-            { quote: "Ich habe Flo mit zwei Jahren in die Schiffstraße mitgenommen – eine Raucherkneipe. Er saß an der Theke und hat Marmor getrunken. Zuhause ist Susanne durchgedreht, weil er nach Rauch gestunken hat.", name: "Julia / Tante Rosa", relation: "Tante" },
+            { quote: "Ich habe Flo mit zwei Jahren in die Schiffstraße mitgenommen – eine Raucherkneipe. Er saß an der Theke und hat Marmor getrunken. Zuhause ist Susanne durchgedreht, weil er nach Rauch gestunken hat.", name: "Julia / Tante Rossa", relation: "Tante" },
             { quote: "Laura habe ich zum ersten Mal auf einer Demo in Freiburg kennengelernt. Da habe ich schon ihr radikales Potenzial erkannt.", name: "Louis", relation: "Bester Freund von Laura" },
             { quote: "Florian ist der hilfsbereiteste Freund, den ich habe. Wenn man ihn anruft, ist er sofort zur Stelle – ausnahmslos in bester Laune und übersprudelnder Energie.", name: "Ivo", relation: "Arbeitskollege" },
             { quote: "Florian hat mit China-Böllern rumexperimentiert und versucht, das Klassenzimmer im M-Bau in die Luft zu jagen. Gab mies Nachsitzen.", name: "Kai", relation: "Schulfreund" },
@@ -332,14 +478,15 @@
             { context: "Über die Kindheit:", quote: "Eine der ersten Erinnerungen sind die Übernachtungsparties. Wir haben teilweise bis spät in die Nacht das Brettspiel Carcassonne unter der Bettdecke gespielt.", name: "Max", relation: "Trauzeuge" },
             { quote: "Flo? Der Techno-Wikinger. Laura? Merida – die Prinzessin, die lieber Kriegerin wird.", name: "Louis", relation: "Bester Freund von Laura" },
             { quote: "Flo ist besonders gefährlich, sobald ihm was richtig gut gefällt.", name: "Moritz", relation: "Freund seit Jugend" },
-            { quote: "Ich habe ihn ganz oft verkleidet – mit Ohrringen und Kleidchen. Er wollte es aber auch.", name: "Julia / Tante Rosa", relation: "Tante" },
+            { quote: "Ich habe ihn ganz oft verkleidet – mit Ohrringen und Kleidchen. Er wollte es aber auch.", name: "Julia / Tante Rossa", relation: "Tante" },
+            { context: "Über die beiden:", quote: "Chaotisch, strukturiert, liebevoll, positiv. Sie ergänzen sich auf ganz weirde Arten. Sie haben beide ein Herz aus Gold und eine positive Energie – das ist auch das, was ihr Umfeld an den beiden schätzt.", name: "Bella", relation: "Schwester & Trauzeugin" },
             { quote: "Flo war eine der wichtigsten Personen für mich im Studium, weil er uns alle immer vom Stress runtergeholt hat. Sein Motto: ‚Macht euch keinen Stress, es wird easy.' Und irgendwie hatte er jedes Mal recht.", name: "Nico", relation: "Studienfreund" },
-            { context: "Erinnerung an die Kindheit:", quote: "Wir saßen kurz vor dem Abitur in der noch nicht umgebauten Küche bei meinen Eltern auf dem Boden. Absolute Nervenbündel, heulend auf dem Küchenboden. Klingt total doof zusammen zu heulen – aber irgendwie ist der Moment trotzdem voll in positiver Erinnerung bei mir abgespeichert.", name: "Leonie", relation: "Schwester" },
+            { context: "Erinnerung an die Kindheit:", quote: "Laura und ich saßen kurz vor dem Abitur in der noch nicht umgebauten Küche bei meinen Eltern auf dem Boden. Absolute Nervenbündel, heulend auf dem Küchenboden. Klingt total doof zusammen zu heulen – aber irgendwie ist der Moment trotzdem voll in positiver Erinnerung bei mir abgespeichert.", name: "Leonie", relation: "Schwester" },
             { quote: "50km-Marsch. Ohne Training. Die letzten Kilometer wie Zombies. Ich danach mit Belastungsbruch. Florian mit der größten Blase der Geschichte.", name: "Ivo", relation: "Arbeitskollege" },
             { context: "Auf die Frage, was typisch für die beiden ist:", quote: "Katzen. Japan. Und eine kleine Brise strukturiertes Chaos – liebevolles Chaos.", name: "Pia", relation: "Kleine Schwester" },
             { context: "Über Flo:", quote: "Flo war für mich immer eine Stütze. Jemand, wo ich wirklich wusste: Der ist einen Anruf entfernt, egal was los ist.", name: "Max", relation: "Trauzeuge" },
             { context: "Über Laura:", quote: "Laura ist grundsätzlich ein sehr geduldiger Mensch, sehr reif, top organisiert und reflektiert – ein super Gesprächspartner, mit dem es immer Spaß macht.", name: "Moritz", relation: "Freund seit Jugend" },
-            { context: "Auf die Frage, wie sie die beiden beschreiben würde:", quote: "Der große, blonde Däne und die kleine, hübsche Frau, die aussieht wie die Khaleesi von Game of Thrones.", name: "Julia / Tante Rosa", relation: "Tante" },
+            { context: "Auf die Frage, wie sie die beiden beschreiben würde:", quote: "Der große, blonde Däne und die kleine, hübsche Frau, die aussieht wie die Khaleesi von Game of Thrones.", name: "Julia / Tante Rossa", relation: "Tante" },
             { quote: "Laura fordert Gespräche ein, rüttelt Flo wach – manchmal sanft, manchmal unsanft – und schafft es immer wieder, ihm total liebevoll zu sagen, wenn was scheiße war.", name: "Leonie", relation: "Schwester" },
             { context: "Auf die Frage, wie er die beiden beschreiben würde:", quote: "Der eine ist recht lang und die andere ist weniger lang.", name: "Kai", relation: "Schulfreund" },
             { quote: "Laura kenne ich immer mit einem Lächeln im Gesicht.", name: "Ivo", relation: "Arbeitskollege" },
@@ -348,7 +495,7 @@
             { quote: "Laura und Flo sind ein verrücktes, etwas verpeiltes, aber sehr süßes und intelligentes Künstlerpaar.", name: "Simone", relation: "Patentante" },
             { quote: "Wenn sie mal aneinandergeraten, tauschen sie danach immer verliebte Blicke aus. Meistens endet es in einer Umarmung – vor den Augen aller Anwesenden. Ob die wollen oder nicht.", name: "Leonie", relation: "Schwester" },
             { quote: "An Flo schätze ich, dass er sich unglaublich wenig Gedanken macht. Er trifft einfach Entscheidungen und macht Sachen.", name: "Moritz", relation: "Freund seit Jugend" },
-            { quote: "Eigentlich total ungleich – und trotzdem passen sie perfekt zusammen.", name: "Julia / Tante Rosa", relation: "Tante" },
+            { quote: "Eigentlich total ungleich – und trotzdem passen sie perfekt zusammen.", name: "Julia / Tante Rossa", relation: "Tante" },
             { quote: "Und sie werden super viele schöne Dinge in ihrem Leben erreichen – einfach weil sie zusammen drin stecken.", name: "Pia", relation: "Kleine Schwester" },
             { quote: "Ich habe mit Florian seit zweieinhalb Jahren einen Stammtisch zum Schachspielen. Getroffen haben wir uns bisher genau einmal.", name: "Ivo", relation: "Arbeitskollege" },
             { quote: "Gleich und gleich gesellt sich gern, oder Gegensätze ziehen sich an – die zwei sind die perfekte Mischung aus beidem.", name: "Louis", relation: "Bester Freund von Laura" },
@@ -356,7 +503,8 @@
             { context: "Erinnerung an Flo und Max im Urlaub:", quote: "Max hatte das Kommando beim Angeln. Flo hat sich total cool gefühlt und gedacht, er hat das alles gemanagt. Und ihr kamt dann so stolz zurück. Diese Glückseligkeit habe ich voll oft noch im Kopf.", name: "Leonie", relation: "Schwester" },
             { quote: "Und er hat unglaublich gute Stats bei allen Handyspielen – keinen Zweiten, der sich so rein fokussieren kann.", name: "Moritz", relation: "Freund seit Jugend" },
             { quote: "Beide sind lustig, empathisch, hilfsbereit.", name: "Susanne", relation: "Mama" },
-            { quote: "Flo war mein erster Neffe. Ich habe mich damals tierisch auf ihn gefreut. Ab dem Zeitpunkt als er auf der Welt war, habe ich fast jeden Tag mit ihm verbracht. Gewickelt, gehütet, Fahrradtouren gemacht.", name: "Julia / Tante Rosa", relation: "Tante" },
+            { context: "Auf die Frage, was typisch für die beiden ist:", quote: "Zu spät kommen. Ich sage aber nichts dagegen, weil ich leider auch so eine Kandidatin bin. Familiär sehe ich auf jeden Fall, woher es kommt.", name: "Bella", relation: "Schwester & Trauzeugin" },
+            { quote: "Flo war mein erster Neffe. Ich habe mich damals tierisch auf ihn gefreut. Ab dem Zeitpunkt als er auf der Welt war, habe ich fast jeden Tag mit ihm verbracht. Gewickelt, gehütet, Fahrradtouren gemacht.", name: "Julia / Tante Rossa", relation: "Tante" },
             { context: "Über Laura:", quote: "Laura hat einfach unglaublich krasse Ideen. Diese Grundkreativität – das ist was, was ich sehr bewundere.", name: "Max", relation: "Trauzeuge" },
             { context: "Auf die Frage, was typisch für die beiden ist:", quote: "Lange Balkonabende, Magic und Rastatt.", name: "Ivo", relation: "Arbeitskollege" },
             { quote: "Die zwei kennen und lieben sich seit dem Jugendalter und entscheiden sich immer wieder füreinander und raufen sich immer wieder zusammen.", name: "Leonie", relation: "Schwester" },
@@ -369,7 +517,6 @@
             { context: "Wie sie Flo beschreiben würde:", quote: "Es war einmal ein sehr groß gewachsener, junger, sehr gut aussehender, blondhaariger Mann, der sich in eine wunderschöne, ein bisschen kleinere junge Frau verliebte.", name: "Leonie", relation: "Schwester" },
             { context: "Auf die Frage, was Laura und Flo besser zusammen können:", quote: "Laura kann Florians manchmal verrückte Art gut in Zaum halten.", name: "Ivo", relation: "Arbeitskollege" },
             { quote: "Es sind einfach beides sehr warme Menschen, die unglaublich gerne Zeit mit Freunden verbringen.", name: "Max", relation: "Trauzeuge" },
-            { quote: "Damals war es noch eine Raucherkneipe, jetzt ist es ja wieder eine Raucherkneipe.", name: "Julia / Tante Rosa", relation: "Tante" },
             { quote: "Mein Bruder heiratet seine Jugendliebe – und das macht mich sehr glücklich.", name: "Pia", relation: "Kleine Schwester" },
             { context: "Über Laura und Flo als Paar:", quote: "Die ergänzen sich perfekt. Laura ist die, die alles regelt und Flo mal wieder auf Kurs holt.", name: "Nico", relation: "Studienfreund" },
             { quote: "Flo hat immer in seiner Kindheit sich durchsetzen müssen mit seinen zwei Schwestern. Und Laura schafft es, ihm total liebevoll zu sagen, dass Dinge halt echt auch mal scheiße waren.", name: "Leonie", relation: "Schwester" },
@@ -377,8 +524,9 @@
             { quote: "Die Mischung ist einfach genial.", name: "Louis", relation: "Bester Freund von Laura" },
             { quote: "Klamotten – dafür bewundere ich ihn bis heute noch nicht.", name: "Moritz", relation: "Freund seit Jugend" },
             { quote: "Durch die vielen Jahre kennen die beiden sich in- und auswendig und sind immer bereit, an sich und ihrer Beziehung zu arbeiten.", name: "Ivo", relation: "Arbeitskollege" },
-            { context: "Über typisches Verhalten der beiden:", quote: "Wenn die Schwestern von Flo mit dabei sind, schießt Flo ein bisschen über das Ziel hinaus. Und Lauri ist immer so ein bisschen mehr am einfangen.", name: "Leonie", relation: "Schwester" },
-            { quote: "Was ich mir vorstellen kann: Wenn sie sich was im Kopf gesetzt haben, dass sie das zusammen meistern und zusammen auf den Weg bringen.", name: "Julia / Tante Rosa", relation: "Tante" },
+            { context: "Über typisches Verhalten der beiden:", quote: "Wenn wir Schwestern von Flo mit dabei sind, dann kann Flo auch mal ein bisschen über das Ziel hinaus schießen. Und Lauri fängt ihn da immer wieder ein.", name: "Leonie", relation: "Schwester" },
+            { context: "Über die Beziehung:", quote: "Laura erdet Florian, während Flo sie eher pusht. Sie bringen wirklich das, was fehlt, aber auf eine gute Art beim Anderen hervor.", name: "Bella", relation: "Schwester & Trauzeugin" },
+            { quote: "Ich kann Euch mit auf den Weg geben, dass es ganz bestimmt ganz schwierige Zeiten geben wird in eurem gemeinsamen Leben. Aber ich bin mir sicher, dass ihr das zusammen meistern werdet, auch wenn es ganz schwierig wird.", name: "Julia / Tante Rossa", relation: "Tante" },
             { quote: "Flo ist trotzdem der übelste Macher – aber der braucht einfach jemanden.", name: "Nico", relation: "Studienfreund" },
             { context: "Erinnerung:", quote: "Wir waren in Südfrankreich zusammen – das erste Mal am Meer. Campingurlaub. Viel Fußball, geschwommen, geangelt.", name: "Max", relation: "Trauzeuge" },
             { quote: "Flo ist sieben Jahre älter als ich. In dem Zeitraum war ich echt uncool und Flo hat nicht wirklich mit mir geredet. Laura hat zu ihm irgendwann gesagt, dass das so nicht geht. Dafür bin ich meiner Schwägerin sehr dankbar.", name: "Pia", relation: "Kleine Schwester" },
@@ -387,33 +535,34 @@
             { quote: "Lauri hält im Hintergrund krank viel zusammen und regelt. Und fordert immer wieder die Gespräche ein.", name: "Leonie", relation: "Schwester" },
             { quote: "Ich bin der Patenonkel von Kiku und Diego. Und unsere Katzen sind die Patenkinder von Florian.", name: "Ivo", relation: "Arbeitskollege" },
             { context: "Über Laura:", quote: "Vom Charakter, vom Typus her – Merida passt am besten. Diese Prinzessin, die ihren eigenen Stiefel macht und lieber Kriegerin wird.", name: "Louis", relation: "Bester Freund von Laura" },
-            { quote: "Er hat einen Marmor getrunken und wir waren mit dem Fahrrad dort. Ich ließ ihn im Fahrradsitz hinten drauf.", name: "Julia / Tante Rosa", relation: "Tante" },
+            { quote: "Er hat einen Marmor getrunken und wir waren mit dem Fahrrad dort. Ich ließ ihn im Fahrradsitz hinten drauf.", name: "Julia / Tante Rossa", relation: "Tante" },
+            { context: "Erinnerung an Italien:", quote: "Die beiden haben sich Fahrräder geliehen und sind durch die Stadt gecruised. Ich fand es einfach total süß zu sehen, wie sie beide richtig Freude daran hatten. Perfektes Wetter, Familie dabei – das war richtig toll.", name: "Bella", relation: "Schwester & Trauzeugin" },
             { quote: "Ich bin ihm echt dankbar. Weil im Endeffekt hat er recht – man hat es immer irgendwie gepackt.", name: "Nico", relation: "Studienfreund" },
-            { quote: "Im Urlaub hat Laura versucht Englisch zu sprechen. Flo hat sich über ein einfaches Wort kaputt gelacht. Laura hat die Welt nicht mehr verstanden und möchte seitdem sehr ungern Englisch sprechen.", name: "Simone", relation: "Patentante" },
             { quote: "Aber Lauri kann das sehr klar kommunizieren. Und Flo merkt es dann auch immer.", name: "Leonie", relation: "Schwester" },
             { quote: "Laura ist einfach ein super Gesprächspartner, mit dem es immer Spaß macht, deep talk zu führen.", name: "Moritz", relation: "Freund seit Jugend" },
             { quote: "Auf den Flo ist immer Verlass.", name: "Ivo", relation: "Arbeitskollege" },
             { context: "Über die Zukunft:", quote: "Ich glaube, dass diese Ehe immer wieder vor irgendwelchen Projekten stehen wird, die die beiden begleiten werden. Und da freue ich mich sehr, ein Teil von dem Weg zu sein.", name: "Pia", relation: "Kleine Schwester" },
             { quote: "Auch wenn er nicht mehr die langen Haare trägt – der Techno-Wikinger. Und auch wenn sie jetzt nicht mehr die roten Haare hat – Merida. Die Mischung der beiden ist einfach genial, finde ich.", name: "Louis", relation: "Bester Freund von Laura" },
-            { quote: "Es wird schwierige Zeiten geben. Aber wenn sie immer zusammenhalten, schaffen sie das.", name: "Julia / Tante Rosa", relation: "Tante" },
+            { quote: "Es wird schwierige Zeiten geben. Aber wenn sie immer zusammenhalten, schaffen sie das.", name: "Julia / Tante Rossa", relation: "Tante" },
             { quote: "Beides Menschen, die unglaublich schöne Beziehungen zu den Menschen haben, die ihnen nahe sind.", name: "Max", relation: "Trauzeuge" },
-            { quote: "Ihr habt Zeit, bewusst miteinander zu verbringen und ein tolles Leben zu genießen.", name: "Leonie", relation: "Schwester" },
+            { quote: "Verbringt die Zeit, die ihr habt, bewusst miteinander und genießt ein tolles Leben!", name: "Leonie", relation: "Schwester" },
             { context: "Über Laura:", quote: "Ich glaube, Flo ist derjenige, der immer alles entspannt und chillig sieht. Und Laura bringt ein bisschen Struktur in sein Leben.", name: "Nico", relation: "Studienfreund" },
             { quote: "Flo hat einfach immer schon Entscheidungen getroffen und Sachen einfach gemacht.", name: "Moritz", relation: "Freund seit Jugend" },
-            { quote: "Und ich hoffe, dass sie noch ganz, ganz viele Genussmomente haben.", name: "Julia / Tante Rosa", relation: "Tante" },
+            { quote: "Und ich hoffe, dass sie noch ganz, ganz viele Genussmomente haben.", name: "Julia / Tante Rossa", relation: "Tante" },
             { quote: "Gemeinsam meistern sie dieses strukturierte Chaos am besten. Genau das ist das, was die auseinander rauskitzeln.", name: "Pia", relation: "Kleine Schwester" },
             { quote: "Einfach nur: Achtet aufeinander.", name: "Simone", relation: "Patentante" },
             { context: "Über die Zukunft:", quote: "Egal was ist – die beiden haben immer zusammengefunden. Und werden bestimmt auch in der Zukunft gemeinsam alle Hürden meistern und zusammenhalten.", name: "Ivo", relation: "Arbeitskollege" },
             { quote: "Einmal Laura als kreativer, ruhigerer Part. Und Flo, der das große Laute mitbringt – was man auch ab und zu braucht.", name: "Louis", relation: "Bester Freund von Laura" },
             { context: "Über die Beziehung:", quote: "Sie entscheiden sich immer wieder füreinander und gehen den gemeinsamen Weg.", name: "Leonie", relation: "Schwester" },
             { quote: "Ich durfte Flo durch viele verschiedene Lebensphasen begleiten und auch durch ziemlich viele Frisuren.", name: "Max", relation: "Trauzeuge" },
-            { quote: "Da bin ich mir sehr, sehr sicher, dass sie zusammenhalten werden. Und von daher ein richtig tolles gemeinsames Leben haben.", name: "Julia / Tante Rosa", relation: "Tante" },
+            { quote: "Da bin ich mir sehr, sehr sicher, dass sie zusammenhalten werden. Und von daher ein richtig tolles gemeinsames Leben haben.", name: "Julia / Tante Rossa", relation: "Tante" },
             { quote: "Es gibt keinen Zweiten, der sich so rein fokussieren kann bei Handyspielen.", name: "Moritz", relation: "Freund seit Jugend" },
             { quote: "Dass ich immer wieder sage, dass mein Bruder seine Jugendliebe heiratet. Und dass ich mich freue, endlich eine Schwägerin in der Familie zu haben.", name: "Pia", relation: "Kleine Schwester" },
             { quote: "Die ergänzen sich einfach gut.", name: "Nico", relation: "Studienfreund" },
             { quote: "Ich wünsche euch für euer Leben, dass ihr immer wieder für euch entscheidet und immer wieder zusammenfindet.", name: "Leonie", relation: "Schwester" },
-            { context: "Über Laura und Flo:", quote: "Die eigentlich total ungleich sind – und dort passen sie perfekt zusammen und wirken immer ziemlich harmonisch auf mich.", name: "Julia / Tante Rosa", relation: "Tante" },
+            { context: "Über Laura und Flo:", quote: "…die eigentlich total ungleich sind – und doch passen sie perfekt zusammen und wirken immer ziemlich harmonisch auf mich.", name: "Julia / Tante Rossa", relation: "Tante" },
             { context: "Über Flo:", quote: "Wenn man ihn um etwas bittet, ist er sofort zur Stelle. Ausnahmslos in bester Laune.", name: "Ivo", relation: "Arbeitskollege" },
+            { quote: "Hört niemals auf, euch füreinander zu entscheiden – und bleibt neugierig aufeinander, egal wie viele Jahre vergehen.", name: "Bella", relation: "Schwester & Trauzeugin" },
             { quote: "Ich weiß noch genau, wie Flo mir erzählt hat, als wir nach einem Konzert irgendwo in Frankfurt saßen, dass er vorhat, dir einen Antrag zu machen. Und ich bin einfach unglaublich glücklich, dass ihr beide euch gefunden habt.", name: "Max", relation: "Trauzeuge" },
             { quote: "Nehmt euch immer Zeit füreinander, sprecht über alles und habt Geduld und Liebe für euch.", name: "Susanne", relation: "Mama" },
             { quote: "Das klingt zwar abgedroschen und langweilig, aber im Endeffekt: Bleibt wie ihr seid.", name: "Louis", relation: "Bester Freund von Laura" },
@@ -463,8 +612,8 @@
                 finale.dataset.index = 'finale';
                 finale.dataset.copy = copy;
                 finale.innerHTML = `
-                    <p class="quote">Auf euer Abenteuer. 🥂</p>
-                    <p class="sub-text">Samba Si, Arbeit No!</p>
+                    <p class="quote">Auf euer Abenteuer. ✈️🥂</p>
+                    <p class="sub-text">Habt ganz viel Spaß in Japan und genießt eure Flitterwochen! ✨</p>
                 `;
                 feed.appendChild(finale);
             }
