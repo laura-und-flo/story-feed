@@ -1,13 +1,10 @@
-```html
 <!DOCTYPE html>
 <html lang="de">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Flo & Laura – Was eure Liebsten über euch sagen</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Flo & Laura</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -17,665 +14,576 @@
 
         :root {
             --bg-dark: #2D3B2D;
-            --bg-darker: #1E2A1E;
+            --bg-card: #344034;
             --accent-pink: #D4728C;
             --accent-sage: #8FA98F;
             --text-cream: #F5F0EB;
             --text-mauve: #9B6B7A;
-            --text-mauve-light: #B8899A;
+            --text-dim: rgba(245, 240, 235, 0.5);
         }
 
-        html {
-            scroll-behavior: smooth;
-        }
-
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: var(--bg-dark);
-            color: var(--text-cream);
-            overflow-x: hidden;
-            line-height: 1.6;
-        }
-
-        /* Hero Section */
-        .hero {
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            padding: 2rem;
-            position: relative;
+        html, body {
+            height: 100%;
             overflow: hidden;
-        }
-
-        .hero::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(ellipse at center, rgba(212, 114, 140, 0.08) 0%, transparent 60%);
-            animation: heroGlow 8s ease-in-out infinite alternate;
-        }
-
-        @keyframes heroGlow {
-            0% { transform: translate(0, 0) scale(1); }
-            100% { transform: translate(2%, 3%) scale(1.1); }
-        }
-
-        .hero-title {
-            font-family: 'Playfair Display', serif;
-            font-size: clamp(3.5rem, 12vw, 10rem);
-            font-weight: 700;
-            letter-spacing: -0.02em;
-            opacity: 0;
-            transform: translateY(40px);
-            animation: fadeInUp 1.5s ease forwards;
-            position: relative;
-            z-index: 1;
-        }
-
-        .hero-subtitle {
+            background: var(--bg-dark);
             font-family: 'Inter', sans-serif;
-            font-size: clamp(1rem, 2.5vw, 1.5rem);
-            font-weight: 300;
-            color: var(--text-mauve-light);
-            margin-top: 1.5rem;
-            opacity: 0;
-            transform: translateY(30px);
-            animation: fadeInUp 1.5s ease 0.5s forwards;
-            position: relative;
-            z-index: 1;
-            letter-spacing: 0.05em;
-        }
-
-        .hero-scroll-hint {
-            position: absolute;
-            bottom: 3rem;
-            left: 50%;
-            transform: translateX(-50%);
-            opacity: 0;
-            animation: fadeInUp 1.5s ease 1.2s forwards;
-            z-index: 1;
-        }
-
-        .hero-scroll-hint span {
-            display: block;
-            width: 2px;
-            height: 40px;
-            background: linear-gradient(to bottom, var(--accent-sage), transparent);
-            margin: 0 auto;
-            animation: scrollPulse 2s ease-in-out infinite;
-        }
-
-        @keyframes scrollPulse {
-            0%, 100% { opacity: 0.3; transform: scaleY(0.6); }
-            50% { opacity: 1; transform: scaleY(1); }
-        }
-
-        @keyframes fadeInUp {
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        /* Quote Sections */
-        .quote-section {
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            padding: 4rem 2rem;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .quote-section:nth-child(even) {
-            background-color: var(--bg-darker);
-        }
-
-        .quote-section:nth-child(odd) {
-            background-color: var(--bg-dark);
-        }
-
-        .quote-wrapper {
-            max-width: 800px;
-            width: 100%;
-            opacity: 0;
-            transform: translateY(60px);
-            transition: opacity 1s ease, transform 1s ease;
-        }
-
-        .quote-wrapper.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        .quote-author {
-            font-family: 'Inter', sans-serif;
-            font-size: 0.85rem;
-            font-weight: 500;
-            text-transform: uppercase;
-            letter-spacing: 0.2em;
-            color: var(--accent-sage);
-            margin-bottom: 2rem;
-            opacity: 0;
-            transform: translateY(20px);
-            transition: opacity 0.8s ease 0.2s, transform 0.8s ease 0.2s;
-        }
-
-        .quote-wrapper.visible .quote-author {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        .quote-text {
-            font-family: 'Playfair Display', serif;
-            font-size: clamp(1.3rem, 3.5vw, 2.4rem);
-            font-weight: 400;
-            font-style: italic;
-            line-height: 1.5;
             color: var(--text-cream);
-            opacity: 0;
-            transform: translateY(30px);
-            transition: opacity 1s ease 0.4s, transform 1s ease 0.4s;
         }
 
-        .quote-wrapper.visible .quote-text {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        .quote-label {
-            font-family: 'Inter', sans-serif;
-            font-size: 0.75rem;
-            font-weight: 400;
-            color: var(--text-mauve);
-            margin-top: 2.5rem;
-            letter-spacing: 0.1em;
-            opacity: 0;
-            transform: translateY(20px);
-            transition: opacity 0.8s ease 0.6s, transform 0.8s ease 0.6s;
-        }
-
-        .quote-wrapper.visible .quote-label {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        /* Decorative elements */
-        .quote-section::after {
-            content: '';
-            position: absolute;
-            width: 1px;
-            height: 80px;
-            bottom: 0;
-            left: 50%;
-            background: linear-gradient(to bottom, var(--accent-pink), transparent);
-            opacity: 0.3;
-        }
-
-        /* Section accent variations */
-        .quote-section:nth-child(3n+1) .quote-author { color: var(--accent-pink); }
-        .quote-section:nth-child(3n+2) .quote-author { color: var(--accent-sage); }
-        .quote-section:nth-child(3n+3) .quote-author { color: var(--text-mauve-light); }
-
-        /* Parallax background shapes */
-        .parallax-shape {
-            position: absolute;
-            border-radius: 50%;
-            opacity: 0.03;
-            pointer-events: none;
-            will-change: transform;
-        }
-
-        .shape-1 {
-            width: 400px;
-            height: 400px;
-            background: var(--accent-pink);
-            top: 10%;
-            right: -100px;
-        }
-
-        .shape-2 {
-            width: 300px;
-            height: 300px;
-            background: var(--accent-sage);
-            bottom: 20%;
-            left: -80px;
-        }
-
-        /* Closing Section */
-        .closing-section {
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            padding: 4rem 2rem;
-            position: relative;
-            background: linear-gradient(to bottom, var(--bg-dark), var(--bg-darker));
-        }
-
-        .closing-title {
-            font-family: 'Playfair Display', serif;
-            font-size: clamp(2.5rem, 8vw, 6rem);
-            font-weight: 700;
-            opacity: 0;
-            transform: translateY(40px) scale(0.95);
-            transition: opacity 1.2s ease, transform 1.2s ease;
-        }
-
-        .closing-title.visible {
-            opacity: 1;
-            transform: translateY(0) scale(1);
-        }
-
-        .closing-subtitle {
-            font-family: 'Inter', sans-serif;
-            font-size: clamp(1rem, 2vw, 1.3rem);
-            font-weight: 300;
-            color: var(--text-mauve-light);
-            margin-top: 2rem;
-            opacity: 0;
-            transform: translateY(20px);
-            transition: opacity 1s ease 0.5s, transform 1s ease 0.5s;
-        }
-
-        .closing-subtitle.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        .closing-decoration {
-            width: 60px;
-            height: 2px;
-            background: linear-gradient(to right, var(--accent-pink), var(--accent-sage));
-            margin: 3rem auto;
-            opacity: 0;
-            transition: opacity 1s ease 0.8s;
-        }
-
-        .closing-decoration.visible {
-            opacity: 1;
-        }
-
-        /* Sticky progress bar */
-        .progress-bar {
+        /* Password Overlay */
+        #password-overlay {
             position: fixed;
             top: 0;
             left: 0;
-            width: 0%;
-            height: 2px;
-            background: linear-gradient(to right, var(--accent-pink), var(--accent-sage));
+            width: 100%;
+            height: 100%;
+            background: var(--bg-dark);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
             z-index: 1000;
-            transition: width 0.1s linear;
+            padding: 2rem;
+            transition: opacity 0.6s ease, transform 0.6s ease;
         }
 
-        /* Responsive adjustments */
-        @media (max-width: 768px) {
-            .quote-section {
-                min-height: 80vh;
-                padding: 3rem 1.5rem;
+        #password-overlay.hidden {
+            opacity: 0;
+            transform: scale(1.05);
+            pointer-events: none;
+        }
+
+        #password-overlay h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2rem, 8vw, 4rem);
+            margin-bottom: 0.5rem;
+            color: var(--text-cream);
+            text-align: center;
+        }
+
+        #password-overlay .subtitle {
+            font-size: 0.9rem;
+            color: var(--text-mauve);
+            margin-bottom: 2.5rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+
+        #password-form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+            width: 100%;
+            max-width: 320px;
+        }
+
+        #password-input {
+            width: 100%;
+            padding: 1rem 1.2rem;
+            border: 1px solid var(--accent-sage);
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-cream);
+            font-size: 1rem;
+            font-family: 'Inter', sans-serif;
+            text-align: center;
+            outline: none;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        #password-input:focus {
+            border-color: var(--accent-pink);
+            box-shadow: 0 0 20px rgba(212, 114, 140, 0.15);
+        }
+
+        #password-input::placeholder {
+            color: var(--text-dim);
+        }
+
+        #password-btn {
+            width: 100%;
+            padding: 1rem;
+            border: none;
+            border-radius: 12px;
+            background: var(--accent-pink);
+            color: white;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: transform 0.2s ease, background 0.3s ease;
+        }
+
+        #password-btn:hover {
+            transform: scale(1.02);
+            background: #c4627c;
+        }
+
+        #password-btn:active {
+            transform: scale(0.98);
+        }
+
+        .password-error {
+            color: var(--accent-pink);
+            font-size: 0.85rem;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            height: 1.2rem;
+        }
+
+        .password-error.visible {
+            opacity: 1;
+        }
+
+        /* Story Feed */
+        #story-feed {
+            display: none;
+            height: 100vh;
+            overflow-y: scroll;
+            scroll-snap-type: y mandatory;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        #story-feed.visible {
+            display: block;
+        }
+
+        .story-card {
+            height: 100vh;
+            scroll-snap-align: start;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem 1.5rem;
+            position: relative;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+
+        .story-card.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .story-card .context {
+            font-size: 0.75rem;
+            color: var(--text-dim);
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            margin-bottom: 1.2rem;
+            text-align: center;
+            max-width: 300px;
+            font-weight: 400;
+        }
+
+        .story-card .quote {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(1.1rem, 4.5vw, 1.6rem);
+            line-height: 1.6;
+            text-align: center;
+            max-width: 600px;
+            color: var(--text-cream);
+            font-style: italic;
+            position: relative;
+        }
+
+        .story-card .quote::before {
+            content: '„';
+            position: absolute;
+            top: -0.8rem;
+            left: -0.5rem;
+            font-size: 3rem;
+            color: var(--accent-pink);
+            opacity: 0.3;
+            font-style: normal;
+        }
+
+        .story-card .attribution {
+            margin-top: 2rem;
+            text-align: center;
+        }
+
+        .story-card .attribution .name {
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: var(--accent-sage);
+        }
+
+        .story-card .attribution .relation {
+            font-size: 0.75rem;
+            color: var(--text-mauve);
+            margin-top: 0.3rem;
+        }
+
+        /* Decorative elements */
+        .story-card::after {
+            content: '';
+            position: absolute;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 30px;
+            height: 4px;
+            border-radius: 2px;
+            background: var(--accent-sage);
+            opacity: 0.2;
+        }
+
+        /* Finale card */
+        .story-card.finale .quote {
+            font-size: clamp(1.8rem, 7vw, 3rem);
+            font-style: normal;
+        }
+
+        .story-card.finale .sub-text {
+            margin-top: 1.5rem;
+            font-size: 1rem;
+            color: var(--text-mauve);
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+        }
+
+        /* Scroll hint */
+        .scroll-hint {
+            position: fixed;
+            bottom: 1.5rem;
+            left: 50%;
+            transform: translateX(-50%);
+            opacity: 0.4;
+            animation: bounce 2s infinite;
+            z-index: 10;
+            pointer-events: none;
+            transition: opacity 1s ease;
+        }
+
+        .scroll-hint.hidden {
+            opacity: 0;
+        }
+
+        .scroll-hint svg {
+            width: 24px;
+            height: 24px;
+            fill: var(--text-cream);
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateX(-50%) translateY(0); }
+            40% { transform: translateX(-50%) translateY(-8px); }
+            60% { transform: translateX(-50%) translateY(-4px); }
+        }
+
+        /* Desktop adjustments */
+        @media (min-width: 768px) {
+            .story-card {
+                padding: 3rem 2rem;
             }
 
-            .quote-text {
-                font-size: clamp(1.2rem, 5vw, 1.8rem);
-            }
-
-            .hero-title {
-                font-size: clamp(3rem, 15vw, 6rem);
+            .story-card .quote {
+                max-width: 550px;
             }
         }
 
-        @media (max-width: 480px) {
-            .quote-section {
-                min-height: 70vh;
-                padding: 2.5rem 1.2rem;
-            }
-
-            .quote-text {
-                font-size: 1.15rem;
-                line-height: 1.6;
-            }
-
-            .quote-author {
-                font-size: 0.75rem;
-            }
+        /* Subtle background gradient per card */
+        .story-card:nth-child(odd) {
+            background: radial-gradient(ellipse at top right, rgba(143, 169, 143, 0.03) 0%, transparent 60%);
         }
 
-        /* Smooth opacity transitions for parallax */
-        .quote-section {
-            transition: background-color 0.3s ease;
+        .story-card:nth-child(even) {
+            background: radial-gradient(ellipse at bottom left, rgba(212, 114, 140, 0.03) 0%, transparent 60%);
         }
     </style>
 </head>
 <body>
-    <div class="progress-bar" id="progressBar"></div>
+    <!-- Password Overlay -->
+    <div id="password-overlay">
+        <h1>Flo & Laura</h1>
+        <p class="subtitle">Ein Geschenk in Worten</p>
+        <form id="password-form" onsubmit="return false;">
+            <input type="password" id="password-input" placeholder="Passwort eingeben" autocomplete="off">
+            <button type="submit" id="password-btn">Eintreten</button>
+            <p class="password-error" id="password-error">Falsches Passwort</p>
+        </form>
+    </div>
 
-    <!-- Hero -->
-    <section class="hero">
-        <h1 class="hero-title">Flo & Laura</h1>
-        <p class="hero-subtitle">Was eure Liebsten über euch sagen</p>
-        <div class="hero-scroll-hint">
-            <span></span>
-        </div>
-    </section>
+    <!-- Scroll Hint -->
+    <div class="scroll-hint" id="scroll-hint">
+        <svg viewBox="0 0 24 24"><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/></svg>
+    </div>
 
-    <!-- Quotes -->
-    <section class="quote-section">
-        <div class="parallax-shape shape-1"></div>
-        <div class="quote-wrapper" data-reveal>
-            <p class="quote-author">Nico</p>
-            <blockquote class="quote-text">„Flo ist 3,5 Stunden zu spät in die TM-Vorlesung gekommen, hat sich seelenruhig hingesetzt – und ist anderthalb Stunden durchgepennt. Trotzdem hat er alles gepackt. Sein Motto: ‚Macht euch keinen Stress, es wird easy.'"</blockquote>
-            <p class="quote-label">Studienfreund</p>
-        </div>
-    </section>
-
-    <section class="quote-section">
-        <div class="quote-wrapper" data-reveal>
-            <p class="quote-author">Nico</p>
-            <blockquote class="quote-text">„Laura ist seine bessere Seele. Zusammen seid ihr echt unbesiegbar."</blockquote>
-            <p class="quote-label">Über beide</p>
-        </div>
-    </section>
-
-    <section class="quote-section">
-        <div class="parallax-shape shape-2"></div>
-        <div class="quote-wrapper" data-reveal>
-            <p class="quote-author">Ivo</p>
-            <blockquote class="quote-text">„Florian ist der hilfsbereiteste Freund, den ich habe. Wenn man ihn anruft, ist er sofort zur Stelle – ausnahmslos in bester Laune und übersprudelnder Energie. Laura kenne ich immer mit einem Lächeln im Gesicht."</blockquote>
-            <p class="quote-label">Arbeitskollege</p>
-        </div>
-    </section>
-
-    <section class="quote-section">
-        <div class="quote-wrapper" data-reveal>
-            <p class="quote-author">Ivo</p>
-            <blockquote class="quote-text">„50km-Marsch. Ohne Training. Die letzten Kilometer wie Zombies. Ich danach mit Belastungsbruch. Florian mit der größten Blase der Geschichte."</blockquote>
-            <p class="quote-label">Eine Geschichte</p>
-        </div>
-    </section>
-
-    <section class="quote-section">
-        <div class="parallax-shape shape-1"></div>
-        <div class="quote-wrapper" data-reveal>
-            <p class="quote-author">Ivo</p>
-            <blockquote class="quote-text">„Ganz in den Worten von Roberto Blanco: Samba Si! Arbeit No!"</blockquote>
-            <p class="quote-label">Wunsch</p>
-        </div>
-    </section>
-
-    <section class="quote-section">
-        <div class="quote-wrapper" data-reveal>
-            <p class="quote-author">Kai</p>
-            <blockquote class="quote-text">„Florian hat mit China-Böllern rumexperimentiert und versucht, das Klassenzimmer im M-Bau in die Luft zu jagen. Gab mies Nachsitzen."</blockquote>
-            <p class="quote-label">Schulfreund</p>
-        </div>
-    </section>
-
-    <section class="quote-section">
-        <div class="parallax-shape shape-2"></div>
-        <div class="quote-wrapper" data-reveal>
-            <p class="quote-author">Kai</p>
-            <blockquote class="quote-text">„Der eine ist recht lang und die andere ist weniger lang."</blockquote>
-            <p class="quote-label">Beschreibung</p>
-        </div>
-    </section>
-
-    <section class="quote-section">
-        <div class="quote-wrapper" data-reveal>
-            <p class="quote-author">Moritz</p>
-            <blockquote class="quote-text">„An Flo schätze ich, dass er sich unglaublich wenig Gedanken macht. Er trifft einfach Entscheidungen und macht Sachen. Und er hat unglaublich gute Stats bei allen Handyspielen – keinen Zweiten, der sich so rein fokussieren kann."</blockquote>
-            <p class="quote-label">Freund seit Jugend</p>
-        </div>
-    </section>
-
-    <section class="quote-section">
-        <div class="parallax-shape shape-1"></div>
-        <div class="quote-wrapper" data-reveal>
-            <p class="quote-author">Moritz</p>
-            <blockquote class="quote-text">„Laura ist grundsätzlich ein sehr geduldiger Mensch, sehr reif, top organisiert und reflektiert – ein super Gesprächspartner, mit dem es immer Spaß macht."</blockquote>
-            <p class="quote-label">Über Laura</p>
-        </div>
-    </section>
-
-    <section class="quote-section">
-        <div class="quote-wrapper" data-reveal>
-            <p class="quote-author">Louis</p>
-            <blockquote class="quote-text">„Laura habe ich zum ersten Mal auf einer Demo in Freiburg kennengelernt. Da habe ich schon ihr radikales Potenzial erkannt."</blockquote>
-            <p class="quote-label">Bester Freund von Laura</p>
-        </div>
-    </section>
-
-    <section class="quote-section">
-        <div class="parallax-shape shape-2"></div>
-        <div class="quote-wrapper" data-reveal>
-            <p class="quote-author">Louis</p>
-            <blockquote class="quote-text">„Flo? Der Techno-Wikinger. Laura? Merida – die Prinzessin, die lieber Kriegerin wird."</blockquote>
-            <p class="quote-label">Beschreibung</p>
-        </div>
-    </section>
-
-    <section class="quote-section">
-        <div class="quote-wrapper" data-reveal>
-            <p class="quote-author">Louis</p>
-            <blockquote class="quote-text">„Man sagt: Gleich und gleich gesellt sich gern. Oder: Gegensätze ziehen sich an. Die zwei sind die perfekte Mischung aus beidem."</blockquote>
-            <p class="quote-label">Als Paar</p>
-        </div>
-    </section>
-
-    <section class="quote-section">
-        <div class="parallax-shape shape-1"></div>
-        <div class="quote-wrapper" data-reveal>
-            <p class="quote-author">Louis</p>
-            <blockquote class="quote-text">„Bleibt wie ihr seid. Behaltet euch den Blick aufs Leben, füreinander, auf die kleinen Dinge, auf die großen Dinge. Geht reisen, unternehmt coolen Scheiß – und immer weitermachen, genau so."</blockquote>
-            <p class="quote-label">Wunsch</p>
-        </div>
-    </section>
-
-    <section class="quote-section">
-        <div class="quote-wrapper" data-reveal>
-            <p class="quote-author">Simone</p>
-            <blockquote class="quote-text">„Ich habe Flo das Leben gerettet. Mit zweieinhalb ist er im Pool beinahe ertrunken. Opa Johann und die ganze Familie sollten aufpassen – alle abgelenkt. Ich kam im wunderschönen Sommerkleid in den Hof, musste in den Pool springen. Deshalb ist er wahrscheinlich heute so ein guter Schwimmer."</blockquote>
-            <p class="quote-label">Patentante</p>
-        </div>
-    </section>
-
-    <section class="quote-section">
-        <div class="parallax-shape shape-2"></div>
-        <div class="quote-wrapper" data-reveal>
-            <p class="quote-author">Simone</p>
-            <blockquote class="quote-text">„Laura und Flo sind ein verrücktes, etwas verpeiltes, aber sehr süßes und intelligentes Künstlerpaar."</blockquote>
-            <p class="quote-label">Beschreibung</p>
-        </div>
-    </section>
-
-    <section class="quote-section">
-        <div class="quote-wrapper" data-reveal>
-            <p class="quote-author">Simone</p>
-            <blockquote class="quote-text">„Achtet aufeinander – und das auf Augenhöhe."</blockquote>
-            <p class="quote-label">Wunsch</p>
-        </div>
-    </section>
-
-    <section class="quote-section">
-        <div class="parallax-shape shape-1"></div>
-        <div class="quote-wrapper" data-reveal>
-            <p class="quote-author">Leonie</p>
-            <blockquote class="quote-text">„In der Hochzeitsvorbereitung war es crazy zu sehen, wie Flo nach außen den Ton angibt – aber niemand wahrnimmt, was Laura eigentlich monatelang im Hintergrund still und heimlich alles macht."</blockquote>
-            <p class="quote-label">Schwester</p>
-        </div>
-    </section>
-
-    <section class="quote-section">
-        <div class="quote-wrapper" data-reveal>
-            <p class="quote-author">Leonie</p>
-            <blockquote class="quote-text">„Sucht immer wieder das Gespräch. Werdet nicht müde, euch in die Augen zu schauen und zu sprechen. Ihr seid ganz besonders."</blockquote>
-            <p class="quote-label">Wunsch</p>
-        </div>
-    </section>
-
-    <section class="quote-section">
-        <div class="parallax-shape shape-2"></div>
-        <div class="quote-wrapper" data-reveal>
-            <p class="quote-author">Pia</p>
-            <blockquote class="quote-text">„Seit Laura in Florians Leben ist, redet er immerhin mit mir. Und er hat festgestellt, dass ich eigentlich auch ganz cool bin."</blockquote>
-            <p class="quote-label">Kleine Schwester</p>
-        </div>
-    </section>
-
-    <section class="quote-section">
-        <div class="quote-wrapper" data-reveal>
-            <p class="quote-author">Pia</p>
-            <blockquote class="quote-text">„Katzen. Japan. Und eine kleine Brise strukturiertes Chaos – liebevolles Chaos."</blockquote>
-            <p class="quote-label">Typisch</p>
-        </div>
-    </section>
-
-    <section class="quote-section">
-        <div class="parallax-shape shape-1"></div>
-        <div class="quote-wrapper" data-reveal>
-            <p class="quote-author">Pia</p>
-            <blockquote class="quote-text">„Ich bin beeindruckt von der Liebe und dem Aufeinanderzugehen, was ihr schon so lange miteinander macht. Mein Bruder heiratet seine Jugendliebe – und das macht mich sehr glücklich."</blockquote>
-            <p class="quote-label">Wunsch</p>
-        </div>
-    </section>
-
-    <section class="quote-section">
-        <div class="quote-wrapper" data-reveal>
-            <p class="quote-author">Julia / Tante Rosa</p>
-            <blockquote class="quote-text">„Flo war mein erster Neffe. Ich habe ihn mit zwei Jahren in die Schiebstraße mitgenommen – eine Raucherkneipe. Er saß an der Theke und hat Marmor getrunken. Zuhause ist Susanne durchgedreht, weil er nach Rauch gestunken hat."</blockquote>
-            <p class="quote-label">Tante</p>
-        </div>
-    </section>
-
-    <section class="quote-section">
-        <div class="parallax-shape shape-2"></div>
-        <div class="quote-wrapper" data-reveal>
-            <p class="quote-author">Julia / Tante Rosa</p>
-            <blockquote class="quote-text">„Ich habe ihn ganz oft verkleidet – mit Ohrringen und Kleidchen. Er wollte es aber auch."</blockquote>
-            <p class="quote-label">Verkleidung</p>
-        </div>
-    </section>
-
-    <section class="quote-section">
-        <div class="quote-wrapper" data-reveal>
-            <p class="quote-author">Julia / Tante Rosa</p>
-            <blockquote class="quote-text">„Der große, blonde Däne und die kleine, hübsche Frau, die aussieht wie die Khaleesi von Game of Thrones. Eigentlich total ungleich – und trotzdem passen sie perfekt zusammen."</blockquote>
-            <p class="quote-label">Beschreibung</p>
-        </div>
-    </section>
-
-    <section class="quote-section">
-        <div class="parallax-shape shape-1"></div>
-        <div class="quote-wrapper" data-reveal>
-            <p class="quote-author">Julia / Tante Rosa</p>
-            <blockquote class="quote-text">„Typisch für die beiden? Sie kommen meistens zu spät."</blockquote>
-            <p class="quote-label">Typisch</p>
-        </div>
-    </section>
-
-    <section class="quote-section">
-        <div class="quote-wrapper" data-reveal>
-            <p class="quote-author">Julia / Tante Rosa</p>
-            <blockquote class="quote-text">„Es wird schwierige Zeiten geben. Aber wenn sie immer zusammenhalten, dann schaffen sie das. Und ich hoffe, dass sie noch ganz, ganz viele Genussmomente haben."</blockquote>
-            <p class="quote-label">Wunsch</p>
-        </div>
-    </section>
-
-    <!-- Closing -->
-    <section class="closing-section">
-        <div class="closing-decoration" data-reveal-closing></div>
-        <h2 class="closing-title" data-reveal-closing>Auf euer Abenteuer. 🥂</h2>
-        <p class="closing-subtitle" data-reveal-closing>Samba Si, Arbeit No!</p>
-    </section>
+    <!-- Story Feed -->
+    <div id="story-feed"></div>
 
     <script>
-        // Intersection Observer for scroll-triggered animations
-        const observerOptions = {
-            root: null,
-            rootMargin: '0px 0px -10% 0px',
-            threshold: 0.15
-        };
+        const CORRECT_PASSWORD = 'lauraundflo4ever';
+        const STORAGE_KEY = 'flo_laura_auth';
 
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
+        // Story data
+        const stories = [
+            { quote: "Seit Laura in Florians Leben ist, redet er immerhin mit mir. Und er hat festgestellt, dass ich eigentlich auch ganz cool bin.", name: "Pia", relation: "Kleine Schwester" },
+            { quote: "TM-Vorlesung, Grundsemester. Flo kommt viel zu spät, läuft rein, völlig verschossen, hockt sich hin, dreht sich einmal kurz um – und pennt ein. Anderthalb Stunden. Komplett durch.", name: "Nico", relation: "Studienfreund" },
+            { quote: "Wenn sie zusammen sind, haben sie so ein Strahlen im Gesicht.", name: "Simone", relation: "Patentante" },
+            { quote: "Ich habe Flo mit zwei Jahren in die Schiffstraße mitgenommen – eine Raucherkneipe. Er saß an der Theke und hat Marmor getrunken. Zuhause ist Susanne durchgedreht, weil er nach Rauch gestunken hat.", name: "Julia / Tante Rosa", relation: "Tante" },
+            { quote: "Laura habe ich zum ersten Mal auf einer Demo in Freiburg kennengelernt. Da habe ich schon ihr radikales Potenzial erkannt.", name: "Louis", relation: "Bester Freund von Laura" },
+            { quote: "Florian ist der hilfsbereiteste Freund, den ich habe. Wenn man ihn anruft, ist er sofort zur Stelle – ausnahmslos in bester Laune und übersprudelnder Energie.", name: "Ivo", relation: "Arbeitskollege" },
+            { quote: "Florian hat mit China-Böllern rumexperimentiert und versucht, das Klassenzimmer im M-Bau in die Luft zu jagen. Gab mies Nachsitzen.", name: "Kai", relation: "Schulfreund" },
+            { quote: "Flo gibt nach außen den Ton an – aber niemand wahrnimmt, was Laura eigentlich monatelang im Hintergrund still und heimlich alles macht.", name: "Leonie", relation: "Schwester" },
+            { context: "Über die Kindheit:", quote: "Eine der ersten Erinnerungen sind die Übernachtungsparties. Wir haben teilweise bis spät in die Nacht das Brettspiel Carcassonne unter der Bettdecke gespielt.", name: "Max", relation: "Trauzeuge" },
+            { quote: "Flo? Der Techno-Wikinger. Laura? Merida – die Prinzessin, die lieber Kriegerin wird.", name: "Louis", relation: "Bester Freund von Laura" },
+            { quote: "Flo ist besonders gefährlich, sobald ihm was richtig gut gefällt.", name: "Moritz", relation: "Freund seit Jugend" },
+            { quote: "Ich habe ihn ganz oft verkleidet – mit Ohrringen und Kleidchen. Er wollte es aber auch.", name: "Julia / Tante Rosa", relation: "Tante" },
+            { quote: "Flo war eine der wichtigsten Personen für mich im Studium, weil er uns alle immer vom Stress runtergeholt hat. Sein Motto: ‚Macht euch keinen Stress, es wird easy.' Und irgendwie hatte er jedes Mal recht.", name: "Nico", relation: "Studienfreund" },
+            { context: "Erinnerung an die Kindheit:", quote: "Wir saßen kurz vor dem Abitur in der noch nicht umgebauten Küche bei meinen Eltern auf dem Boden. Absolute Nervenbündel, heulend auf dem Küchenboden. Klingt total doof zusammen zu heulen – aber irgendwie ist der Moment trotzdem voll in positiver Erinnerung bei mir abgespeichert.", name: "Leonie", relation: "Schwester" },
+            { quote: "50km-Marsch. Ohne Training. Die letzten Kilometer wie Zombies. Ich danach mit Belastungsbruch. Florian mit der größten Blase der Geschichte.", name: "Ivo", relation: "Arbeitskollege" },
+            { context: "Auf die Frage, was typisch für die beiden ist:", quote: "Katzen. Japan. Und eine kleine Brise strukturiertes Chaos – liebevolles Chaos.", name: "Pia", relation: "Kleine Schwester" },
+            { context: "Über Flo:", quote: "Flo war für mich immer eine Stütze. Jemand, wo ich wirklich wusste: Der ist einen Anruf entfernt, egal was los ist.", name: "Max", relation: "Trauzeuge" },
+            { context: "Über Laura:", quote: "Laura ist grundsätzlich ein sehr geduldiger Mensch, sehr reif, top organisiert und reflektiert – ein super Gesprächspartner, mit dem es immer Spaß macht.", name: "Moritz", relation: "Freund seit Jugend" },
+            { context: "Auf die Frage, wie sie die beiden beschreiben würde:", quote: "Der große, blonde Däne und die kleine, hübsche Frau, die aussieht wie die Khaleesi von Game of Thrones.", name: "Julia / Tante Rosa", relation: "Tante" },
+            { quote: "Laura fordert Gespräche ein, rüttelt Flo wach – manchmal sanft, manchmal unsanft – und schafft es immer wieder, ihm total liebevoll zu sagen, wenn was scheiße war.", name: "Leonie", relation: "Schwester" },
+            { context: "Auf die Frage, wie er die beiden beschreiben würde:", quote: "Der eine ist recht lang und die andere ist weniger lang.", name: "Kai", relation: "Schulfreund" },
+            { quote: "Laura kenne ich immer mit einem Lächeln im Gesicht.", name: "Ivo", relation: "Arbeitskollege" },
+            { context: "Über den Abend, als Flo und Laura wieder zusammenkamen:", quote: "Ich war an dem Abend dabei, als die zwei zueinandergefunden haben. Das war einer der lustigsten Abende, die ich wahrscheinlich je hatte. Da sind 13 Insider entstanden.", name: "Louis", relation: "Bester Freund von Laura" },
+            { quote: "Ich saß fassungslos in der ersten Reihe. Aber das Beste? Er hat trotzdem alles gepackt. Immer. Mit weniger Aufwand als alle anderen.", name: "Nico", relation: "Studienfreund" },
+            { quote: "Laura und Flo sind ein verrücktes, etwas verpeiltes, aber sehr süßes und intelligentes Künstlerpaar.", name: "Simone", relation: "Patentante" },
+            { quote: "Wenn sie mal aneinandergeraten, tauschen sie danach immer verliebte Blicke aus. Meistens endet es in einer Umarmung – vor den Augen aller Anwesenden. Ob die wollen oder nicht.", name: "Leonie", relation: "Schwester" },
+            { quote: "An Flo schätze ich, dass er sich unglaublich wenig Gedanken macht. Er trifft einfach Entscheidungen und macht Sachen.", name: "Moritz", relation: "Freund seit Jugend" },
+            { quote: "Eigentlich total ungleich – und trotzdem passen sie perfekt zusammen.", name: "Julia / Tante Rosa", relation: "Tante" },
+            { quote: "Und sie werden super viele schöne Dinge in ihrem Leben erreichen – einfach weil sie zusammen drin stecken.", name: "Pia", relation: "Kleine Schwester" },
+            { quote: "Ich habe mit Florian seit zweieinhalb Jahren einen Stammtisch zum Schachspielen. Getroffen haben wir uns bisher genau einmal.", name: "Ivo", relation: "Arbeitskollege" },
+            { quote: "Gleich und gleich gesellt sich gern, oder Gegensätze ziehen sich an – die zwei sind die perfekte Mischung aus beidem.", name: "Louis", relation: "Bester Freund von Laura" },
+            { quote: "Laura ist seine bessere Seele. Wenn er mal wieder ausartet, holt sie ihn zurück.", name: "Nico", relation: "Studienfreund" },
+            { context: "Erinnerung an Flo und Max im Urlaub:", quote: "Max hatte das Kommando beim Angeln. Flo hat sich total cool gefühlt und gedacht, er hat das alles gemanagt. Und ihr kamt dann so stolz zurück. Diese Glückseligkeit habe ich voll oft noch im Kopf.", name: "Leonie", relation: "Schwester" },
+            { quote: "Und er hat unglaublich gute Stats bei allen Handyspielen – keinen Zweiten, der sich so rein fokussieren kann.", name: "Moritz", relation: "Freund seit Jugend" },
+            { quote: "Beide sind lustig, empathisch, hilfsbereit.", name: "Susanne", relation: "Mama" },
+            { quote: "Flo war mein erster Neffe. Ich habe mich damals tierisch auf ihn gefreut. Ab dem Zeitpunkt als er auf der Welt war, habe ich fast jeden Tag mit ihm verbracht. Gewickelt, gehütet, Fahrradtouren gemacht.", name: "Julia / Tante Rosa", relation: "Tante" },
+            { context: "Über Laura:", quote: "Laura hat einfach unglaublich krasse Ideen. Diese Grundkreativität – das ist was, was ich sehr bewundere.", name: "Max", relation: "Trauzeuge" },
+            { context: "Auf die Frage, was typisch für die beiden ist:", quote: "Lange Balkonabende, Magic und Rastatt.", name: "Ivo", relation: "Arbeitskollege" },
+            { quote: "Die zwei kennen und lieben sich seit dem Jugendalter und entscheiden sich immer wieder füreinander und raufen sich immer wieder zusammen.", name: "Leonie", relation: "Schwester" },
+            { context: "Über die beiden als Paar:", quote: "Laura als kreativer, ruhigerer Part mit Blick fürs Detail. Und Flo, der das Pragmatische, das große Laute so ein bisschen mit sich bringt.", name: "Louis", relation: "Bester Freund von Laura" },
+            { quote: "Ich bin beeindruckt von der Liebe und dem Aufeinanderzugehen, was sie jetzt schon so lange miteinander machen.", name: "Pia", relation: "Kleine Schwester" },
+            { quote: "Flo war einfach eine faule Sau. Ich habe mich manchmal zu viel gestresst, er sich zu wenig – und trotzdem hat er es immer gepackt und durchgezogen.", name: "Nico", relation: "Studienfreund" },
+            { quote: "Laura sorgt für coole Outfits an Flo.", name: "Simone", relation: "Patentante" },
+            { context: "Auf die Frage, was er an Laura bewundert:", quote: "Wie sie mit Flo zurechtkommt. Ein dickes Dankeschön, dass sie mit ihm zusammen ist.", name: "Moritz", relation: "Freund seit Jugend" },
+            { quote: "Mein Name ist Kai Ronto, verkehrter Name Rai Kondo, Lieblingswurst Leona und peinliche Geschichte, dass ich gegen den Mark im Apfel-Tennis verloren habe.", name: "Kai", relation: "Schulfreund" },
+            { context: "Wie sie Flo beschreiben würde:", quote: "Es war einmal ein sehr groß gewachsener, junger, sehr gut aussehender, blondhaariger Mann, der sich in eine wunderschöne, ein bisschen kleinere junge Frau verliebte.", name: "Leonie", relation: "Schwester" },
+            { context: "Auf die Frage, was Laura und Flo besser zusammen können:", quote: "Laura kann Florians manchmal verrückte Art gut in Zaum halten.", name: "Ivo", relation: "Arbeitskollege" },
+            { quote: "Es sind einfach beides sehr warme Menschen, die unglaublich gerne Zeit mit Freunden verbringen.", name: "Max", relation: "Trauzeuge" },
+            { quote: "Damals war es noch eine Raucherkneipe, jetzt ist es ja wieder eine Raucherkneipe.", name: "Julia / Tante Rosa", relation: "Tante" },
+            { quote: "Mein Bruder heiratet seine Jugendliebe – und das macht mich sehr glücklich.", name: "Pia", relation: "Kleine Schwester" },
+            { context: "Über Laura und Flo als Paar:", quote: "Die ergänzen sich perfekt. Laura ist die, die alles regelt und Flo mal wieder auf Kurs holt.", name: "Nico", relation: "Studienfreund" },
+            { quote: "Flo hat immer in seiner Kindheit sich durchsetzen müssen mit seinen zwei Schwestern. Und Laura schafft es, ihm total liebevoll zu sagen, dass Dinge halt echt auch mal scheiße waren.", name: "Leonie", relation: "Schwester" },
+            { quote: "Achtet aufeinander – und das auf Augenhöhe.", name: "Simone", relation: "Patentante" },
+            { quote: "Die Mischung ist einfach genial.", name: "Louis", relation: "Bester Freund von Laura" },
+            { quote: "Klamotten – dafür bewundere ich ihn bis heute noch nicht.", name: "Moritz", relation: "Freund seit Jugend" },
+            { quote: "Durch die vielen Jahre kennen die beiden sich in- und auswendig und sind immer bereit, an sich und ihrer Beziehung zu arbeiten.", name: "Ivo", relation: "Arbeitskollege" },
+            { context: "Über typisches Verhalten der beiden:", quote: "Wenn die Schwestern von Flo mit dabei sind, schießt Flo ein bisschen über das Ziel hinaus. Und Lauri ist immer so ein bisschen mehr am einfangen.", name: "Leonie", relation: "Schwester" },
+            { quote: "Was ich mir vorstellen kann: Wenn sie sich was im Kopf gesetzt haben, dass sie das zusammen meistern und zusammen auf den Weg bringen.", name: "Julia / Tante Rosa", relation: "Tante" },
+            { quote: "Flo ist trotzdem der übelste Macher – aber der braucht einfach jemanden.", name: "Nico", relation: "Studienfreund" },
+            { context: "Erinnerung:", quote: "Wir waren in Südfrankreich zusammen – das erste Mal am Meer. Campingurlaub. Viel Fußball, geschwommen, geangelt.", name: "Max", relation: "Trauzeuge" },
+            { quote: "Flo ist sieben Jahre älter als ich. In dem Zeitraum war ich echt uncool und Flo hat nicht wirklich mit mir geredet. Laura hat zu ihm irgendwann gesagt, dass das so nicht geht. Dafür bin ich meiner Schwägerin sehr dankbar.", name: "Pia", relation: "Kleine Schwester" },
+            { quote: "Laura und ich sind in dieser eigenen Bubble unterwegs. Es ist unglaublich schön, jemanden zu haben, der den eigenen Kontext kennt und auch aus Rastatt kommt.", name: "Moritz", relation: "Freund seit Jugend" },
+            { quote: "Meine Beziehung zu dem Brautpaar ist, dass ich das Glück habe, über den beiden zu wohnen.", name: "Kai", relation: "Schulfreund" },
+            { quote: "Lauri hält im Hintergrund krank viel zusammen und regelt. Und fordert immer wieder die Gespräche ein.", name: "Leonie", relation: "Schwester" },
+            { quote: "Ich bin der Patenonkel von Kiku und Diego. Und unsere Katzen sind die Patenkinder von Florian.", name: "Ivo", relation: "Arbeitskollege" },
+            { context: "Über Laura:", quote: "Vom Charakter, vom Typus her – Merida passt am besten. Diese Prinzessin, die ihren eigenen Stiefel macht und lieber Kriegerin wird.", name: "Louis", relation: "Bester Freund von Laura" },
+            { quote: "Er hat einen Marmor getrunken und wir waren mit dem Fahrrad dort. Ich ließ ihn im Fahrradsitz hinten drauf.", name: "Julia / Tante Rosa", relation: "Tante" },
+            { quote: "Ich bin ihm echt dankbar. Weil im Endeffekt hat er recht – man hat es immer irgendwie gepackt.", name: "Nico", relation: "Studienfreund" },
+            { quote: "Im Urlaub hat Laura versucht Englisch zu sprechen. Flo hat sich über ein einfaches Wort kaputt gelacht. Laura hat die Welt nicht mehr verstanden und möchte seitdem sehr ungern Englisch sprechen.", name: "Simone", relation: "Patentante" },
+            { quote: "Aber Lauri kann das sehr klar kommunizieren. Und Flo merkt es dann auch immer.", name: "Leonie", relation: "Schwester" },
+            { quote: "Laura ist einfach ein super Gesprächspartner, mit dem es immer Spaß macht, deep talk zu führen.", name: "Moritz", relation: "Freund seit Jugend" },
+            { quote: "Auf den Flo ist immer Verlass.", name: "Ivo", relation: "Arbeitskollege" },
+            { context: "Über die Zukunft:", quote: "Ich glaube, dass diese Ehe immer wieder vor irgendwelchen Projekten stehen wird, die die beiden begleiten werden. Und da freue ich mich sehr, ein Teil von dem Weg zu sein.", name: "Pia", relation: "Kleine Schwester" },
+            { quote: "Auch wenn er nicht mehr die langen Haare trägt – der Techno-Wikinger. Und auch wenn sie jetzt nicht mehr die roten Haare hat – Merida. Die Mischung der beiden ist einfach genial, finde ich.", name: "Louis", relation: "Bester Freund von Laura" },
+            { quote: "Es wird schwierige Zeiten geben. Aber wenn sie immer zusammenhalten, schaffen sie das.", name: "Julia / Tante Rosa", relation: "Tante" },
+            { quote: "Beides Menschen, die unglaublich schöne Beziehungen zu den Menschen haben, die ihnen nahe sind.", name: "Max", relation: "Trauzeuge" },
+            { quote: "Ihr habt Zeit, bewusst miteinander zu verbringen und ein tolles Leben zu genießen.", name: "Leonie", relation: "Schwester" },
+            { context: "Über Laura:", quote: "Ich glaube, Flo ist derjenige, der immer alles entspannt und chillig sieht. Und Laura bringt ein bisschen Struktur in sein Leben.", name: "Nico", relation: "Studienfreund" },
+            { quote: "Flo hat einfach immer schon Entscheidungen getroffen und Sachen einfach gemacht.", name: "Moritz", relation: "Freund seit Jugend" },
+            { quote: "Und ich hoffe, dass sie noch ganz, ganz viele Genussmomente haben.", name: "Julia / Tante Rosa", relation: "Tante" },
+            { quote: "Gemeinsam meistern sie dieses strukturierte Chaos am besten. Genau das ist das, was die auseinander rauskitzeln.", name: "Pia", relation: "Kleine Schwester" },
+            { quote: "Einfach nur: Achtet aufeinander.", name: "Simone", relation: "Patentante" },
+            { context: "Über die Zukunft:", quote: "Egal was ist – die beiden haben immer zusammengefunden. Und werden bestimmt auch in der Zukunft gemeinsam alle Hürden meistern und zusammenhalten.", name: "Ivo", relation: "Arbeitskollege" },
+            { quote: "Einmal Laura als kreativer, ruhigerer Part. Und Flo, der das große Laute mitbringt – was man auch ab und zu braucht.", name: "Louis", relation: "Bester Freund von Laura" },
+            { context: "Über die Beziehung:", quote: "Sie entscheiden sich immer wieder füreinander und gehen den gemeinsamen Weg.", name: "Leonie", relation: "Schwester" },
+            { quote: "Ich durfte Flo durch viele verschiedene Lebensphasen begleiten und auch durch ziemlich viele Frisuren.", name: "Max", relation: "Trauzeuge" },
+            { quote: "Da bin ich mir sehr, sehr sicher, dass sie zusammenhalten werden. Und von daher ein richtig tolles gemeinsames Leben haben.", name: "Julia / Tante Rosa", relation: "Tante" },
+            { quote: "Es gibt keinen Zweiten, der sich so rein fokussieren kann bei Handyspielen.", name: "Moritz", relation: "Freund seit Jugend" },
+            { quote: "Dass ich immer wieder sage, dass mein Bruder seine Jugendliebe heiratet. Und dass ich mich freue, endlich eine Schwägerin in der Familie zu haben.", name: "Pia", relation: "Kleine Schwester" },
+            { quote: "Die ergänzen sich einfach gut.", name: "Nico", relation: "Studienfreund" },
+            { quote: "Ich wünsche euch für euer Leben, dass ihr immer wieder für euch entscheidet und immer wieder zusammenfindet.", name: "Leonie", relation: "Schwester" },
+            { context: "Über Laura und Flo:", quote: "Die eigentlich total ungleich sind – und dort passen sie perfekt zusammen und wirken immer ziemlich harmonisch auf mich.", name: "Julia / Tante Rosa", relation: "Tante" },
+            { context: "Über Flo:", quote: "Wenn man ihn um etwas bittet, ist er sofort zur Stelle. Ausnahmslos in bester Laune.", name: "Ivo", relation: "Arbeitskollege" },
+            { quote: "Ich weiß noch genau, wie Flo mir erzählt hat, als wir nach einem Konzert irgendwo in Frankfurt saßen, dass er vorhat, dir einen Antrag zu machen. Und ich bin einfach unglaublich glücklich, dass ihr beide euch gefunden habt.", name: "Max", relation: "Trauzeuge" },
+            { quote: "Nehmt euch immer Zeit füreinander, sprecht über alles und habt Geduld und Liebe für euch.", name: "Susanne", relation: "Mama" },
+            { quote: "Das klingt zwar abgedroschen und langweilig, aber im Endeffekt: Bleibt wie ihr seid.", name: "Louis", relation: "Bester Freund von Laura" },
+            { quote: "Ich hab euch ganz arg lieb.", name: "Leonie", relation: "Schwester" },
+            { quote: "Zusammen seid ihr echt unbesiegbar.", name: "Nico", relation: "Studienfreund" },
+            { quote: "Ganz in den Worten von Roberto Blanco: Samba Si! Arbeit No!", name: "Ivo", relation: "Arbeitskollege" },
+            { quote: "Geht reisen, unternehmt coolen Scheiß – und immer weitermachen, genau so.", name: "Louis", relation: "Bester Freund von Laura" },
+            { quote: "Sucht immer wieder das Gespräch. Werdet nicht müde, euch in die Augen zu schauen und zu sprechen. Ihr seid ganz besonders.", name: "Leonie", relation: "Schwester" },
+            { quote: "Bleibt beide, wie ihr seid. Verändert euch nie. Und ergänzt euch weiter so gut, wie ihr es jetzt macht.", name: "Nico", relation: "Studienfreund" },
+            { quote: "Achtet aufeinander – und das auf Augenhöhe.", name: "Simone", relation: "Patentante" },
+        ];
+
+        const feed = document.getElementById('story-feed');
+        const overlay = document.getElementById('password-overlay');
+        const passwordInput = document.getElementById('password-input');
+        const passwordBtn = document.getElementById('password-btn');
+        const passwordError = document.getElementById('password-error');
+        const scrollHint = document.getElementById('scroll-hint');
+
+        // Build cards
+        function buildCards() {
+            feed.innerHTML = '';
+            // We render 3 copies for seamless looping
+            for (let copy = 0; copy < 3; copy++) {
+                stories.forEach((story, index) => {
+                    const card = document.createElement('div');
+                    card.className = 'story-card';
+                    card.dataset.index = index;
+                    card.dataset.copy = copy;
+
+                    let html = '';
+                    if (story.context) {
+                        html += `<p class="context">${story.context}</p>`;
+                    }
+                    html += `<p class="quote">${story.quote}</p>`;
+                    html += `<div class="attribution">
+                        <p class="name">${story.name}</p>
+                        <p class="relation">${story.relation}</p>
+                    </div>`;
+                    card.innerHTML = html;
+                    feed.appendChild(card);
+                });
+
+                // Finale card after each set
+                const finale = document.createElement('div');
+                finale.className = 'story-card finale';
+                finale.dataset.index = 'finale';
+                finale.dataset.copy = copy;
+                finale.innerHTML = `
+                    <p class="quote">Auf euer Abenteuer. 🥂</p>
+                    <p class="sub-text">Samba Si, Arbeit No!</p>
+                `;
+                feed.appendChild(finale);
+            }
+        }
+
+        // Intersection Observer for animations
+        function setupObserver() {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    } else {
+                        entry.target.classList.remove('visible');
+                    }
+                });
+            }, {
+                threshold: 0.3
+            });
+
+            document.querySelectorAll('.story-card').forEach(card => {
+                observer.observe(card);
+            });
+        }
+
+        // Infinite loop logic
+        function setupInfiniteLoop() {
+            const totalCards = stories.length + 1; // stories + finale
+            const cardHeight = window.innerHeight; // each card is 100vh
+
+            // Start at the middle copy (copy index 1)
+            feed.scrollTop = totalCards * cardHeight;
+
+            feed.addEventListener('scroll', () => {
+                const scrollTop = feed.scrollTop;
+                const oneSetHeight = totalCards * cardHeight;
+
+                // If scrolled into the third copy, jump back to middle
+                if (scrollTop >= oneSetHeight * 2) {
+                    feed.scrollTop = scrollTop - oneSetHeight;
+                }
+                // If scrolled above the first copy, jump to middle
+                if (scrollTop < oneSetHeight * 0.1) {
+                    feed.scrollTop = scrollTop + oneSetHeight;
                 }
             });
-        }, observerOptions);
 
-        // Observe all quote wrappers
-        document.querySelectorAll('[data-reveal]').forEach(el => {
-            observer.observe(el);
+            // Hide scroll hint after first scroll
+            let hintHidden = false;
+            feed.addEventListener('scroll', () => {
+                if (!hintHidden) {
+                    hintHidden = true;
+                    scrollHint.classList.add('hidden');
+                }
+            }, { once: true });
+        }
+
+        // Password handling
+        function checkPassword(pw) {
+            return pw === CORRECT_PASSWORD;
+        }
+
+        function unlock() {
+            overlay.classList.add('hidden');
+            feed.classList.add('visible');
+            scrollHint.style.display = 'block';
+            setTimeout(() => {
+                setupInfiniteLoop();
+                setupObserver();
+            }, 100);
+        }
+
+        // Check localStorage
+        if (localStorage.getItem(STORAGE_KEY) === CORRECT_PASSWORD) {
+            buildCards();
+            unlock();
+        } else {
+            buildCards();
+            scrollHint.style.display = 'none';
+        }
+
+        // Password form
+        passwordBtn.addEventListener('click', () => {
+            const pw = passwordInput.value.trim();
+            if (checkPassword(pw)) {
+                localStorage.setItem(STORAGE_KEY, pw);
+                unlock();
+            } else {
+                passwordError.classList.add('visible');
+                passwordInput.style.borderColor = 'var(--accent-pink)';
+                setTimeout(() => {
+                    passwordError.classList.remove('visible');
+                    passwordInput.style.borderColor = '';
+                }, 2000);
+            }
         });
 
-        // Observe closing elements
-        document.querySelectorAll('[data-reveal-closing]').forEach(el => {
-            observer.observe(el);
+        passwordInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                passwordBtn.click();
+            }
         });
 
-        // Progress bar
-        const progressBar = document.getElementById('progressBar');
-        
-        window.addEventListener('scroll', () => {
-            const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-            const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-            const progress = (scrollTop / scrollHeight) * 100;
-            progressBar.style.width = progress + '%';
-        }, { passive: true });
-
-        // Parallax effect for decorative shapes
-        let ticking = false;
-        
-        window.addEventListener('scroll', () => {
-            if (!ticking) {
-                window.requestAnimationFrame(() => {
-                    const scrollY = window.pageYOffset;
-                    document.querySelectorAll('.parallax-shape').forEach((shape, index) => {
-                        const speed = index % 2 === 0 ? 0.03 : -0.02;
-                        const section = shape.closest('.quote-section');
-                        if (section) {
-                            const rect = section.getBoundingClientRect();
-                            if (rect.top < window.innerHeight && rect.bottom > 0) {
-                                const offset = (rect.top * speed);
-                                shape.style.transform = `translateY(${offset}px)`;
-                            }
-                        }
-                    });
-                    ticking = false;
-                });
-                ticking = true;
-            }
-        }, { passive: true });
-
-        // Hero parallax fade
-        const hero = document.querySelector('.hero');
-        const heroTitle = document.querySelector('.hero-title');
-        const heroSubtitle = document.querySelector('.hero-subtitle');
-
-        window.addEventListener('scroll', () => {
-            const scrollY = window.pageYOffset;
-            const heroHeight = hero.offsetHeight;
-            if (scrollY < heroHeight) {
-                const opacity = 1 - (scrollY / (heroHeight * 0.7));
-                const translateY = scrollY * 0.3;
-                heroTitle.style.opacity = Math.max(0, opacity);
-                heroTitle.style.transform = `translateY(${translateY}px)`;
-                heroSubtitle.style.opacity = Math.max(0, opacity);
-                heroSubtitle.style.transform = `translateY(${translateY * 0.8}px)`;
-            }
-        }, { passive: true });
+        // Handle resize for loop recalculation
+        let resizeTimeout;
+        window.addEventListener('resize', () => {
+            clearTimeout(resizeTimeout);
+            resizeTimeout = setTimeout(() => {
+                if (feed.classList.contains('visible')) {
+                    const totalCards = stories.length + 1;
+                    const cardHeight = window.innerHeight;
+                    const oneSetHeight = totalCards * cardHeight;
+                    const currentScroll = feed.scrollTop;
+                    const currentCopy = Math.floor(currentScroll / oneSetHeight);
+                    if (currentCopy !== 1) {
+                        feed.scrollTop = (currentScroll % oneSetHeight) + oneSetHeight;
+                    }
+                }
+            }, 200);
+        });
     </script>
 </body>
 </html>
-```
