@@ -288,12 +288,39 @@
             font-style: normal;
         }
 
+        .story-card.finale .quote::before {
+            content: none;
+        }
+
         .story-card.finale .sub-text {
             margin-top: 1.5rem;
             font-size: 1rem;
             color: var(--text-mauve);
             font-family: 'Playfair Display', serif;
             font-style: italic;
+        }
+
+        .story-card.finale .restart-btn {
+            margin-top: 2.5rem;
+            padding: 0.8rem 2rem;
+            border: 1px solid var(--accent-sage);
+            border-radius: 30px;
+            background: rgba(143, 169, 143, 0.1);
+            color: var(--accent-sage);
+            font-size: 0.85rem;
+            font-family: 'Inter', sans-serif;
+            cursor: pointer;
+            transition: background 0.3s ease, transform 0.2s ease;
+            pointer-events: auto;
+        }
+
+        .story-card.finale .restart-btn:hover {
+            background: rgba(143, 169, 143, 0.2);
+            transform: scale(1.05);
+        }
+
+        .story-card.finale .restart-btn:active {
+            transform: scale(0.95);
         }
 
         /* Scroll hint */
@@ -351,29 +378,23 @@
     <div class="flower-bg">
         <!-- Large flower top-left -->
         <svg class="flower-top-left" viewBox="0 0 400 500" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <!-- Stem and leaves -->
             <path d="M180 480 C180 400, 160 350, 170 280 C175 240, 185 200, 190 160" stroke="#8FA98F" stroke-width="3" fill="none"/>
             <path d="M170 350 C140 330, 120 340, 100 360 C120 350, 140 345, 170 350Z" fill="#7A9B7A"/>
             <path d="M175 300 C150 280, 130 285, 110 300 C130 290, 150 288, 175 300Z" fill="#8FA98F"/>
             <path d="M180 400 C210 380, 230 385, 250 400 C230 390, 210 388, 180 400Z" fill="#7A9B7A"/>
             <path d="M170 420 C140 405, 120 410, 100 425 C120 415, 140 412, 170 420Z" fill="#8FA98F"/>
-            <!-- Large flower 1 -->
             <path d="M190 160 C160 130, 130 110, 120 80 C130 100, 150 120, 190 160Z" fill="#D4728C"/>
             <path d="M190 160 C170 120, 180 80, 200 50 C195 80, 185 120, 190 160Z" fill="#C4627C"/>
             <path d="M190 160 C220 120, 250 110, 270 80 C255 105, 230 125, 190 160Z" fill="#D4728C"/>
             <path d="M190 160 C230 140, 260 150, 280 140 C255 148, 225 145, 190 160Z" fill="#E88AA3"/>
             <path d="M190 160 C160 150, 130 155, 110 145 C135 152, 160 152, 190 160Z" fill="#E88AA3"/>
-            <!-- Flower center -->
             <circle cx="190" cy="160" r="12" fill="#4A2040"/>
-            <!-- White vein lines on petals -->
             <path d="M190 160 C170 135, 150 115, 135 90" stroke="rgba(255,255,255,0.3)" stroke-width="1" fill="none"/>
             <path d="M190 160 C190 130, 192 100, 200 70" stroke="rgba(255,255,255,0.3)" stroke-width="1" fill="none"/>
             <path d="M190 160 C210 135, 235 120, 255 95" stroke="rgba(255,255,255,0.3)" stroke-width="1" fill="none"/>
-            <!-- Small buds -->
             <circle cx="130" cy="250" r="6" fill="#F0D0C0"/>
             <circle cx="145" cy="240" r="5" fill="#F0D0C0"/>
             <path d="M130 250 C130 260, 140 270, 150 275" stroke="#8FA98F" stroke-width="2" fill="none"/>
-            <!-- Second flower lower -->
             <path d="M160 430 C130 400, 100 385, 85 355 C100 375, 120 395, 160 430Z" fill="#D4728C"/>
             <path d="M160 430 C140 390, 150 355, 170 325 C165 355, 155 390, 160 430Z" fill="#C4627C"/>
             <path d="M160 430 C190 395, 220 385, 240 360 C225 380, 200 400, 160 430Z" fill="#D4728C"/>
@@ -390,14 +411,11 @@
             <path d="M100 280 C100 220, 90 180, 95 120 C98 90, 100 60, 105 30" stroke="#8FA98F" stroke-width="2.5" fill="none"/>
             <path d="M95 120 C75 105, 60 108, 50 120 C65 112, 78 110, 95 120Z" fill="#7A9B7A"/>
             <path d="M100 180 C120 165, 135 168, 145 178 C130 172, 115 170, 100 180Z" fill="#8FA98F"/>
-            <!-- Small pink tulip buds -->
             <path d="M105 30 C100 20, 95 10, 100 5 C105 10, 110 20, 105 30Z" fill="#E88AA3"/>
             <path d="M105 30 C108 18, 115 12, 112 5 C115 15, 110 22, 105 30Z" fill="#D4728C"/>
-            <!-- Small buds on branch -->
             <circle cx="80" cy="85" r="4" fill="#F0D0C0"/>
             <circle cx="75" cy="75" r="3.5" fill="#F0D0C0"/>
             <path d="M80 85 C85 90, 90 100, 95 110" stroke="#8FA98F" stroke-width="1.5" fill="none"/>
-            <!-- Another small flower -->
             <path d="M100 200 C90 190, 82 182, 78 172 C84 180, 90 188, 100 200Z" fill="#E88AA3"/>
             <path d="M100 200 C98 188, 100 178, 105 170 C103 180, 100 190, 100 200Z" fill="#D4728C"/>
             <path d="M100 200 C110 190, 118 184, 122 175 C116 183, 108 190, 100 200Z" fill="#E88AA3"/>
@@ -585,38 +603,34 @@
         // Build cards
         function buildCards() {
             feed.innerHTML = '';
-            // We render 3 copies for seamless looping
-            for (let copy = 0; copy < 3; copy++) {
-                stories.forEach((story, index) => {
-                    const card = document.createElement('div');
-                    card.className = 'story-card';
-                    card.dataset.index = index;
-                    card.dataset.copy = copy;
+            stories.forEach((story, index) => {
+                const card = document.createElement('div');
+                card.className = 'story-card';
+                card.dataset.index = index;
 
-                    let html = '';
-                    if (story.context) {
-                        html += `<p class="context">${story.context}</p>`;
-                    }
-                    html += `<p class="quote">${story.quote}</p>`;
-                    html += `<div class="attribution">
-                        <p class="name">${story.name}</p>
-                        <p class="relation">${story.relation}</p>
-                    </div>`;
-                    card.innerHTML = html;
-                    feed.appendChild(card);
-                });
+                let html = '';
+                if (story.context) {
+                    html += `<p class="context">${story.context}</p>`;
+                }
+                html += `<p class="quote">${story.quote}</p>`;
+                html += `<div class="attribution">
+                    <p class="name">${story.name}</p>
+                    <p class="relation">${story.relation}</p>
+                </div>`;
+                card.innerHTML = html;
+                feed.appendChild(card);
+            });
 
-                // Finale card after each set
-                const finale = document.createElement('div');
-                finale.className = 'story-card finale';
-                finale.dataset.index = 'finale';
-                finale.dataset.copy = copy;
-                finale.innerHTML = `
-                    <p class="quote">Auf euer Abenteuer. ✈️🥂</p>
-                    <p class="sub-text">Habt ganz viel Spaß in Japan und genießt eure Flitterwochen! ✨</p>
-                `;
-                feed.appendChild(finale);
-            }
+            // Finale card
+            const finale = document.createElement('div');
+            finale.className = 'story-card finale';
+            finale.dataset.index = 'finale';
+            finale.innerHTML = `
+                <p class="quote">Auf euer Abenteuer. 🥂</p>
+                <p class="sub-text">Habt ganz viel Spaß in Japan und genießt eure Flitterwochen! ✈️✨</p>
+                <button class="restart-btn" id="restart-btn">↑ Nochmal von vorne</button>
+            `;
+            feed.appendChild(finale);
         }
 
         // Intersection Observer for animations
@@ -638,36 +652,11 @@
             });
         }
 
-        // Infinite loop logic
-        function setupInfiniteLoop() {
-            const totalCards = stories.length + 1; // stories + finale
-            const cardHeight = window.innerHeight; // each card is 100vh
-
-            // Start at the middle copy (copy index 1)
-            feed.scrollTop = totalCards * cardHeight;
-
-            feed.addEventListener('scroll', () => {
-                const scrollTop = feed.scrollTop;
-                const oneSetHeight = totalCards * cardHeight;
-
-                // If scrolled into the third copy, jump back to middle
-                if (scrollTop >= oneSetHeight * 2) {
-                    feed.scrollTop = scrollTop - oneSetHeight;
-                }
-                // If scrolled above the first copy, jump to middle
-                if (scrollTop < oneSetHeight * 0.1) {
-                    feed.scrollTop = scrollTop + oneSetHeight;
-                }
+        // Restart button
+        function setupRestart() {
+            document.getElementById('restart-btn').addEventListener('click', () => {
+                feed.scrollTo({ top: 0, behavior: 'smooth' });
             });
-
-            // Hide scroll hint after first scroll
-            let hintHidden = false;
-            feed.addEventListener('scroll', () => {
-                if (!hintHidden) {
-                    hintHidden = true;
-                    scrollHint.classList.add('hidden');
-                }
-            }, { once: true });
         }
 
         // Password handling
@@ -680,9 +669,14 @@
             feed.classList.add('visible');
             scrollHint.style.display = 'block';
             setTimeout(() => {
-                setupInfiniteLoop();
                 setupObserver();
+                setupRestart();
             }, 100);
+
+            // Hide scroll hint after first scroll
+            feed.addEventListener('scroll', () => {
+                scrollHint.classList.add('hidden');
+            }, { once: true });
         }
 
         // Check localStorage
@@ -714,24 +708,6 @@
             if (e.key === 'Enter') {
                 passwordBtn.click();
             }
-        });
-
-        // Handle resize for loop recalculation
-        let resizeTimeout;
-        window.addEventListener('resize', () => {
-            clearTimeout(resizeTimeout);
-            resizeTimeout = setTimeout(() => {
-                if (feed.classList.contains('visible')) {
-                    const totalCards = stories.length + 1;
-                    const cardHeight = window.innerHeight;
-                    const oneSetHeight = totalCards * cardHeight;
-                    const currentScroll = feed.scrollTop;
-                    const currentCopy = Math.floor(currentScroll / oneSetHeight);
-                    if (currentCopy !== 1) {
-                        feed.scrollTop = (currentScroll % oneSetHeight) + oneSetHeight;
-                    }
-                }
-            }, 200);
         });
     </script>
 </body>
