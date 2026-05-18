@@ -6,12 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Laura & Flo</title>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie.min.js"></script>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         :root {
             --bg-dark: #2D3B2D;
@@ -21,6 +18,17 @@
             --text-cream: #F5F0EB;
             --text-mauve: #9B6B7A;
             --text-dim: rgba(245, 240, 235, 0.5);
+            --transition-speed: 0.5s;
+        }
+
+        html.light-mode {
+            --bg-dark: #F9F6F2;
+            --bg-card: #FFFFFF;
+            --accent-pink: #C4627C;
+            --accent-sage: #5A8A5A;
+            --text-cream: #2D3B2D;
+            --text-mauve: #8B5A6A;
+            --text-dim: rgba(45, 59, 45, 0.5);
         }
 
         html, body {
@@ -29,39 +37,69 @@
             background: var(--bg-dark);
             font-family: 'Inter', sans-serif;
             color: var(--text-cream);
+            transition: background var(--transition-speed) ease, color var(--transition-speed) ease;
         }
 
+        /* THEME TOGGLE */
+        .theme-toggle {
+            position: fixed; top: 1.2rem; right: 1.2rem; z-index: 100;
+            width: 44px; height: 44px; border-radius: 50%;
+            border: 1px solid var(--accent-sage); background: rgba(143,169,143,0.1);
+            cursor: pointer; display: flex; align-items: center; justify-content: center;
+            font-size: 1.3rem; transition: transform 0.3s ease, background 0.3s ease, border-color 0.3s ease;
+            backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+            user-select: none; -webkit-user-select: none; -webkit-tap-highlight-color: transparent;
+        }
+        .theme-toggle:hover { transform: scale(1.1); background: rgba(143,169,143,0.2); }
+        .theme-toggle:active { transform: scale(0.9); }
+        .theme-toggle .icon-sun, .theme-toggle .icon-moon { position: absolute; transition: opacity 0.3s ease, transform 0.3s ease; }
+        .theme-toggle .icon-sun { opacity: 0; transform: rotate(-90deg) scale(0.5); }
+        .theme-toggle .icon-moon { opacity: 1; transform: rotate(0deg) scale(1); }
+        html.light-mode .theme-toggle .icon-sun { opacity: 1; transform: rotate(0deg) scale(1); }
+        html.light-mode .theme-toggle .icon-moon { opacity: 0; transform: rotate(90deg) scale(0.5); }
+        html.light-mode .theme-toggle { border-color: var(--accent-pink); background: rgba(212,114,140,0.08); }
+
+        /* LOTTIE FLOWER BACKGROUND */
+        .lottie-bg {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none; z-index: 0; overflow: hidden;
+        }
+        .lottie-flower {
+            position: absolute; opacity: 0.18;
+            transition: transform 0.1s ease-out, opacity var(--transition-speed) ease;
+        }
+        html.light-mode .lottie-flower { opacity: 0.25; }
+        .lottie-flower-1 { top: -8%; left: -8%; width: 380px; height: 380px; }
+        .lottie-flower-2 { bottom: -8%; right: -8%; width: 380px; height: 380px; }
+        .lottie-flower-3 { top: 8%; right: -5%; width: 220px; height: 220px; }
+        .lottie-flower-4 { bottom: 12%; left: -5%; width: 220px; height: 220px; }
+
+        /* Fallback static flowers */
         .flower-bg {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 0;
-            opacity: 0.12;
-            overflow: hidden;
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none; z-index: 0; opacity: 0.12; overflow: hidden;
+            transition: opacity var(--transition-speed) ease;
         }
-
-        .flower-bg svg { position: absolute; }
-
+        html.light-mode .flower-bg { opacity: 0.18; }
+        .flower-bg svg { position: absolute; transition: transform 0.1s ease-out; }
         .flower-top-left { top: -5%; left: -5%; width: 45vw; max-width: 350px; transform: rotate(-5deg); }
         .flower-bottom-right { bottom: -5%; right: -5%; width: 45vw; max-width: 350px; transform: rotate(175deg); }
         .flower-top-right { top: 5%; right: -2%; width: 25vw; max-width: 180px; transform: rotate(15deg); }
         .flower-bottom-left { bottom: 8%; left: -3%; width: 25vw; max-width: 180px; transform: rotate(-20deg); }
 
+        /* PASSWORD */
         #password-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: var(--bg-dark); display: flex; flex-direction: column;
             align-items: center; justify-content: center; z-index: 1000;
-            padding: 2rem; transition: opacity 0.6s ease, transform 0.6s ease;
+            padding: 2rem; transition: opacity 0.6s ease, transform 0.6s ease, background var(--transition-speed) ease;
         }
         #password-overlay.hidden { opacity: 0; transform: scale(1.05); pointer-events: none; }
         #password-overlay h1 { font-family: 'Playfair Display', serif; font-size: clamp(2rem, 8vw, 4rem); margin-bottom: 0.5rem; color: var(--text-cream); text-align: center; }
         #password-overlay .subtitle { font-size: 0.9rem; color: var(--text-mauve); margin-bottom: 2.5rem; letter-spacing: 0.1em; text-transform: uppercase; }
-
         #password-form { display: flex; flex-direction: column; align-items: center; gap: 1rem; width: 100%; max-width: 320px; }
         #password-input { width: 100%; padding: 1rem 1.2rem; border: 1px solid var(--accent-sage); border-radius: 12px; background: rgba(255,255,255,0.05); color: var(--text-cream); font-size: 1rem; font-family: 'Inter', sans-serif; text-align: center; outline: none; transition: border-color 0.3s ease, box-shadow 0.3s ease; }
+        html.light-mode #password-input { background: rgba(0,0,0,0.03); }
         #password-input:focus { border-color: var(--accent-pink); box-shadow: 0 0 20px rgba(212,114,140,0.15); }
         #password-input::placeholder { color: var(--text-dim); }
         #password-btn { width: 100%; padding: 1rem; border: none; border-radius: 12px; background: var(--accent-pink); color: white; font-size: 1rem; font-weight: 500; cursor: pointer; transition: transform 0.2s ease, background 0.3s ease; }
@@ -70,15 +108,16 @@
         .password-error { color: var(--accent-pink); font-size: 0.85rem; opacity: 0; transition: opacity 0.3s ease; height: 1.2rem; }
         .password-error.visible { opacity: 1; }
 
+        /* STORY FEED */
         #story-feed { display: none; height: 100vh; overflow-y: scroll; scroll-snap-type: y mandatory; -webkit-overflow-scrolling: touch; position: relative; z-index: 1; transition: opacity 0.5s ease, transform 0.5s ease; }
         #story-feed.visible { display: block; }
         #story-feed.game-active { opacity: 0; transform: scale(0.95); pointer-events: none; }
 
         .story-card { height: 100vh; scroll-snap-align: start; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 2rem 1.5rem; position: relative; opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease, transform 0.6s ease; }
         .story-card.visible { opacity: 1; transform: translateY(0); }
-        .story-card .context { font-size: 0.75rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 1.2rem; text-align: center; max-width: 300px; font-weight: 400; }
+        .story-card .context { font-size: 0.75rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 1.2rem; text-align: center; max-width: 300px; }
         .story-card .quote { font-family: 'Playfair Display', serif; font-size: clamp(1.1rem, 4.5vw, 1.6rem); line-height: 1.6; text-align: center; max-width: 600px; color: var(--text-cream); font-style: italic; position: relative; }
-        .story-card .quote::before { content: '„'; position: absolute; top: -0.8rem; left: -0.5rem; font-size: 3rem; color: var(--accent-pink); opacity: 0.3; font-style: normal; }
+        .story-card .quote::before { content: '\201E'; position: absolute; top: -0.8rem; left: -0.5rem; font-size: 3rem; color: var(--accent-pink); opacity: 0.3; font-style: normal; }
         .story-card .attribution { margin-top: 2rem; text-align: center; }
         .story-card .attribution .name { font-size: 0.9rem; font-weight: 500; color: var(--accent-sage); }
         .story-card .attribution .relation { font-size: 0.75rem; color: var(--text-mauve); margin-top: 0.3rem; }
@@ -89,33 +128,17 @@
         .story-card.finale .sub-text { margin-top: 1.5rem; font-size: 1rem; color: var(--text-mauve); font-family: 'Playfair Display', serif; font-style: italic; }
         .story-card.finale .restart-btn { margin-top: 2.5rem; padding: 0.8rem 2rem; border: 1px solid var(--accent-sage); border-radius: 30px; background: rgba(143,169,143,0.1); color: var(--accent-sage); font-size: 0.85rem; font-family: 'Inter', sans-serif; cursor: pointer; transition: background 0.3s ease, transform 0.2s ease; pointer-events: auto; }
         .story-card.finale .restart-btn:hover { background: rgba(143,169,143,0.2); transform: scale(1.05); }
-        .story-card.finale .restart-btn:active { transform: scale(0.95); }
 
-        /* Bird Easter Egg Icon */
-        .bird-easter-egg {
-            position: absolute;
-            bottom: 2.5rem;
-            right: 1.5rem;
-            font-size: 1.4rem;
-            cursor: pointer;
-            user-select: none;
-            -webkit-user-select: none;
-            -webkit-tap-highlight-color: transparent;
-            opacity: 0.4;
-            transition: opacity 0.3s ease, transform 0.1s ease;
-            z-index: 5;
-        }
-        .bird-easter-egg:active {
-            transform: scale(1.3);
-        }
-        .bird-easter-egg.wiggle {
-            animation: bird-wiggle 0.3s ease;
-        }
-        @keyframes bird-wiggle {
-            0%, 100% { transform: rotate(0deg); }
-            25% { transform: rotate(-15deg); }
-            75% { transform: rotate(15deg); }
-        }
+        /* TYPEWRITER */
+        .typewriter-active .quote { overflow: hidden; }
+        .typewriter-cursor { display: inline-block; width: 2px; height: 1.2em; background: var(--accent-pink); margin-left: 2px; vertical-align: text-bottom; animation: blink-cursor 0.7s step-end infinite; }
+        @keyframes blink-cursor { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+
+        /* BIRD EASTER EGG */
+        .bird-easter-egg { position: absolute; bottom: 2.5rem; right: 1.5rem; font-size: 1.4rem; cursor: pointer; user-select: none; -webkit-user-select: none; -webkit-tap-highlight-color: transparent; opacity: 0.4; transition: opacity 0.3s ease, transform 0.1s ease; z-index: 5; }
+        .bird-easter-egg:active { transform: scale(1.3); }
+        .bird-easter-egg.wiggle { animation: bird-wiggle 0.3s ease; }
+        @keyframes bird-wiggle { 0%, 100% { transform: rotate(0deg); } 25% { transform: rotate(-15deg); } 75% { transform: rotate(15deg); } }
 
         .scroll-hint { position: fixed; bottom: 1.5rem; left: 50%; transform: translateX(-50%); opacity: 0.4; animation: bounce 2s infinite; z-index: 10; pointer-events: none; transition: opacity 1s ease; }
         .scroll-hint.hidden { opacity: 0; }
@@ -125,8 +148,10 @@
         @media (min-width: 768px) { .story-card { padding: 3rem 2rem; } .story-card .quote { max-width: 550px; } }
         .story-card:nth-child(odd) { background: radial-gradient(ellipse at top right, rgba(143,169,143,0.03) 0%, transparent 60%); }
         .story-card:nth-child(even) { background: radial-gradient(ellipse at bottom left, rgba(212,114,140,0.03) 0%, transparent 60%); }
+        html.light-mode .story-card:nth-child(odd) { background: radial-gradient(ellipse at top right, rgba(143,169,143,0.06) 0%, transparent 60%); }
+        html.light-mode .story-card:nth-child(even) { background: radial-gradient(ellipse at bottom left, rgba(212,114,140,0.06) 0%, transparent 60%); }
 
-        /* FLAPPY CRANE GAME */
+        /* GAME */
         #game-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 500; display: none; opacity: 0; transition: opacity 0.5s ease, transform 0.5s ease; transform: scale(1.05); }
         #game-container.active { display: block; opacity: 1; transform: scale(1); }
         #game-canvas { width: 100%; height: 100%; display: block; }
@@ -142,73 +167,97 @@
         .game-tap-btn:active { transform: scale(0.95); }
         .game-back-btn { padding: 1rem 2.5rem; border: 1px solid var(--accent-sage); border-radius: 30px; background: rgba(143,169,143,0.15); color: var(--accent-sage); font-size: 1rem; font-family: 'Inter', sans-serif; cursor: pointer; pointer-events: auto; transition: background 0.3s ease, transform 0.2s ease; margin-top: 0.5rem; }
         .game-back-btn:hover { background: rgba(143,169,143,0.3); transform: scale(1.05); }
-        .game-back-btn:active { transform: scale(0.95); }
         #game-final-score { font-family: 'Playfair Display', serif; font-size: clamp(3rem, 12vw, 5rem); color: var(--accent-pink); margin: 1rem 0; }
         #game-high-score { font-size: 0.85rem; color: var(--accent-sage); margin-bottom: 2rem; }
         #game-over-screen { display: none; }
 
         @keyframes sakura-fall { 0%{transform:translateY(-10vh) rotate(0deg);opacity:1} 100%{transform:translateY(110vh) rotate(720deg);opacity:0} }
         .sakura-petal { position: fixed; width: 12px; height: 12px; background: var(--accent-pink); border-radius: 50% 0 50% 0; opacity: 0.6; z-index: 499; animation: sakura-fall linear forwards; pointer-events: none; }
+
+        /* XBOX ACHIEVEMENTS */
+        .achievement-popup {
+            position: fixed; top: -130px; left: 50%; transform: translateX(-50%);
+            z-index: 9999; display: flex; align-items: center; gap: 1rem;
+            padding: 1rem 1.5rem;
+            background: linear-gradient(135deg, #107C10 0%, #0e6b0e 50%, #1a8c1a 100%);
+            border: 2px solid rgba(255,255,255,0.2);
+            border-radius: 4px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.1);
+            min-width: 320px; max-width: 92vw;
+            transition: top 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .achievement-popup.show { top: 1.5rem; }
+        .achievement-popup.hiding { top: -130px; transition: top 0.4s ease-in; }
+        .achievement-icon {
+            width: 54px; height: 54px; border-radius: 4px;
+            background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.6rem; flex-shrink: 0;
+        }
+        .achievement-content { display: flex; flex-direction: column; gap: 0.15rem; }
+        .achievement-unlocked { font-size: 0.6rem; text-transform: uppercase; letter-spacing: 0.2em; color: rgba(255,255,255,0.7); font-weight: 600; }
+        .achievement-title { font-family: 'Inter', sans-serif; font-size: 1rem; font-weight: 700; color: #FFFFFF; }
+        .achievement-desc { font-size: 0.75rem; color: rgba(255,255,255,0.6); }
+        .achievement-xp { font-size: 0.7rem; color: rgba(255,255,255,0.9); margin-top: 0.1rem; font-weight: 600; }
+        .achievement-ding {
+            position: absolute; top: -2px; right: -2px; width: 8px; height: 8px;
+            background: #FFFFFF; border-radius: 50%;
+            animation: ding-pulse 1.5s ease-out infinite;
+        }
+        @keyframes ding-pulse { 0% { transform: scale(1); opacity: 1; } 100% { transform: scale(3); opacity: 0; } }
     </style>
 </head>
 <body>
-    <div class="flower-bg">
+
+    <button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark/light mode">
+        <span class="icon-moon">🌙</span>
+        <span class="icon-sun">☀️</span>
+    </button>
+
+    <!-- Lottie Flower Background -->
+    <div class="lottie-bg" id="lottie-bg">
+        <div class="lottie-flower lottie-flower-1" id="lottie-flower-1"></div>
+        <div class="lottie-flower lottie-flower-2" id="lottie-flower-2"></div>
+        <div class="lottie-flower lottie-flower-3" id="lottie-flower-3"></div>
+        <div class="lottie-flower lottie-flower-4" id="lottie-flower-4"></div>
+    </div>
+
+    <!-- Fallback static flowers -->
+    <div class="flower-bg" id="flower-bg-static">
         <svg class="flower-top-left" viewBox="0 0 400 500" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M180 480 C180 400, 160 350, 170 280 C175 240, 185 200, 190 160" stroke="#8FA98F" stroke-width="3" fill="none"/>
             <path d="M170 350 C140 330, 120 340, 100 360 C120 350, 140 345, 170 350Z" fill="#7A9B7A"/>
             <path d="M175 300 C150 280, 130 285, 110 300 C130 290, 150 288, 175 300Z" fill="#8FA98F"/>
-            <path d="M180 400 C210 380, 230 385, 250 400 C230 390, 210 388, 180 400Z" fill="#7A9B7A"/>
-            <path d="M170 420 C140 405, 120 410, 100 425 C120 415, 140 412, 170 420Z" fill="#8FA98F"/>
             <path d="M190 160 C160 130, 130 110, 120 80 C130 100, 150 120, 190 160Z" fill="#D4728C"/>
             <path d="M190 160 C170 120, 180 80, 200 50 C195 80, 185 120, 190 160Z" fill="#C4627C"/>
             <path d="M190 160 C220 120, 250 110, 270 80 C255 105, 230 125, 190 160Z" fill="#D4728C"/>
             <path d="M190 160 C230 140, 260 150, 280 140 C255 148, 225 145, 190 160Z" fill="#E88AA3"/>
             <path d="M190 160 C160 150, 130 155, 110 145 C135 152, 160 152, 190 160Z" fill="#E88AA3"/>
             <circle cx="190" cy="160" r="12" fill="#4A2040"/>
-            <circle cx="130" cy="250" r="6" fill="#F0D0C0"/>
-            <circle cx="145" cy="240" r="5" fill="#F0D0C0"/>
-            <path d="M130 250 C130 260, 140 270, 150 275" stroke="#8FA98F" stroke-width="2" fill="none"/>
             <path d="M160 430 C130 400, 100 385, 85 355 C100 375, 120 395, 160 430Z" fill="#D4728C"/>
             <path d="M160 430 C140 390, 150 355, 170 325 C165 355, 155 390, 160 430Z" fill="#C4627C"/>
             <path d="M160 430 C190 395, 220 385, 240 360 C225 380, 200 400, 160 430Z" fill="#D4728C"/>
-            <path d="M160 430 C200 415, 225 420, 245 415 C225 420, 195 418, 160 430Z" fill="#E88AA3"/>
-            <path d="M160 430 C130 420, 100 425, 80 418 C105 422, 130 422, 160 430Z" fill="#E88AA3"/>
             <circle cx="160" cy="430" r="10" fill="#4A2040"/>
-        </svg>
-        <svg class="flower-top-right" viewBox="0 0 200 300" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M100 280 C100 220, 90 180, 95 120 C98 90, 100 60, 105 30" stroke="#8FA98F" stroke-width="2.5" fill="none"/>
-            <path d="M95 120 C75 105, 60 108, 50 120 C65 112, 78 110, 95 120Z" fill="#7A9B7A"/>
-            <path d="M100 180 C120 165, 135 168, 145 178 C130 172, 115 170, 100 180Z" fill="#8FA98F"/>
-            <path d="M105 30 C100 20, 95 10, 100 5 C105 10, 110 20, 105 30Z" fill="#E88AA3"/>
-            <circle cx="80" cy="85" r="4" fill="#F0D0C0"/>
-            <circle cx="75" cy="75" r="3.5" fill="#F0D0C0"/>
-            <path d="M100 200 C90 190, 82 182, 78 172 C84 180, 90 188, 100 200Z" fill="#E88AA3"/>
-            <path d="M100 200 C98 188, 100 178, 105 170 C103 180, 100 190, 100 200Z" fill="#D4728C"/>
-            <circle cx="100" cy="200" r="5" fill="#4A2040"/>
         </svg>
         <svg class="flower-bottom-right" viewBox="0 0 400 500" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M180 480 C180 400, 160 350, 170 280 C175 240, 185 200, 190 160" stroke="#8FA98F" stroke-width="3" fill="none"/>
-            <path d="M170 350 C140 330, 120 340, 100 360 C120 350, 140 345, 170 350Z" fill="#7A9B7A"/>
-            <path d="M180 400 C210 380, 230 385, 250 400 C230 390, 210 388, 180 400Z" fill="#7A9B7A"/>
             <path d="M190 160 C160 130, 130 110, 120 80 C130 100, 150 120, 190 160Z" fill="#D4728C"/>
             <path d="M190 160 C170 120, 180 80, 200 50 C195 80, 185 120, 190 160Z" fill="#C4627C"/>
             <path d="M190 160 C220 120, 250 110, 270 80 C255 105, 230 125, 190 160Z" fill="#D4728C"/>
-            <path d="M190 160 C230 140, 260 150, 280 140 C255 148, 225 145, 190 160Z" fill="#E88AA3"/>
             <circle cx="190" cy="160" r="12" fill="#4A2040"/>
-            <circle cx="130" cy="250" r="6" fill="#F0D0C0"/>
-            <path d="M160 430 C130 400, 100 385, 85 355 C100 375, 120 395, 160 430Z" fill="#D4728C"/>
-            <path d="M160 430 C140 390, 150 355, 170 325 C165 355, 155 390, 160 430Z" fill="#C4627C"/>
-            <path d="M160 430 C190 395, 220 385, 240 360 C225 380, 200 400, 160 430Z" fill="#D4728C"/>
-            <circle cx="160" cy="430" r="10" fill="#4A2040"/>
         </svg>
-        <svg class="flower-bottom-left" viewBox="0 0 200 300" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M100 280 C100 220, 90 180, 95 120 C98 90, 100 60, 105 30" stroke="#8FA98F" stroke-width="2.5" fill="none"/>
-            <path d="M95 150 C75 135, 60 138, 50 150 C65 142, 78 140, 95 150Z" fill="#7A9B7A"/>
-            <path d="M98 200 C118 185, 133 188, 143 198 C128 192, 113 190, 98 200Z" fill="#8FA98F"/>
-            <path d="M105 50 C100 40, 95 30, 100 22 C105 30, 110 40, 105 50Z" fill="#E88AA3"/>
-            <circle cx="78" cy="105" r="4" fill="#F0D0C0"/>
-            <circle cx="72" cy="95" r="3.5" fill="#F0D0C0"/>
-        </svg>
+    </div>
+
+    <!-- Achievement Popup (Xbox Style) -->
+    <div class="achievement-popup" id="achievement-popup">
+        <div class="achievement-ding"></div>
+        <div class="achievement-icon" id="achievement-icon">🏆</div>
+        <div class="achievement-content">
+            <div class="achievement-unlocked">Achievement Unlocked</div>
+            <div class="achievement-title" id="achievement-title">First Flight</div>
+            <div class="achievement-desc" id="achievement-desc">30 Sekunden geflogen</div>
+            <div class="achievement-xp" id="achievement-xp">+50 G</div>
+        </div>
     </div>
 
     <div id="password-overlay">
@@ -251,40 +300,79 @@
 
     <script>
         // ==========================================
-        // ALL VARIABLES DECLARED FIRST
+        // VARIABLES
         // ==========================================
         var CORRECT_PASSWORD = 'lauraundflo4ever';
         var STORAGE_KEY = 'flo_laura_auth';
-
-        // Bird Easter Egg tap detection
-        var birdTapCount = 0;
-        var birdTapTimeout = null;
-        var BIRD_TAPS_REQUIRED = 5;
-        var BIRD_TAP_WINDOW = 2500; // 2.5 seconds
-
-        // Game state
-        var gameActive = false;
-        var gameLoop = null;
-        var gameState = 'start';
-        var score = 0;
+        var birdTapCount = 0, birdTapTimeout = null, BIRD_TAPS_REQUIRED = 5, BIRD_TAP_WINDOW = 2500;
+        var gameActive = false, gameLoop = null, gameState = 'start', score = 0;
         var highScore = parseInt(localStorage.getItem('flappy_tsuru_high') || '0');
         var crane = { x: 0, y: 0, velocity: 0, rotation: 0, flapFrame: 0 };
-        var pipes = [];
-        var particles = [];
-        var clouds = [];
-        var bgOffset = 0;
-        var frameCount = 0;
+        var pipes = [], particles = [], clouds = [], bgOffset = 0, frameCount = 0;
+
+        // Time tracking (hidden - no UI display)
+        var gameStartTime = 0;
+        var totalGameTime = parseInt(localStorage.getItem('flappy_tsuru_total_time') || '0');
+        var sessionGameTime = 0;
+        var gameTimerInterval = null;
+
+        // Crash tracking
+        var totalCrashes = parseInt(localStorage.getItem('flappy_tsuru_crashes') || '0');
+        var sessionCrashes = 0;
+        var consecutiveCrashesUnder3 = parseInt(localStorage.getItem('flappy_tsuru_quick_deaths') || '0');
+        var longestRun = parseInt(localStorage.getItem('flappy_tsuru_longest_run') || '0'); // in seconds
+        var totalGamesPlayed = parseInt(localStorage.getItem('flappy_tsuru_games_played') || '0');
+
+        var unlockedAchievements = JSON.parse(localStorage.getItem('flappy_tsuru_achievements') || '[]');
 
         // Game constants
-        var GRAVITY = 0.45;
-        var FLAP_FORCE = -7.5;
-        var PIPE_SPEED = 2.8;
-        var PIPE_GAP = 160;
-        var PIPE_WIDTH = 55;
-        var PIPE_INTERVAL = 110;
-        var CRANE_SIZE = 28;
+        var GRAVITY = 0.45, FLAP_FORCE = -7.5, PIPE_SPEED = 2.8, PIPE_GAP = 160, PIPE_WIDTH = 55, PIPE_INTERVAL = 110, CRANE_SIZE = 28;
+        var currentTheme = localStorage.getItem('flo_laura_theme') || 'dark';
+        var typewriterPlayed = false;
+        var gyroX = 0, gyroY = 0, hasGyroscope = false;
+        var lottieInstances = [], lottieLoaded = false;
 
-        // Story data
+        // ==========================================
+        // ACHIEVEMENTS (with crash-based ones!)
+        // ==========================================
+        var ACHIEVEMENTS = [
+            // Time-based
+            { id: 'first_flight', title: 'First Flight', desc: '30 Sekunden überlebt', icon: '🐣', g: 10, timeRequired: 30 },
+            { id: 'amateur', title: 'Amateur Pilot', desc: '2 Minuten Gesamtflugzeit', icon: '🪶', g: 25, timeRequired: 120 },
+            { id: 'intermediate', title: 'Skilled Navigator', desc: '5 Minuten Gesamtflugzeit', icon: '🕊️', g: 50, timeRequired: 300 },
+            { id: 'dedicated', title: 'Dedicated Flyer', desc: '10 Minuten Gesamtflugzeit', icon: '🦅', g: 100, timeRequired: 600 },
+            { id: 'crane_master', title: 'Tsuru Master', desc: '20 Minuten – Du BIST der Kranich', icon: '🏯', g: 200, timeRequired: 1200 },
+            { id: 'zen_pilot', title: 'Zen Pilot', desc: '30 Minuten Meditation im Flug', icon: '⛩️', g: 500, timeRequired: 1800 },
+            { id: 'no_life', title: 'Hast du kein WLAN?', desc: '1 Stunde Flappy Tsuru. Ernsthaft.', icon: '📵', g: 1000, timeRequired: 3600 },
+
+            // Score-based
+            { id: 'score_5', title: 'Torii Explorer', desc: '5 Tore in einem Spiel', icon: '⛩️', g: 25, scoreRequired: 5 },
+            { id: 'score_10', title: 'Gate Keeper', desc: '10 Tore durchflogen', icon: '🎌', g: 50, scoreRequired: 10 },
+            { id: 'score_20', title: 'Legendary Crane', desc: '20 Tore – respekt!', icon: '🐉', g: 100, scoreRequired: 20 },
+            { id: 'score_50', title: 'God of Wind', desc: '50 Tore – 風神 Fujin wäre stolz', icon: '🌪️', g: 500, scoreRequired: 50 },
+            { id: 'score_100', title: 'Unmöglich?!', desc: '100 Tore. Warte... WAS?!', icon: '👑', g: 2000, scoreRequired: 100 },
+
+            // Crash-based (the fun ones!)
+            { id: 'first_crash', title: 'Gravity Check', desc: 'Erster Crash. Willkommen!', icon: '💀', g: 5, crashRequired: 1 },
+            { id: 'crash_5', title: 'Lernresistent', desc: '5 mal gecrasht', icon: '🤕', g: 10, crashRequired: 5 },
+            { id: 'crash_10', title: 'Bodenpersonal', desc: '10 Crashes – vielleicht doch Zug?', icon: '🚂', g: 25, crashRequired: 10 },
+            { id: 'crash_25', title: 'Frequent Crasher', desc: '25 Crashes. Die Versicherung kündigt.', icon: '📋', g: 50, crashRequired: 25 },
+            { id: 'crash_50', title: 'Schrott-Kranich', desc: '50 Crashes. Der Kranich braucht Therapie.', icon: '🩹', g: 100, crashRequired: 50 },
+            { id: 'crash_100', title: 'Unsterblich', desc: '100 Crashes und du spielst IMMER NOCH?!', icon: '🧟', g: 250, crashRequired: 100 },
+            { id: 'crash_instant', title: 'Speed-Run (ins Torii)', desc: '3x hintereinander bei Score 0 gecrasht', icon: '⚡', g: 30, quickDeathsRequired: 3 },
+            { id: 'crash_instant_5', title: 'Hast du Augen?', desc: '5x hintereinander bei Score 0', icon: '👓', g: 50, quickDeathsRequired: 5 },
+            { id: 'crash_instant_10', title: 'Performance Art', desc: '10x hintereinander bei Score 0. Das ist Kunst.', icon: '🎭', g: 150, quickDeathsRequired: 10 },
+
+            // Special / Fun
+            { id: 'games_10', title: 'Stammspieler', desc: '10 Spiele gespielt', icon: '🎮', g: 25, gamesRequired: 10 },
+            { id: 'games_50', title: 'Suchtpotenzial', desc: '50 Spiele. Das war als Geschenk gedacht...', icon: '💊', g: 100, gamesRequired: 50 },
+            { id: 'games_100', title: 'Geht raus spielen!', desc: '100 Spiele. Ihr seid in JAPAN!', icon: '🗾', g: 300, gamesRequired: 100 },
+            { id: 'comeback_king', title: 'Comeback King', desc: 'Nach 5+ Crashes noch Score 10+ schaffen', icon: '👑', g: 75, special: 'comeback' },
+            { id: 'night_owl', title: 'Nachtflug', desc: 'Zwischen 2 und 5 Uhr morgens spielen', icon: '🦉', g: 50, special: 'night' },
+            { id: 'persistence', title: 'Aufgeben ist keine Option', desc: 'Direkt nach Game Over nochmal starten, 10x', icon: '🔄', g: 40, special: 'persistence' },
+        ];
+
+        // Stories data
         var stories = [
             { quote: "Seit Laura in Florians Leben ist, redet er immerhin mit mir. Und er hat festgestellt, dass ich eigentlich auch ganz cool bin.", name: "Pia", relation: "Kleine Schwester" },
             { quote: "TM-Vorlesung, Grundsemester. Flo kommt viel zu spät, läuft rein, völlig verschossen, hockt sich hin, dreht sich einmal kurz um – und pennt ein. Anderthalb Stunden. Komplett durch.", name: "Nico", relation: "Studienfreund" },
@@ -299,7 +387,7 @@
             { quote: "Flo ist besonders gefährlich, sobald ihm was richtig gut gefällt.", name: "Moritz", relation: "Freund seit Jugend" },
             { quote: "Ich habe ihn ganz oft verkleidet – mit Ohrringen und Kleidchen. Er wollte es aber auch.", name: "Julia / Tante Rossa", relation: "Tante" },
             { context: "Über die beiden:", quote: "Chaotisch, strukturiert, liebevoll, positiv. Sie ergänzen sich auf ganz weirde Arten. Sie haben beide ein Herz aus Gold und eine positive Energie – das ist auch das, was ihr Umfeld an den beiden schätzt.", name: "Bella", relation: "Schwester & Trauzeugin" },
-            { quote: "Flo war eine der wichtigsten Personen für mich im Studium, weil er uns alle immer vom Stress runtergeholt hat. Sein Motto: ‚Macht euch keinen Stress, es wird easy.' Und irgendwie hatte er jedes Mal recht.", name: "Nico", relation: "Studienfreund" },
+            { quote: "Flo war eine der wichtigsten Personen für mich im Studium, weil er uns alle immer vom Stress runtergeholt hat. Sein Motto: 'Macht euch keinen Stress, es wird easy.' Und irgendwie hatte er jedes Mal recht.", name: "Nico", relation: "Studienfreund" },
             { context: "Erinnerung an die Kindheit:", quote: "Laura und ich saßen kurz vor dem Abitur in der noch nicht umgebauten Küche bei meinen Eltern auf dem Boden. Absolute Nervenbündel, heulend auf dem Küchenboden. Klingt total doof zusammen zu heulen – aber irgendwie ist der Moment trotzdem voll in positiver Erinnerung bei mir abgespeichert.", name: "Leonie", relation: "Schwester" },
             { quote: "50km-Marsch. Ohne Training. Die letzten Kilometer wie Zombies. Ich danach mit Belastungsbruch. Florian mit der größten Blase der Geschichte.", name: "Ivo", relation: "Arbeitskollege" },
             { context: "Auf die Frage, was typisch für die beiden ist:", quote: "Katzen. Japan. Und eine kleine Brise strukturiertes Chaos – liebevolles Chaos.", name: "Pia", relation: "Kleine Schwester" },
@@ -312,90 +400,22 @@
             { context: "Über den Abend, als Flo und Laura wieder zusammenkamen:", quote: "Ich war an dem Abend dabei, als die zwei zueinandergefunden haben. Das war einer der lustigsten Abende, die ich wahrscheinlich je hatte. Da sind 13 Insider entstanden.", name: "Louis", relation: "Bester Freund von Laura" },
             { quote: "Ich saß fassungslos in der ersten Reihe. Aber das Beste? Er hat trotzdem alles gepackt. Immer. Mit weniger Aufwand als alle anderen.", name: "Nico", relation: "Studienfreund" },
             { quote: "Laura und Flo sind ein verrücktes, etwas verpeiltes, aber sehr süßes und intelligentes Künstlerpaar.", name: "Simone", relation: "Patentante" },
-            { quote: "Wenn sie mal aneinandergeraten, tauschen sie danach immer verliebte Blicke aus. Meistens endet es in einer Umarmung – vor den Augen aller Anwesenden. Ob die wollen oder nicht.", name: "Leonie", relation: "Schwester" },
             { quote: "An Flo schätze ich, dass er sich unglaublich wenig Gedanken macht. Er trifft einfach Entscheidungen und macht Sachen.", name: "Moritz", relation: "Freund seit Jugend" },
             { quote: "Eigentlich total ungleich – und trotzdem passen sie perfekt zusammen.", name: "Julia / Tante Rossa", relation: "Tante" },
             { quote: "Und sie werden super viele schöne Dinge in ihrem Leben erreichen – einfach weil sie zusammen drin stecken.", name: "Pia", relation: "Kleine Schwester" },
-            { quote: "Ich habe mit Florian seit zweieinhalb Jahren einen Stammtisch zum Schachspielen. Getroffen haben wir uns bisher genau einmal.", name: "Ivo", relation: "Arbeitskollege" },
             { quote: "Gleich und gleich gesellt sich gern, oder Gegensätze ziehen sich an – die zwei sind die perfekte Mischung aus beidem.", name: "Louis", relation: "Bester Freund von Laura" },
             { quote: "Laura ist seine bessere Seele. Wenn er mal wieder ausartet, holt sie ihn zurück.", name: "Nico", relation: "Studienfreund" },
-            { context: "Erinnerung an Flo und Max im Urlaub:", quote: "Max hatte das Kommando beim Angeln. Flo hat sich total cool gefühlt und gedacht, er hat das alles gemanagt. Und ihr kamt dann so stolz zurück. Diese Glückseligkeit habe ich voll oft noch im Kopf.", name: "Leonie", relation: "Schwester" },
-            { quote: "Und er hat unglaublich gute Stats bei allen Handyspielen – keinen Zweiten, der sich so rein fokussieren kann.", name: "Moritz", relation: "Freund seit Jugend" },
             { quote: "Beide sind lustig, empathisch, hilfsbereit.", name: "Susanne", relation: "Mama" },
-            { context: "Auf die Frage, was typisch für die beiden ist:", quote: "Zu spät kommen. Ich sage aber nichts dagegen, weil ich leider auch so eine Kandidatin bin. Familiär sehe ich auf jeden Fall, woher es kommt.", name: "Bella", relation: "Schwester & Trauzeugin" },
-            { quote: "Flo war mein erster Neffe. Ich habe mich damals tierisch auf ihn gefreut. Ab dem Zeitpunkt als er auf der Welt war, habe ich fast jeden Tag mit ihm verbracht. Gewickelt, gehütet, Fahrradtouren gemacht.", name: "Julia / Tante Rossa", relation: "Tante" },
-            { context: "Über Laura:", quote: "Laura hat einfach unglaublich krasse Ideen. Diese Grundkreativität – das ist was, was ich sehr bewundere.", name: "Max", relation: "Trauzeuge" },
-            { context: "Auf die Frage, was typisch für die beiden ist:", quote: "Lange Balkonabende, Magic und Rastatt.", name: "Ivo", relation: "Arbeitskollege" },
-            { quote: "Die zwei kennen und lieben sich seit dem Jugendalter und entscheiden sich immer wieder füreinander und raufen sich immer wieder zusammen.", name: "Leonie", relation: "Schwester" },
-            { context: "Über die beiden als Paar:", quote: "Laura als kreativer, ruhigerer Part mit Blick fürs Detail. Und Flo, der das Pragmatische, das große Laute so ein bisschen mit sich bringt.", name: "Louis", relation: "Bester Freund von Laura" },
-            { quote: "Ich bin beeindruckt von der Liebe und dem Aufeinanderzugehen, was sie jetzt schon so lange miteinander machen.", name: "Pia", relation: "Kleine Schwester" },
-            { quote: "Flo war einfach eine faule Sau. Ich habe mich manchmal zu viel gestresst, er sich zu wenig – und trotzdem hat er es immer gepackt und durchgezogen.", name: "Nico", relation: "Studienfreund" },
-            { quote: "Laura sorgt für coole Outfits an Flo.", name: "Simone", relation: "Patentante" },
-            { context: "Auf die Frage, was er an Laura bewundert:", quote: "Wie sie mit Flo zurechtkommt. Ein dickes Dankeschön, dass sie mit ihm zusammen ist.", name: "Moritz", relation: "Freund seit Jugend" },
-            { quote: "Mein Name ist Kai Ronto, verkehrter Name Rai Kondo, Lieblingswurst Leona und peinliche Geschichte, dass ich gegen den Mark im Apfel-Tennis verloren habe.", name: "Kai", relation: "Schulfreund" },
-            { context: "Wie sie Flo beschreiben würde:", quote: "Es war einmal ein sehr groß gewachsener, junger, sehr gut aussehender, blondhaariger Mann, der sich in eine wunderschöne, ein bisschen kleinere junge Frau verliebte.", name: "Leonie", relation: "Schwester" },
-            { context: "Auf die Frage, was Laura und Flo besser zusammen können:", quote: "Laura kann Florians manchmal verrückte Art gut in Zaum halten.", name: "Ivo", relation: "Arbeitskollege" },
-            { quote: "Es sind einfach beides sehr warme Menschen, die unglaublich gerne Zeit mit Freunden verbringen.", name: "Max", relation: "Trauzeuge" },
-            { quote: "Mein Bruder heiratet seine Jugendliebe – und das macht mich sehr glücklich.", name: "Pia", relation: "Kleine Schwester" },
-            { context: "Über Laura und Flo als Paar:", quote: "Die ergänzen sich perfekt. Laura ist die, die alles regelt und Flo mal wieder auf Kurs holt.", name: "Nico", relation: "Studienfreund" },
-            { quote: "Flo hat immer in seiner Kindheit sich durchsetzen müssen mit seinen zwei Schwestern. Und Laura schafft es, ihm total liebevoll zu sagen, dass Dinge halt echt auch mal scheiße waren.", name: "Leonie", relation: "Schwester" },
-            { quote: "Achtet aufeinander – und das auf Augenhöhe.", name: "Simone", relation: "Patentante" },
-            { quote: "Die Mischung ist einfach genial.", name: "Louis", relation: "Bester Freund von Laura" },
-            { quote: "Klamotten – dafür bewundere ich ihn bis heute noch nicht.", name: "Moritz", relation: "Freund seit Jugend" },
-            { quote: "Durch die vielen Jahre kennen die beiden sich in- und auswendig und sind immer bereit, an sich und ihrer Beziehung zu arbeiten.", name: "Ivo", relation: "Arbeitskollege" },
-            { context: "Über typisches Verhalten der beiden:", quote: "Wenn wir Schwestern von Flo mit dabei sind, dann kann Flo auch mal ein bisschen über das Ziel hinaus schießen. Und Lauri fängt ihn da immer wieder ein.", name: "Leonie", relation: "Schwester" },
-            { context: "Über die Beziehung:", quote: "Laura erdet Florian, während Flo sie eher pusht. Sie bringen wirklich das, was fehlt, aber auf eine gute Art beim Anderen hervor.", name: "Bella", relation: "Schwester & Trauzeugin" },
-            { quote: "Ich kann Euch mit auf den Weg geben, dass es ganz bestimmt ganz schwierige Zeiten geben wird in eurem gemeinsamen Leben. Aber ich bin mir sicher, dass ihr das zusammen meistern werdet, auch wenn es ganz schwierig wird.", name: "Julia / Tante Rossa", relation: "Tante" },
-            { quote: "Flo ist trotzdem der übelste Macher – aber der braucht einfach jemanden.", name: "Nico", relation: "Studienfreund" },
-            { context: "Erinnerung:", quote: "Wir waren in Südfrankreich zusammen – das erste Mal am Meer. Campingurlaub. Viel Fußball, geschwommen, geangelt.", name: "Max", relation: "Trauzeuge" },
-            { quote: "Flo ist sieben Jahre älter als ich. In dem Zeitraum war ich echt uncool und Flo hat nicht wirklich mit mir geredet. Laura hat zu ihm irgendwann gesagt, dass das so nicht geht. Dafür bin ich meiner Schwägerin sehr dankbar.", name: "Pia", relation: "Kleine Schwester" },
-            { quote: "Laura und ich sind in dieser eigenen Bubble unterwegs. Es ist unglaublich schön, jemanden zu haben, der den eigenen Kontext kennt und auch aus Rastatt kommt.", name: "Moritz", relation: "Freund seit Jugend" },
-            { quote: "Meine Beziehung zu dem Brautpaar ist, dass ich das Glück habe, über den beiden zu wohnen.", name: "Kai", relation: "Schulfreund" },
-            { quote: "Lauri hält im Hintergrund krank viel zusammen und regelt. Und fordert immer wieder die Gespräche ein.", name: "Leonie", relation: "Schwester" },
-            { quote: "Ich bin der Patenonkel von Kiku und Diego. Und unsere Katzen sind die Patenkinder von Florian.", name: "Ivo", relation: "Arbeitskollege" },
-            { context: "Über Laura:", quote: "Vom Charakter, vom Typus her – Merida passt am besten. Diese Prinzessin, die ihren eigenen Stiefel macht und lieber Kriegerin wird.", name: "Louis", relation: "Bester Freund von Laura" },
-            { quote: "Er hat einen Marmor getrunken und wir waren mit dem Fahrrad dort. Ich ließ ihn im Fahrradsitz hinten drauf.", name: "Julia / Tante Rossa", relation: "Tante" },
-            { context: "Erinnerung an Italien:", quote: "Die beiden haben sich Fahrräder geliehen und sind durch die Stadt gecruised. Ich fand es einfach total süß zu sehen, wie sie beide richtig Freude daran hatten. Perfektes Wetter, Familie dabei – das war richtig toll.", name: "Bella", relation: "Schwester & Trauzeugin" },
-            { quote: "Ich bin ihm echt dankbar. Weil im Endeffekt hat er recht – man hat es immer irgendwie gepackt.", name: "Nico", relation: "Studienfreund" },
-            { quote: "Aber Lauri kann das sehr klar kommunizieren. Und Flo merkt es dann auch immer.", name: "Leonie", relation: "Schwester" },
-            { quote: "Laura ist einfach ein super Gesprächspartner, mit dem es immer Spaß macht, deep talk zu führen.", name: "Moritz", relation: "Freund seit Jugend" },
-            { quote: "Auf den Flo ist immer Verlass.", name: "Ivo", relation: "Arbeitskollege" },
-            { context: "Über die Zukunft:", quote: "Ich glaube, dass diese Ehe immer wieder vor irgendwelchen Projekten stehen wird, die die beiden begleiten werden. Und da freue ich mich sehr, ein Teil von dem Weg zu sein.", name: "Pia", relation: "Kleine Schwester" },
-            { quote: "Auch wenn er nicht mehr die langen Haare trägt – der Techno-Wikinger. Und auch wenn sie jetzt nicht mehr die roten Haare hat – Merida. Die Mischung der beiden ist einfach genial, finde ich.", name: "Louis", relation: "Bester Freund von Laura" },
-            { quote: "Es wird schwierige Zeiten geben. Aber wenn sie immer zusammenhalten, schaffen sie das.", name: "Julia / Tante Rossa", relation: "Tante" },
-            { quote: "Beides Menschen, die unglaublich schöne Beziehungen zu den Menschen haben, die ihnen nahe sind.", name: "Max", relation: "Trauzeuge" },
-            { quote: "Verbringt die Zeit, die ihr habt, bewusst miteinander und genießt ein tolles Leben!", name: "Leonie", relation: "Schwester" },
-            { context: "Über Laura:", quote: "Ich glaube, Flo ist derjenige, der immer alles entspannt und chillig sieht. Und Laura bringt ein bisschen Struktur in sein Leben.", name: "Nico", relation: "Studienfreund" },
-            { quote: "Flo hat einfach immer schon Entscheidungen getroffen und Sachen einfach gemacht.", name: "Moritz", relation: "Freund seit Jugend" },
-            { quote: "Und ich hoffe, dass sie noch ganz, ganz viele Genussmomente haben.", name: "Julia / Tante Rossa", relation: "Tante" },
-            { quote: "Gemeinsam meistern sie dieses strukturierte Chaos am besten. Genau das ist das, was die auseinander rauskitzeln.", name: "Pia", relation: "Kleine Schwester" },
-            { quote: "Einfach nur: Achtet aufeinander.", name: "Simone", relation: "Patentante" },
-            { context: "Über die Zukunft:", quote: "Egal was ist – die beiden haben immer zusammengefunden. Und werden bestimmt auch in der Zukunft gemeinsam alle Hürden meistern und zusammenhalten.", name: "Ivo", relation: "Arbeitskollege" },
-            { quote: "Einmal Laura als kreativer, ruhigerer Part. Und Flo, der das große Laute mitbringt – was man auch ab und zu braucht.", name: "Louis", relation: "Bester Freund von Laura" },
-            { context: "Über die Beziehung:", quote: "Sie entscheiden sich immer wieder füreinander und gehen den gemeinsamen Weg.", name: "Leonie", relation: "Schwester" },
-            { quote: "Ich durfte Flo durch viele verschiedene Lebensphasen begleiten und auch durch ziemlich viele Frisuren.", name: "Max", relation: "Trauzeuge" },
-            { quote: "Da bin ich mir sehr, sehr sicher, dass sie zusammenhalten werden. Und von daher ein richtig tolles gemeinsames Leben haben.", name: "Julia / Tante Rossa", relation: "Tante" },
-            { quote: "Es gibt keinen Zweiten, der sich so rein fokussieren kann bei Handyspielen.", name: "Moritz", relation: "Freund seit Jugend" },
-            { quote: "Dass ich immer wieder sage, dass mein Bruder seine Jugendliebe heiratet. Und dass ich mich freue, endlich eine Schwägerin in der Familie zu haben.", name: "Pia", relation: "Kleine Schwester" },
-            { quote: "Die ergänzen sich einfach gut.", name: "Nico", relation: "Studienfreund" },
-            { quote: "Ich wünsche euch für euer Leben, dass ihr immer wieder für euch entscheidet und immer wieder zusammenfindet.", name: "Leonie", relation: "Schwester" },
-            { context: "Über Laura und Flo:", quote: "…die eigentlich total ungleich sind – und doch passen sie perfekt zusammen und wirken immer ziemlich harmonisch auf mich.", name: "Julia / Tante Rossa", relation: "Tante" },
-            { context: "Über Flo:", quote: "Wenn man ihn um etwas bittet, ist er sofort zur Stelle. Ausnahmslos in bester Laune.", name: "Ivo", relation: "Arbeitskollege" },
             { quote: "Hört niemals auf, euch füreinander zu entscheiden – und bleibt neugierig aufeinander, egal wie viele Jahre vergehen.", name: "Bella", relation: "Schwester & Trauzeugin" },
             { quote: "Ich weiß noch genau, wie Flo mir erzählt hat, als wir nach einem Konzert irgendwo in Frankfurt saßen, dass er vorhat, dir einen Antrag zu machen. Und ich bin einfach unglaublich glücklich, dass ihr beide euch gefunden habt.", name: "Max", relation: "Trauzeuge" },
             { quote: "Nehmt euch immer Zeit füreinander, sprecht über alles und habt Geduld und Liebe für euch.", name: "Susanne", relation: "Mama" },
-            { quote: "Das klingt zwar abgedroschen und langweilig, aber im Endeffekt: Bleibt wie ihr seid.", name: "Louis", relation: "Bester Freund von Laura" },
-            { quote: "Ich hab euch ganz arg lieb.", name: "Leonie", relation: "Schwester" },
             { quote: "Zusammen seid ihr echt unbesiegbar.", name: "Nico", relation: "Studienfreund" },
-            { quote: "Ganz in den Worten von Roberto Blanco: Samba Si! Arbeit No!", name: "Ivo", relation: "Arbeitskollege" },
             { quote: "Geht reisen, unternehmt coolen Scheiß – und immer weitermachen, genau so.", name: "Louis", relation: "Bester Freund von Laura" },
-            { quote: "Sucht immer wieder das Gespräch. Werdet nicht müde, euch in die Augen zu schauen und zu sprechen. Ihr seid ganz besonders.", name: "Leonie", relation: "Schwester" },
-            { quote: "Bleibt beide, wie ihr seid. Verändert euch nie. Und ergänzt euch weiter so gut, wie ihr es jetzt macht.", name: "Nico", relation: "Studienfreund" },
             { quote: "Achtet aufeinander – und das auf Augenhöhe.", name: "Simone", relation: "Patentante" },
         ];
 
         // ==========================================
-        // DOM REFERENCES
+        // DOM
         // ==========================================
         var feed = document.getElementById('story-feed');
         var overlay = document.getElementById('password-overlay');
@@ -410,301 +430,336 @@
         var overScreen = document.getElementById('game-over-screen');
         var finalScoreDisplay = document.getElementById('game-final-score');
         var highScoreDisplay = document.getElementById('game-high-score');
+        var themeToggle = document.getElementById('theme-toggle');
 
         // ==========================================
-        // STORY FEED FUNCTIONS
+        // THEME
+        // ==========================================
+        function applyTheme(theme) {
+            if (theme === 'light') document.documentElement.classList.add('light-mode');
+            else document.documentElement.classList.remove('light-mode');
+            localStorage.setItem('flo_laura_theme', theme);
+            currentTheme = theme;
+        }
+        themeToggle.addEventListener('click', function() { applyTheme(currentTheme === 'dark' ? 'light' : 'dark'); });
+        applyTheme(currentTheme);
+
+        // ==========================================
+        // LOTTIE - Realistic Sakura Blossom
+        // ==========================================
+        var sakuraAnimData = {
+            "v":"5.7.4","fr":24,"ip":0,"op":120,"w":500,"h":500,"nm":"Sakura","ddd":0,"assets":[],
+            "layers":[
+                {"ddd":0,"ind":1,"ty":4,"nm":"Branch","sr":1,
+                    "ks":{"o":{"a":0,"k":100},"r":{"a":1,"k":[{"i":{"x":[0.6],"y":[1]},"o":{"x":[0.4],"y":[0]},"t":0,"s":[0]},{"i":{"x":[0.6],"y":[1]},"o":{"x":[0.4],"y":[0]},"t":60,"s":[2]},{"t":120,"s":[0]}]},"p":{"a":0,"k":[250,250,0]},"a":{"a":0,"k":[250,250,0]},"s":{"a":0,"k":[100,100,100]}},
+                    "ao":0,"shapes":[
+                        {"ty":"gr","it":[
+                            {"ty":"sh","d":1,"ks":{"a":0,"k":{"c":false,"v":[[80,400],[150,320],[200,280],[280,250],[350,220],[420,200]],"i":[[0,0],[-20,30],[-15,15],[-25,10],[-20,10],[-20,5]],"o":[[20,-30],[15,-15],[25,-10],[20,-10],[20,-5],[0,0]]}}},
+                            {"ty":"st","c":{"a":0,"k":[0.35,0.25,0.18,1]},"o":{"a":0,"k":100},"w":{"a":0,"k":4},"lc":2,"lj":2},
+                            {"ty":"tr","p":{"a":0,"k":[0,0]},"a":{"a":0,"k":[0,0]},"s":{"a":0,"k":[100,100]},"r":{"a":0,"k":0},"o":{"a":0,"k":100}}
+                        ],"nm":"MainBranch"},
+                        {"ty":"gr","it":[
+                            {"ty":"sh","d":1,"ks":{"a":0,"k":{"c":false,"v":[[200,280],[180,240],[170,200]],"i":[[0,0],[8,15],[5,15]],"o":[[-8,-15],[-5,-15],[0,0]]}}},
+                            {"ty":"st","c":{"a":0,"k":[0.4,0.3,0.2,1]},"o":{"a":0,"k":100},"w":{"a":0,"k":2.5},"lc":2,"lj":2},
+                            {"ty":"tr","p":{"a":0,"k":[0,0]},"a":{"a":0,"k":[0,0]},"s":{"a":0,"k":[100,100]},"r":{"a":0,"k":0},"o":{"a":0,"k":100}}
+                        ],"nm":"SubBranch1"},
+                        {"ty":"gr","it":[
+                            {"ty":"sh","d":1,"ks":{"a":0,"k":{"c":false,"v":[[300,240],[320,200],[310,160]],"i":[[0,0],[-8,15],[-3,15]],"o":[[8,-15],[3,-15],[0,0]]}}},
+                            {"ty":"st","c":{"a":0,"k":[0.4,0.3,0.2,1]},"o":{"a":0,"k":100},"w":{"a":0,"k":2},"lc":2,"lj":2},
+                            {"ty":"tr","p":{"a":0,"k":[0,0]},"a":{"a":0,"k":[0,0]},"s":{"a":0,"k":[100,100]},"r":{"a":0,"k":0},"o":{"a":0,"k":100}}
+                        ],"nm":"SubBranch2"},
+                        {"ty":"gr","it":[
+                            {"ty":"el","d":1,"s":{"a":1,"k":[{"i":{"x":[0.6,0.6],"y":[1,1]},"o":{"x":[0.4,0.4],"y":[0,0]},"t":0,"s":[38,38]},{"i":{"x":[0.6,0.6],"y":[1,1]},"o":{"x":[0.4,0.4],"y":[0,0]},"t":60,"s":[42,42]},{"t":120,"s":[38,38]}]},"p":{"a":0,"k":[170,195]}},
+                            {"ty":"fl","c":{"a":0,"k":[0.95,0.75,0.8,1]},"o":{"a":1,"k":[{"i":{"x":[0.6],"y":[1]},"o":{"x":[0.4],"y":[0]},"t":0,"s":[70]},{"i":{"x":[0.6],"y":[1]},"o":{"x":[0.4],"y":[0]},"t":60,"s":[90]},{"t":120,"s":[70]}]}},
+                            {"ty":"tr","p":{"a":0,"k":[0,0]},"a":{"a":0,"k":[0,0]},"s":{"a":0,"k":[100,100]},"r":{"a":1,"k":[{"i":{"x":[0.6],"y":[1]},"o":{"x":[0.4],"y":[0]},"t":0,"s":[0]},{"i":{"x":[0.6],"y":[1]},"o":{"x":[0.4],"y":[0]},"t":60,"s":[5]},{"t":120,"s":[0]}]},"o":{"a":0,"k":100}}
+                        ],"nm":"Petal1a"},
+                        {"ty":"gr","it":[
+                            {"ty":"el","d":1,"s":{"a":0,"k":[36,36]},"p":{"a":0,"k":[185,190]}},
+                            {"ty":"fl","c":{"a":0,"k":[0.98,0.82,0.85,1]},"o":{"a":1,"k":[{"i":{"x":[0.6],"y":[1]},"o":{"x":[0.4],"y":[0]},"t":5,"s":[65]},{"i":{"x":[0.6],"y":[1]},"o":{"x":[0.4],"y":[0]},"t":65,"s":[85]},{"t":120,"s":[65]}]}},
+                            {"ty":"tr","p":{"a":0,"k":[0,0]},"a":{"a":0,"k":[0,0]},"s":{"a":0,"k":[100,100]},"r":{"a":1,"k":[{"t":0,"s":[-72]},{"t":60,"s":[-67]},{"t":120,"s":[-72]}]},"o":{"a":0,"k":100}}
+                        ],"nm":"Petal1b"},
+                        {"ty":"gr","it":[
+                            {"ty":"el","d":1,"s":{"a":0,"k":[34,34]},"p":{"a":0,"k":[165,205]}},
+                            {"ty":"fl","c":{"a":0,"k":[0.92,0.7,0.75,1]},"o":{"a":1,"k":[{"t":10,"s":[60]},{"t":70,"s":[80]},{"t":120,"s":[60]}]}},
+                            {"ty":"tr","p":{"a":0,"k":[0,0]},"a":{"a":0,"k":[0,0]},"s":{"a":0,"k":[100,100]},"r":{"a":1,"k":[{"t":0,"s":[-144]},{"t":60,"s":[-139]},{"t":120,"s":[-144]}]},"o":{"a":0,"k":100}}
+                        ],"nm":"Petal1c"},
+                        {"ty":"gr","it":[
+                            {"ty":"el","d":1,"s":{"a":0,"k":[36,36]},"p":{"a":0,"k":[155,188]}},
+                            {"ty":"fl","c":{"a":0,"k":[0.96,0.78,0.82,1]},"o":{"a":1,"k":[{"t":15,"s":[65]},{"t":75,"s":[85]},{"t":120,"s":[65]}]}},
+                            {"ty":"tr","p":{"a":0,"k":[0,0]},"a":{"a":0,"k":[0,0]},"s":{"a":0,"k":[100,100]},"r":{"a":1,"k":[{"t":0,"s":[-216]},{"t":60,"s":[-211]},{"t":120,"s":[-216]}]},"o":{"a":0,"k":100}}
+                        ],"nm":"Petal1d"},
+                        {"ty":"gr","it":[
+                            {"ty":"el","d":1,"s":{"a":0,"k":[35,35]},"p":{"a":0,"k":[175,182]}},
+                            {"ty":"fl","c":{"a":0,"k":[0.97,0.8,0.84,1]},"o":{"a":1,"k":[{"t":20,"s":[60]},{"t":80,"s":[80]},{"t":120,"s":[60]}]}},
+                            {"ty":"tr","p":{"a":0,"k":[0,0]},"a":{"a":0,"k":[0,0]},"s":{"a":0,"k":[100,100]},"r":{"a":1,"k":[{"t":0,"s":[-288]},{"t":60,"s":[-283]},{"t":120,"s":[-288]}]},"o":{"a":0,"k":100}}
+                        ],"nm":"Petal1e"},
+                        {"ty":"gr","it":[
+                            {"ty":"el","d":1,"s":{"a":0,"k":[10,10]},"p":{"a":0,"k":[170,195]}},
+                            {"ty":"fl","c":{"a":0,"k":[0.85,0.6,0.2,1]},"o":{"a":0,"k":100}},
+                            {"ty":"tr","p":{"a":0,"k":[0,0]},"a":{"a":0,"k":[0,0]},"s":{"a":0,"k":[100,100]},"r":{"a":0,"k":0},"o":{"a":0,"k":100}}
+                        ],"nm":"Center1"},
+                        {"ty":"gr","it":[
+                            {"ty":"el","d":1,"s":{"a":1,"k":[{"t":0,"s":[34,34]},{"t":60,"s":[37,37]},{"t":120,"s":[34,34]}]},"p":{"a":0,"k":[310,155]}},
+                            {"ty":"fl","c":{"a":0,"k":[0.96,0.78,0.82,1]},"o":{"a":1,"k":[{"t":30,"s":[70]},{"t":90,"s":[90]},{"t":120,"s":[70]}]}},
+                            {"ty":"tr","p":{"a":0,"k":[0,0]},"a":{"a":0,"k":[0,0]},"s":{"a":0,"k":[90,90]},"r":{"a":1,"k":[{"t":0,"s":[10]},{"t":60,"s":[15]},{"t":120,"s":[10]}]},"o":{"a":0,"k":100}}
+                        ],"nm":"Petal2a"},
+                        {"ty":"gr","it":[
+                            {"ty":"el","d":1,"s":{"a":0,"k":[32,32]},"p":{"a":0,"k":[325,150]}},
+                            {"ty":"fl","c":{"a":0,"k":[0.98,0.84,0.87,1]},"o":{"a":1,"k":[{"t":35,"s":[65]},{"t":95,"s":[85]},{"t":120,"s":[65]}]}},
+                            {"ty":"tr","p":{"a":0,"k":[0,0]},"a":{"a":0,"k":[0,0]},"s":{"a":0,"k":[90,90]},"r":{"a":1,"k":[{"t":0,"s":[-62]},{"t":60,"s":[-57]},{"t":120,"s":[-62]}]},"o":{"a":0,"k":100}}
+                        ],"nm":"Petal2b"},
+                        {"ty":"gr","it":[
+                            {"ty":"el","d":1,"s":{"a":0,"k":[33,33]},"p":{"a":0,"k":[305,165]}},
+                            {"ty":"fl","c":{"a":0,"k":[0.93,0.72,0.77,1]},"o":{"a":1,"k":[{"t":40,"s":[60]},{"t":100,"s":[80]},{"t":120,"s":[60]}]}},
+                            {"ty":"tr","p":{"a":0,"k":[0,0]},"a":{"a":0,"k":[0,0]},"s":{"a":0,"k":[90,90]},"r":{"a":1,"k":[{"t":0,"s":[-134]},{"t":60,"s":[-129]},{"t":120,"s":[-134]}]},"o":{"a":0,"k":100}}
+                        ],"nm":"Petal2c"},
+                        {"ty":"gr","it":[
+                            {"ty":"el","d":1,"s":{"a":0,"k":[31,31]},"p":{"a":0,"k":[295,148]}},
+                            {"ty":"fl","c":{"a":0,"k":[0.97,0.8,0.83,1]},"o":{"a":1,"k":[{"t":45,"s":[65]},{"t":105,"s":[85]},{"t":120,"s":[65]}]}},
+                            {"ty":"tr","p":{"a":0,"k":[0,0]},"a":{"a":0,"k":[0,0]},"s":{"a":0,"k":[90,90]},"r":{"a":1,"k":[{"t":0,"s":[-206]},{"t":60,"s":[-201]},{"t":120,"s":[-206]}]},"o":{"a":0,"k":100}}
+                        ],"nm":"Petal2d"},
+                        {"ty":"gr","it":[
+                            {"ty":"el","d":1,"s":{"a":0,"k":[32,32]},"p":{"a":0,"k":[315,143]}},
+                            {"ty":"fl","c":{"a":0,"k":[0.95,0.76,0.8,1]},"o":{"a":1,"k":[{"t":50,"s":[60]},{"t":110,"s":[80]},{"t":120,"s":[60]}]}},
+                            {"ty":"tr","p":{"a":0,"k":[0,0]},"a":{"a":0,"k":[0,0]},"s":{"a":0,"k":[90,90]},"r":{"a":1,"k":[{"t":0,"s":[-278]},{"t":60,"s":[-273]},{"t":120,"s":[-278]}]},"o":{"a":0,"k":100}}
+                        ],"nm":"Petal2e"},
+                        {"ty":"gr","it":[
+                            {"ty":"el","d":1,"s":{"a":0,"k":[8,8]},"p":{"a":0,"k":[310,155]}},
+                            {"ty":"fl","c":{"a":0,"k":[0.85,0.6,0.2,1]},"o":{"a":0,"k":100}},
+                            {"ty":"tr","p":{"a":0,"k":[0,0]},"a":{"a":0,"k":[0,0]},"s":{"a":0,"k":[100,100]},"r":{"a":0,"k":0},"o":{"a":0,"k":100}}
+                        ],"nm":"Center2"},
+                        {"ty":"gr","it":[
+                            {"ty":"el","d":1,"s":{"a":1,"k":[{"t":0,"s":[28,28]},{"t":60,"s":[31,31]},{"t":120,"s":[28,28]}]},"p":{"a":0,"k":[370,195]}},
+                            {"ty":"fl","c":{"a":0,"k":[0.94,0.73,0.78,1]},"o":{"a":1,"k":[{"t":20,"s":[50]},{"t":80,"s":[75]},{"t":120,"s":[50]}]}},
+                            {"ty":"tr","p":{"a":0,"k":[0,0]},"a":{"a":0,"k":[0,0]},"s":{"a":0,"k":[80,80]},"r":{"a":1,"k":[{"t":0,"s":[5]},{"t":60,"s":[10]},{"t":120,"s":[5]}]},"o":{"a":0,"k":100}}
+                        ],"nm":"Bud1"}
+                    ],"ip":0,"op":120,"st":0,"bm":0
+                }
+            ]
+        };
+
+        function initLottieFlowers() {
+            try {
+                var containers = ['lottie-flower-1','lottie-flower-2','lottie-flower-3','lottie-flower-4'];
+                containers.forEach(function(id, index) {
+                    var container = document.getElementById(id);
+                    if (container && typeof lottie !== 'undefined') {
+                        var anim = lottie.loadAnimation({ container: container, renderer: 'svg', loop: true, autoplay: true, animationData: sakuraAnimData });
+                        anim.setSpeed(0.3 + (index * 0.08));
+                        lottieInstances.push(anim);
+                    }
+                });
+                lottieLoaded = true;
+                document.getElementById('flower-bg-static').style.display = 'none';
+            } catch(e) {
+                document.getElementById('lottie-bg').style.display = 'none';
+            }
+        }
+
+        // ==========================================
+        // PARALLAX
+        // ==========================================
+        function initGyroscope() {
+            if (window.DeviceOrientationEvent) {
+                if (typeof DeviceOrientationEvent.requestPermission === 'function') {
+                    document.addEventListener('click', function rg() {
+                        DeviceOrientationEvent.requestPermission().then(function(r) { if(r==='granted'){window.addEventListener('deviceorientation',handleOrientation);hasGyroscope=true;} }).catch(function(){});
+                        document.removeEventListener('click', rg);
+                    }, { once: false });
+                } else {
+                    window.addEventListener('deviceorientation', handleOrientation);
+                    setTimeout(function() { if (!hasGyroscope) initMouseParallax(); }, 1000);
+                }
+            } else { initMouseParallax(); }
+        }
+        function handleOrientation(e) { hasGyroscope=true; var x=e.gamma,y=e.beta; if(x===null||y===null)return; x=Math.max(-30,Math.min(30,x)); y=Math.max(-30,Math.min(30,y)); gyroX=x/30; gyroY=y/30; applyParallax(); }
+        function initMouseParallax() { document.addEventListener('mousemove',function(e){gyroX=(e.clientX/window.innerWidth-0.5)*2;gyroY=(e.clientY/window.innerHeight-0.5)*2;applyParallax();}); }
+        function applyParallax() {
+            var mx=gyroX*15, my=gyroY*10;
+            document.querySelectorAll('.lottie-flower').forEach(function(f,i){f.style.transform='translate('+(mx*(1+i*0.3))+'px,'+(my*(1+i*0.3))+'px)';});
+            document.querySelectorAll('.flower-bg svg').forEach(function(s,i){var rm=s.className.baseVal;var factor=1+i*0.3;s.style.transform='translate('+(mx*factor)+'px,'+(my*factor)+'px)';});
+        }
+
+        // ==========================================
+        // TYPEWRITER
+        // ==========================================
+        function playTypewriter(card) {
+            if(typewriterPlayed)return; typewriterPlayed=true;
+            var q=card.querySelector('.quote'); if(!q)return;
+            var full=q.textContent; q.textContent=''; card.classList.add('typewriter-active');
+            var cur=document.createElement('span'); cur.className='typewriter-cursor'; q.appendChild(cur);
+            var ci=0, sp=35;
+            function tc(){if(ci<full.length){q.insertBefore(document.createTextNode(full.charAt(ci)),cur);ci++;var d=sp;if('.!?–'.indexOf(full.charAt(ci-1))!==-1)d=sp*4;else if(',;:'.indexOf(full.charAt(ci-1))!==-1)d=sp*2;setTimeout(tc,d);}else{setTimeout(function(){cur.style.animation='none';cur.style.opacity='0';cur.style.transition='opacity 0.5s';setTimeout(function(){cur.remove();},500);},1500);}}
+            setTimeout(tc,600);
+        }
+
+        // ==========================================
+        // ACHIEVEMENTS
+        // ==========================================
+        var achievementQueue=[], isShowingAchievement=false;
+        var immediateRetryCount = parseInt(localStorage.getItem('flappy_tsuru_retries') || '0');
+
+        function checkAchievements() {
+            var currentTotalTime = totalGameTime + sessionGameTime;
+            var allCrashes = totalCrashes + sessionCrashes;
+            var hour = new Date().getHours();
+
+            ACHIEVEMENTS.forEach(function(a) {
+                if (unlockedAchievements.indexOf(a.id) !== -1) return;
+                var unlocked = false;
+                if (a.timeRequired && currentTotalTime >= a.timeRequired) unlocked = true;
+                if (a.scoreRequired && score >= a.scoreRequired) unlocked = true;
+                if (a.crashRequired && allCrashes >= a.crashRequired) unlocked = true;
+                if (a.quickDeathsRequired && consecutiveCrashesUnder3 >= a.quickDeathsRequired) unlocked = true;
+                if (a.gamesRequired && totalGamesPlayed >= a.gamesRequired) unlocked = true;
+                if (a.special === 'comeback' && sessionCrashes >= 5 && score >= 10) unlocked = true;
+                if (a.special === 'night' && (hour >= 2 && hour < 5)) unlocked = true;
+                if (a.special === 'persistence' && immediateRetryCount >= 10) unlocked = true;
+
+                if (unlocked) {
+                    unlockedAchievements.push(a.id);
+                    localStorage.setItem('flappy_tsuru_achievements', JSON.stringify(unlockedAchievements));
+                    queueAchievement(a);
+                }
+            });
+        }
+
+        function queueAchievement(a) { achievementQueue.push(a); if(!isShowingAchievement)processQueue(); }
+        function processQueue() {
+            if(achievementQueue.length===0){isShowingAchievement=false;return;}
+            isShowingAchievement=true; var a=achievementQueue.shift();
+            var p=document.getElementById('achievement-popup');
+            document.getElementById('achievement-icon').textContent=a.icon;
+            document.getElementById('achievement-title').textContent=a.title;
+            document.getElementById('achievement-desc').textContent=a.desc;
+            document.getElementById('achievement-xp').textContent=a.g+'G';
+            p.classList.remove('hiding'); p.classList.add('show');
+            if(navigator.vibrate)navigator.vibrate([50,30,50]);
+            setTimeout(function(){p.classList.remove('show');p.classList.add('hiding');setTimeout(processQueue,500);},4000);
+        }
+
+        function updateGameTimer() {
+            sessionGameTime = Math.floor((Date.now()-gameStartTime)/1000);
+            checkAchievements();
+        }
+
+        // ==========================================
+        // STORY FEED
         // ==========================================
         function buildCards() {
-            feed.innerHTML = '';
-            stories.forEach(function(story, index) {
-                var card = document.createElement('div');
-                card.className = 'story-card';
-                card.dataset.index = index;
-                var html = '';
-                if (story.context) html += '<p class="context">' + story.context + '</p>';
-                html += '<p class="quote">' + story.quote + '</p>';
-                html += '<div class="attribution"><p class="name">' + story.name + '</p><p class="relation">' + story.relation + '</p></div>';
-                card.innerHTML = html;
-                feed.appendChild(card);
-            });
-            var finale = document.createElement('div');
-            finale.className = 'story-card finale';
-            finale.innerHTML = '<p class="quote">Auf euer Abenteuer. 🥂</p><p class="sub-text">Habt ganz viel Spaß in Japan und genießt eure Flitterwochen! ✈️✨</p><button class="restart-btn" id="restart-btn">↑ Nochmal von vorne</button><div class="bird-easter-egg" id="bird-easter-egg">🕊️</div>';
-            feed.appendChild(finale);
+            feed.innerHTML='';
+            stories.forEach(function(s,i){var c=document.createElement('div');c.className='story-card';c.dataset.index=i;var h='';if(s.context)h+='<p class="context">'+s.context+'</p>';h+='<p class="quote">'+s.quote+'</p>';h+='<div class="attribution"><p class="name">'+s.name+'</p><p class="relation">'+s.relation+'</p></div>';c.innerHTML=h;feed.appendChild(c);});
+            var f=document.createElement('div');f.className='story-card finale';f.innerHTML='<p class="quote">Auf euer Abenteuer. 🥂</p><p class="sub-text">Habt ganz viel Spaß in Japan und genießt eure Flitterwochen! ✈️✨</p><button class="restart-btn" id="restart-btn">↑ Nochmal von vorne</button><div class="bird-easter-egg" id="bird-easter-egg">🕊️</div>';
+            feed.appendChild(f);
         }
 
         function setupObserver() {
-            var observer = new IntersectionObserver(function(entries) {
-                entries.forEach(function(entry) {
-                    if (entry.isIntersecting) entry.target.classList.add('visible');
-                    else entry.target.classList.remove('visible');
-                });
-            }, { threshold: 0.3 });
-            document.querySelectorAll('.story-card').forEach(function(card) { observer.observe(card); });
+            var first=false;
+            var obs=new IntersectionObserver(function(entries){entries.forEach(function(e){if(e.isIntersecting){e.target.classList.add('visible');if(!first&&e.target.dataset.index==='0'){first=true;playTypewriter(e.target);}}else{e.target.classList.remove('visible');}});},{threshold:0.3});
+            document.querySelectorAll('.story-card').forEach(function(c){obs.observe(c);});
         }
 
-        function setupRestart() {
-            document.getElementById('restart-btn').addEventListener('click', function() {
-                feed.scrollTo({ top: 0, behavior: 'smooth' });
-            });
-        }
+        function setupRestart(){document.getElementById('restart-btn').addEventListener('click',function(){feed.scrollTo({top:0,behavior:'smooth'});});}
 
-        // ==========================================
-        // BIRD EASTER EGG - MULTI TAP TRIGGER
-        // ==========================================
         function setupBirdEasterEgg() {
-            var birdIcon = document.getElementById('bird-easter-egg');
-            if (!birdIcon) return;
-
-            birdIcon.addEventListener('click', function(e) {
-                e.preventDefault();
-                e.stopPropagation();
-
-                birdTapCount++;
-                clearTimeout(birdTapTimeout);
-
-                // Visual feedback: wiggle animation
-                birdIcon.classList.remove('wiggle');
-                void birdIcon.offsetWidth; // Force reflow
-                birdIcon.classList.add('wiggle');
-
-                // Increase opacity as hint when getting closer
-                if (birdTapCount >= 3) {
-                    birdIcon.style.opacity = Math.min(0.4 + (birdTapCount - 2) * 0.15, 1);
-                }
-
-                // Reset after time window
-                birdTapTimeout = setTimeout(function() {
-                    birdTapCount = 0;
-                    birdIcon.style.opacity = '0.4';
-                }, BIRD_TAP_WINDOW);
-
-                // Launch game!
-                if (birdTapCount >= BIRD_TAPS_REQUIRED) {
-                    birdTapCount = 0;
-                    birdIcon.style.opacity = '0.4';
-                    showGame();
-                }
-            });
+            var b=document.getElementById('bird-easter-egg'); if(!b)return;
+            b.addEventListener('click',function(e){e.preventDefault();e.stopPropagation();birdTapCount++;clearTimeout(birdTapTimeout);b.classList.remove('wiggle');void b.offsetWidth;b.classList.add('wiggle');if(birdTapCount>=3)b.style.opacity=Math.min(0.4+(birdTapCount-2)*0.15,1);birdTapTimeout=setTimeout(function(){birdTapCount=0;b.style.opacity='0.4';},BIRD_TAP_WINDOW);if(birdTapCount>=BIRD_TAPS_REQUIRED){birdTapCount=0;b.style.opacity='0.4';showGame();}});
         }
 
-        function unlock() {
-            overlay.classList.add('hidden');
-            feed.classList.add('visible');
-            scrollHint.style.display = 'block';
-            setTimeout(function() { setupObserver(); setupRestart(); setupBirdEasterEgg(); }, 100);
-            feed.addEventListener('scroll', function() { scrollHint.classList.add('hidden'); }, { once: true });
-            // Keyboard shortcut still available for desktop testing
-            document.addEventListener('keydown', function(e) {
-                if (e.key === 'g' || e.key === 'G') toggleGame();
-            });
-        }
+        function unlock(){overlay.classList.add('hidden');feed.classList.add('visible');scrollHint.style.display='block';setTimeout(function(){setupObserver();setupRestart();setupBirdEasterEgg();},100);feed.addEventListener('scroll',function(){scrollHint.classList.add('hidden');},{once:true});document.addEventListener('keydown',function(e){if(e.key==='g'||e.key==='G')toggleGame();});}
 
         // ==========================================
-        // GAME TOGGLE
+        // GAME
         // ==========================================
-        function toggleGame() {
-            if (gameActive) hideGame(); else showGame();
+        function toggleGame(){if(gameActive)hideGame();else showGame();}
+        function showGame(){gameActive=true;spawnSakuraPetals();var c=document.getElementById('game-container');c.style.display='block';feed.classList.add('game-active');setTimeout(function(){c.classList.add('active');},10);initGame();}
+        function hideGame(){gameActive=false;var c=document.getElementById('game-container');c.classList.remove('active');feed.classList.remove('game-active');if(gameStartTime>0){totalGameTime+=sessionGameTime;localStorage.setItem('flappy_tsuru_total_time',totalGameTime.toString());sessionGameTime=0;}if(gameTimerInterval){clearInterval(gameTimerInterval);gameTimerInterval=null;}setTimeout(function(){c.style.display='none';stopGame();},500);}
+        function spawnSakuraPetals(){for(var i=0;i<20;i++){var p=document.createElement('div');p.className='sakura-petal';p.style.left=Math.random()*100+'vw';p.style.animationDuration=(2+Math.random()*3)+'s';p.style.animationDelay=Math.random()*1+'s';p.style.width=(8+Math.random()*10)+'px';p.style.height=p.style.width;document.body.appendChild(p);(function(el){setTimeout(function(){el.remove();},5000);})(p);}}
+
+        function resizeCanvas(){canvas.width=window.innerWidth*window.devicePixelRatio;canvas.height=window.innerHeight*window.devicePixelRatio;ctx.setTransform(window.devicePixelRatio,0,0,window.devicePixelRatio,0,0);}
+
+        function initGame(){resizeCanvas();window.addEventListener('resize',resizeCanvas);gameState='start';score=0;scoreDisplay.textContent='0';startScreen.style.display='flex';overScreen.style.display='none';crane={x:window.innerWidth*0.25,y:window.innerHeight*0.45,velocity:0,rotation:0,flapFrame:0};pipes=[];particles=[];clouds=generateClouds();bgOffset=0;frameCount=0;drawFrame();canvas.addEventListener('touchstart',handleGameTap);canvas.addEventListener('mousedown',handleGameTap);document.getElementById('game-start-btn').addEventListener('click',startPlaying);document.getElementById('game-retry-btn').addEventListener('click',retryGame);document.getElementById('game-back-btn').addEventListener('click',hideGame);}
+        function stopGame(){if(gameLoop){cancelAnimationFrame(gameLoop);gameLoop=null;}canvas.removeEventListener('touchstart',handleGameTap);canvas.removeEventListener('mousedown',handleGameTap);}
+
+        function startPlaying(){
+            gameState='playing';startScreen.style.display='none';crane.velocity=FLAP_FORCE;crane.flapFrame=10;
+            gameStartTime=Date.now();sessionGameTime=0;sessionCrashes=0;
+            totalGamesPlayed++;localStorage.setItem('flappy_tsuru_games_played',totalGamesPlayed.toString());
+            if(gameTimerInterval)clearInterval(gameTimerInterval);
+            gameTimerInterval=setInterval(updateGameTimer,1000);
+            checkAchievements(); // check night owl etc
+            runGameLoop();
         }
 
-        function showGame() {
-            gameActive = true;
-            spawnSakuraPetals();
-            var container = document.getElementById('game-container');
-            container.style.display = 'block';
-            feed.classList.add('game-active');
-            setTimeout(function() { container.classList.add('active'); }, 10);
-            initGame();
+        function retryGame(){
+            if(gameStartTime>0){totalGameTime+=sessionGameTime;localStorage.setItem('flappy_tsuru_total_time',totalGameTime.toString());}
+            immediateRetryCount++;localStorage.setItem('flappy_tsuru_retries',immediateRetryCount.toString());
+            totalGamesPlayed++;localStorage.setItem('flappy_tsuru_games_played',totalGamesPlayed.toString());
+            overScreen.style.display='none';score=0;scoreDisplay.textContent='0';
+            crane={x:window.innerWidth*0.25,y:window.innerHeight*0.45,velocity:0,rotation:0,flapFrame:0};
+            pipes=[];particles=[];frameCount=0;gameState='playing';crane.velocity=FLAP_FORCE;crane.flapFrame=10;
+            gameStartTime=Date.now();sessionGameTime=0;
+            if(gameTimerInterval)clearInterval(gameTimerInterval);
+            gameTimerInterval=setInterval(updateGameTimer,1000);
+            checkAchievements();
+            runGameLoop();
         }
 
-        function hideGame() {
-            gameActive = false;
-            var container = document.getElementById('game-container');
-            container.classList.remove('active');
-            feed.classList.remove('game-active');
-            setTimeout(function() { container.style.display = 'none'; stopGame(); }, 500);
+        function handleGameTap(e){e.preventDefault();if(gameState==='playing'){crane.velocity=FLAP_FORCE;crane.flapFrame=10;for(var i=0;i<3;i++)particles.push({x:crane.x-5,y:crane.y+5,vx:-Math.random()*2-1,vy:Math.random()*2-1,life:20,maxLife:20,color:'#F5F0EB'});}}
+        function generateClouds(){var c=[],w=window.innerWidth,h=window.innerHeight;for(var i=0;i<6;i++)c.push({x:Math.random()*w*1.5,y:Math.random()*h*0.4,width:60+Math.random()*80,speed:0.3+Math.random()*0.5,opacity:0.1+Math.random()*0.15});return c;}
+        function runGameLoop(){function loop(){if(gameState!=='playing')return;update();drawFrame();gameLoop=requestAnimationFrame(loop);}gameLoop=requestAnimationFrame(loop);}
+
+        function update(){
+            frameCount++;var w=window.innerWidth,h=window.innerHeight;
+            crane.velocity+=GRAVITY;crane.y+=crane.velocity;crane.rotation=Math.min(Math.max(crane.velocity*3,-30),70);
+            if(crane.flapFrame>0)crane.flapFrame--;bgOffset+=PIPE_SPEED*0.3;
+            clouds.forEach(function(c){c.x-=c.speed;if(c.x+c.width<0){c.x=w+Math.random()*100;c.y=Math.random()*h*0.4;}});
+            if(frameCount%PIPE_INTERVAL===0)pipes.push({x:w+PIPE_WIDTH,gapY:100+Math.random()*(h-250),scored:false});
+            pipes.forEach(function(p){p.x-=PIPE_SPEED;if(!p.scored&&p.x+PIPE_WIDTH<crane.x){p.scored=true;score++;scoreDisplay.textContent=score;checkAchievements();for(var i=0;i<5;i++)particles.push({x:crane.x+20,y:crane.y,vx:Math.random()*3,vy:-Math.random()*3-1,life:30,maxLife:30,color:'#D4728C'});}});
+            pipes=pipes.filter(function(p){return p.x+PIPE_WIDTH>-50;});
+            particles.forEach(function(p){p.x+=p.vx;p.y+=p.vy;p.vy+=0.1;p.life--;});
+            particles=particles.filter(function(p){return p.life>0;});
+            if(frameCount%40===0)particles.push({x:w+10,y:Math.random()*h*0.6,vx:-PIPE_SPEED-Math.random(),vy:0.5+Math.random(),life:200,maxLife:200,color:Math.random()>0.5?'#E88AA3':'#F0D0C0',isSakura:true,rot:Math.random()*360});
+            if(crane.y<0||crane.y>h-50){gameOver();return;}
+            for(var i=0;i<pipes.length;i++){var p=pipes[i];if(crane.x+CRANE_SIZE>p.x&&crane.x-CRANE_SIZE<p.x+PIPE_WIDTH){if(crane.y-CRANE_SIZE<p.gapY-PIPE_GAP/2||crane.y+CRANE_SIZE>p.gapY+PIPE_GAP/2){gameOver();return;}}}
         }
 
-        function spawnSakuraPetals() {
-            for (var i = 0; i < 20; i++) {
-                var petal = document.createElement('div');
-                petal.className = 'sakura-petal';
-                petal.style.left = Math.random() * 100 + 'vw';
-                petal.style.animationDuration = (2 + Math.random() * 3) + 's';
-                petal.style.animationDelay = Math.random() * 1 + 's';
-                petal.style.width = (8 + Math.random() * 10) + 'px';
-                petal.style.height = petal.style.width;
-                document.body.appendChild(petal);
-                (function(p) { setTimeout(function() { p.remove(); }, 5000); })(petal);
-            }
+        function gameOver(){
+            gameState='over';
+            // Track crashes
+            sessionCrashes++;totalCrashes++;
+            localStorage.setItem('flappy_tsuru_crashes',totalCrashes.toString());
+            // Track quick deaths (score 0)
+            if(score===0){consecutiveCrashesUnder3++;localStorage.setItem('flappy_tsuru_quick_deaths',consecutiveCrashesUnder3.toString());}
+            else{consecutiveCrashesUnder3=0;localStorage.setItem('flappy_tsuru_quick_deaths','0');}
+            // Track longest run
+            var thisRun=sessionGameTime;if(thisRun>longestRun){longestRun=thisRun;localStorage.setItem('flappy_tsuru_longest_run',longestRun.toString());}
+            // Save time
+            if(gameStartTime>0){totalGameTime+=sessionGameTime;localStorage.setItem('flappy_tsuru_total_time',totalGameTime.toString());sessionGameTime=0;}
+            if(gameTimerInterval){clearInterval(gameTimerInterval);gameTimerInterval=null;}
+            if(score>highScore){highScore=score;localStorage.setItem('flappy_tsuru_high',highScore.toString());}
+            finalScoreDisplay.textContent=score;highScoreDisplay.textContent='最高記録: '+highScore;
+            overScreen.style.display='flex';
+            if(navigator.vibrate)navigator.vibrate(100);
+            checkAchievements();
         }
 
-        // ==========================================
-        // FLAPPY TSURU GAME
-        // ==========================================
-        function resizeCanvas() {
-            canvas.width = window.innerWidth * window.devicePixelRatio;
-            canvas.height = window.innerHeight * window.devicePixelRatio;
-            ctx.setTransform(window.devicePixelRatio, 0, 0, window.devicePixelRatio, 0, 0);
-        }
-
-        function initGame() {
-            resizeCanvas();
-            window.addEventListener('resize', resizeCanvas);
-            gameState = 'start'; score = 0; scoreDisplay.textContent = '0';
-            startScreen.style.display = 'flex'; overScreen.style.display = 'none';
-            crane = { x: window.innerWidth * 0.25, y: window.innerHeight * 0.45, velocity: 0, rotation: 0, flapFrame: 0 };
-            pipes = []; particles = []; clouds = generateClouds(); bgOffset = 0; frameCount = 0;
-            drawFrame();
-            canvas.addEventListener('touchstart', handleGameTap);
-            canvas.addEventListener('mousedown', handleGameTap);
-            document.getElementById('game-start-btn').addEventListener('click', startPlaying);
-            document.getElementById('game-retry-btn').addEventListener('click', retryGame);
-            document.getElementById('game-back-btn').addEventListener('click', hideGame);
-        }
-
-        function stopGame() {
-            if (gameLoop) { cancelAnimationFrame(gameLoop); gameLoop = null; }
-            canvas.removeEventListener('touchstart', handleGameTap);
-            canvas.removeEventListener('mousedown', handleGameTap);
-        }
-
-        function startPlaying() {
-            gameState = 'playing'; startScreen.style.display = 'none';
-            crane.velocity = FLAP_FORCE; crane.flapFrame = 10; runGameLoop();
-        }
-
-        function retryGame() {
-            overScreen.style.display = 'none'; score = 0; scoreDisplay.textContent = '0';
-            crane = { x: window.innerWidth * 0.25, y: window.innerHeight * 0.45, velocity: 0, rotation: 0, flapFrame: 0 };
-            pipes = []; particles = []; frameCount = 0; gameState = 'playing';
-            crane.velocity = FLAP_FORCE; crane.flapFrame = 10; runGameLoop();
-        }
-
-        function handleGameTap(e) {
-            e.preventDefault();
-            if (gameState === 'playing') {
-                crane.velocity = FLAP_FORCE; crane.flapFrame = 10;
-                for (var i = 0; i < 3; i++) particles.push({ x: crane.x-5, y: crane.y+5, vx: -Math.random()*2-1, vy: Math.random()*2-1, life: 20, maxLife: 20, color: '#F5F0EB' });
-            }
-        }
-
-        function generateClouds() {
-            var c = [], w = window.innerWidth, h = window.innerHeight;
-            for (var i = 0; i < 6; i++) c.push({ x: Math.random()*w*1.5, y: Math.random()*h*0.4, width: 60+Math.random()*80, speed: 0.3+Math.random()*0.5, opacity: 0.1+Math.random()*0.15 });
-            return c;
-        }
-
-        function runGameLoop() {
-            function loop() { if (gameState !== 'playing') return; update(); drawFrame(); gameLoop = requestAnimationFrame(loop); }
-            gameLoop = requestAnimationFrame(loop);
-        }
-
-        function update() {
-            frameCount++;
-            var w = window.innerWidth, h = window.innerHeight;
-            crane.velocity += GRAVITY; crane.y += crane.velocity;
-            crane.rotation = Math.min(Math.max(crane.velocity * 3, -30), 70);
-            if (crane.flapFrame > 0) crane.flapFrame--;
-            bgOffset += PIPE_SPEED * 0.3;
-            clouds.forEach(function(c) { c.x -= c.speed; if (c.x + c.width < 0) { c.x = w + Math.random()*100; c.y = Math.random()*h*0.4; } });
-            if (frameCount % PIPE_INTERVAL === 0) pipes.push({ x: w+PIPE_WIDTH, gapY: 100+Math.random()*(h-250), scored: false });
-            pipes.forEach(function(p) {
-                p.x -= PIPE_SPEED;
-                if (!p.scored && p.x+PIPE_WIDTH < crane.x) { p.scored = true; score++; scoreDisplay.textContent = score;
-                    for (var i=0;i<5;i++) particles.push({ x:crane.x+20,y:crane.y,vx:Math.random()*3,vy:-Math.random()*3-1,life:30,maxLife:30,color:'#D4728C' }); }
-            });
-            pipes = pipes.filter(function(p) { return p.x+PIPE_WIDTH > -50; });
-            particles.forEach(function(p) { p.x+=p.vx; p.y+=p.vy; p.vy+=0.1; p.life--; });
-            particles = particles.filter(function(p) { return p.life > 0; });
-            if (frameCount % 40 === 0) particles.push({ x:w+10,y:Math.random()*h*0.6,vx:-PIPE_SPEED-Math.random(),vy:0.5+Math.random(),life:200,maxLife:200,color:Math.random()>0.5?'#E88AA3':'#F0D0C0',isSakura:true,rot:Math.random()*360 });
-            if (crane.y < 0 || crane.y > h-50) { gameOver(); return; }
-            for (var i=0; i<pipes.length; i++) { var p=pipes[i];
-                if (crane.x+CRANE_SIZE > p.x && crane.x-CRANE_SIZE < p.x+PIPE_WIDTH) {
-                    if (crane.y-CRANE_SIZE < p.gapY-PIPE_GAP/2 || crane.y+CRANE_SIZE > p.gapY+PIPE_GAP/2) { gameOver(); return; } } }
-        }
-
-        function gameOver() {
-            gameState = 'over';
-            if (score > highScore) { highScore = score; localStorage.setItem('flappy_tsuru_high', highScore.toString()); }
-            finalScoreDisplay.textContent = score;
-            highScoreDisplay.textContent = '最高記録: ' + highScore;
-            overScreen.style.display = 'flex';
-            if (navigator.vibrate) navigator.vibrate(100);
-        }
-
-        function drawFrame() {
-            var w = window.innerWidth, h = window.innerHeight;
-            ctx.clearRect(0, 0, w, h);
-            var skyGrad = ctx.createLinearGradient(0,0,0,h);
-            skyGrad.addColorStop(0,'#1a1a2e'); skyGrad.addColorStop(0.3,'#2D3B2D'); skyGrad.addColorStop(0.7,'#344034'); skyGrad.addColorStop(1,'#1a2a1a');
-            ctx.fillStyle = skyGrad; ctx.fillRect(0,0,w,h);
-            ctx.beginPath(); ctx.arc(w*0.8,h*0.12,30,0,Math.PI*2); ctx.fillStyle='rgba(245,240,235,0.15)'; ctx.fill();
-            ctx.beginPath(); ctx.arc(w*0.8,h*0.12,25,0,Math.PI*2); ctx.fillStyle='rgba(245,240,235,0.08)'; ctx.fill();
-            clouds.forEach(function(c) { ctx.beginPath(); ctx.ellipse(c.x,c.y,c.width/2,15,0,0,Math.PI*2); ctx.fillStyle='rgba(143,169,143,'+c.opacity+')'; ctx.fill(); });
-            drawSkyline(w,h); drawFuji(w,h);
-            particles.filter(function(p){return p.isSakura;}).forEach(function(p) { ctx.save(); ctx.translate(p.x,p.y); ctx.rotate((p.rot+frameCount*2)*Math.PI/180); ctx.beginPath(); ctx.ellipse(0,0,5,3,0,0,Math.PI*2); ctx.fillStyle=p.color; ctx.globalAlpha=p.life/p.maxLife*0.5; ctx.fill(); ctx.restore(); });
-            drawGround(w,h); pipes.forEach(function(p){drawTorii(p,h);}); drawCrane();
-            particles.filter(function(p){return !p.isSakura;}).forEach(function(p) { ctx.beginPath(); ctx.arc(p.x,p.y,3*(p.life/p.maxLife),0,Math.PI*2); ctx.fillStyle=p.color; ctx.globalAlpha=p.life/p.maxLife; ctx.fill(); ctx.globalAlpha=1; });
-        }
-
-        function drawSkyline(w,h) {
-            var baseY=h-50; ctx.fillStyle='rgba(30,45,30,0.4)'; var offset=-(bgOffset*0.2)%w;
-            var buildings=[{x:0,w:30,h:80},{x:40,w:20,h:120},{x:70,w:35,h:60},{x:110,w:15,h:150},{x:135,w:25,h:90},{x:170,w:40,h:70},{x:220,w:12,h:180},{x:240,w:30,h:100},{x:280,w:20,h:130},{x:310,w:35,h:75},{x:355,w:18,h:160},{x:380,w:25,h:95},{x:415,w:30,h:110},{x:455,w:15,h:140}];
-            buildings.forEach(function(b) { var bx=((b.x+offset)%(w+100)); if(bx<-50) bx+=w+100; ctx.fillRect(bx,baseY-b.h,b.w,b.h); if(b.h>140){ctx.fillStyle='rgba(212,114,140,0.2)';ctx.fillRect(bx+b.w/2-2,baseY-b.h-20,4,20);ctx.fillStyle='rgba(30,45,30,0.4)';} });
-        }
-
-        function drawFuji(w,h) {
-            var fujiX=w*0.6-(bgOffset*0.05)%(w*0.3), fujiY=h*0.55;
-            ctx.beginPath(); ctx.moveTo(fujiX-120,fujiY+40); ctx.lineTo(fujiX,fujiY-60); ctx.lineTo(fujiX+120,fujiY+40); ctx.closePath(); ctx.fillStyle='rgba(60,80,60,0.2)'; ctx.fill();
-            ctx.beginPath(); ctx.moveTo(fujiX-30,fujiY-35); ctx.lineTo(fujiX,fujiY-60); ctx.lineTo(fujiX+30,fujiY-35); ctx.closePath(); ctx.fillStyle='rgba(245,240,235,0.15)'; ctx.fill();
-        }
-
-        function drawGround(w,h) {
-            var groundY=h-50; var gg=ctx.createLinearGradient(0,groundY,0,h); gg.addColorStop(0,'#2a3a2a'); gg.addColorStop(1,'#1a2a1a'); ctx.fillStyle=gg; ctx.fillRect(0,groundY,w,50);
-            ctx.strokeStyle='rgba(143,169,143,0.3)'; ctx.lineWidth=1; ctx.beginPath(); ctx.moveTo(0,groundY); ctx.lineTo(w,groundY); ctx.stroke();
-        }
-
-        function drawTorii(pipe,h) {
-            var topH=pipe.gapY-PIPE_GAP/2, bottomY=pipe.gapY+PIPE_GAP/2, bottomH=h-50-bottomY, x=pipe.x, pw=PIPE_WIDTH;
-            ctx.fillStyle='#C4424B'; ctx.fillRect(x+5,0,10,topH); ctx.fillRect(x+pw-15,0,10,topH);
-            ctx.fillStyle='#8B2020'; ctx.fillRect(x-8,topH-12,pw+16,12); ctx.fillStyle='#C4424B'; ctx.fillRect(x-5,topH-22,pw+10,12); ctx.fillStyle='#D4A84B'; ctx.fillRect(x-5,topH-24,pw+10,3);
-            ctx.fillStyle='#C4424B'; ctx.fillRect(x+5,bottomY,10,bottomH); ctx.fillRect(x+pw-15,bottomY,10,bottomH);
-            ctx.fillStyle='#8B2020'; ctx.fillRect(x-8,bottomY,pw+16,12); ctx.fillStyle='#C4424B'; ctx.fillRect(x-5,bottomY+10,pw+10,12); ctx.fillStyle='#D4A84B'; ctx.fillRect(x-5,bottomY+22,pw+10,3);
-            ctx.fillStyle='#8B2020'; ctx.fillRect(x+8,bottomY+25,pw-16,5);
-        }
-
-        function drawCrane() {
-            ctx.save(); ctx.translate(crane.x,crane.y); ctx.rotate(crane.rotation*Math.PI/180);
-            ctx.fillStyle='#F5F0EB'; ctx.beginPath(); ctx.ellipse(0,0,CRANE_SIZE,CRANE_SIZE*0.55,0,0,Math.PI*2); ctx.fill();
-            var wingAngle=crane.flapFrame>0?-25:10; ctx.save(); ctx.rotate(wingAngle*Math.PI/180);
-            ctx.fillStyle='#E0D8D0'; ctx.beginPath(); ctx.ellipse(-5,-5,CRANE_SIZE*0.7,CRANE_SIZE*0.3,-0.3,0,Math.PI*2); ctx.fill();
-            ctx.fillStyle='#2D3B2D'; ctx.beginPath(); ctx.ellipse(-15,-8,CRANE_SIZE*0.3,CRANE_SIZE*0.15,-0.3,0,Math.PI*2); ctx.fill(); ctx.restore();
-            ctx.strokeStyle='#F5F0EB'; ctx.lineWidth=4; ctx.beginPath(); ctx.moveTo(CRANE_SIZE*0.5,-3); ctx.quadraticCurveTo(CRANE_SIZE*0.8,-10,CRANE_SIZE*0.9,-15); ctx.stroke();
-            ctx.fillStyle='#F5F0EB'; ctx.beginPath(); ctx.arc(CRANE_SIZE*0.9,-16,6,0,Math.PI*2); ctx.fill();
-            ctx.fillStyle='#D4728C'; ctx.beginPath(); ctx.arc(CRANE_SIZE*0.9,-20,4,0,Math.PI*2); ctx.fill();
-            ctx.fillStyle='#D4A84B'; ctx.beginPath(); ctx.moveTo(CRANE_SIZE*0.9+6,-16); ctx.lineTo(CRANE_SIZE*0.9+14,-15); ctx.lineTo(CRANE_SIZE*0.9+6,-14); ctx.closePath(); ctx.fill();
-            ctx.fillStyle='#1a1a2e'; ctx.beginPath(); ctx.arc(CRANE_SIZE*0.92,-16,1.5,0,Math.PI*2); ctx.fill();
-            ctx.fillStyle='#2D3B2D'; ctx.beginPath(); ctx.moveTo(-CRANE_SIZE*0.7,0); ctx.lineTo(-CRANE_SIZE*1.1,-8); ctx.lineTo(-CRANE_SIZE*0.9,-2); ctx.lineTo(-CRANE_SIZE*1.2,-3); ctx.lineTo(-CRANE_SIZE*0.8,3); ctx.closePath(); ctx.fill();
-            ctx.restore();
-        }
+        function drawFrame(){var w=window.innerWidth,h=window.innerHeight;ctx.clearRect(0,0,w,h);var sg=ctx.createLinearGradient(0,0,0,h);sg.addColorStop(0,'#1a1a2e');sg.addColorStop(0.3,'#2D3B2D');sg.addColorStop(0.7,'#344034');sg.addColorStop(1,'#1a2a1a');ctx.fillStyle=sg;ctx.fillRect(0,0,w,h);ctx.beginPath();ctx.arc(w*0.8,h*0.12,30,0,Math.PI*2);ctx.fillStyle='rgba(245,240,235,0.15)';ctx.fill();clouds.forEach(function(c){ctx.beginPath();ctx.ellipse(c.x,c.y,c.width/2,15,0,0,Math.PI*2);ctx.fillStyle='rgba(143,169,143,'+c.opacity+')';ctx.fill();});drawSkyline(w,h);drawFuji(w,h);particles.filter(function(p){return p.isSakura;}).forEach(function(p){ctx.save();ctx.translate(p.x,p.y);ctx.rotate((p.rot+frameCount*2)*Math.PI/180);ctx.beginPath();ctx.ellipse(0,0,5,3,0,0,Math.PI*2);ctx.fillStyle=p.color;ctx.globalAlpha=p.life/p.maxLife*0.5;ctx.fill();ctx.restore();});drawGround(w,h);pipes.forEach(function(p){drawTorii(p,h);});drawCrane();particles.filter(function(p){return !p.isSakura;}).forEach(function(p){ctx.beginPath();ctx.arc(p.x,p.y,3*(p.life/p.maxLife),0,Math.PI*2);ctx.fillStyle=p.color;ctx.globalAlpha=p.life/p.maxLife;ctx.fill();ctx.globalAlpha=1;});}
+        function drawSkyline(w,h){var by=h-50;ctx.fillStyle='rgba(30,45,30,0.4)';var o=-(bgOffset*0.2)%w;[{x:0,w:30,h:80},{x:40,w:20,h:120},{x:70,w:35,h:60},{x:110,w:15,h:150},{x:135,w:25,h:90},{x:170,w:40,h:70},{x:220,w:12,h:180},{x:240,w:30,h:100},{x:280,w:20,h:130},{x:310,w:35,h:75},{x:355,w:18,h:160},{x:380,w:25,h:95}].forEach(function(b){var bx=((b.x+o)%(w+100));if(bx<-50)bx+=w+100;ctx.fillRect(bx,by-b.h,b.w,b.h);});}
+        function drawFuji(w,h){var fx=w*0.6-(bgOffset*0.05)%(w*0.3),fy=h*0.55;ctx.beginPath();ctx.moveTo(fx-120,fy+40);ctx.lineTo(fx,fy-60);ctx.lineTo(fx+120,fy+40);ctx.closePath();ctx.fillStyle='rgba(60,80,60,0.2)';ctx.fill();ctx.beginPath();ctx.moveTo(fx-30,fy-35);ctx.lineTo(fx,fy-60);ctx.lineTo(fx+30,fy-35);ctx.closePath();ctx.fillStyle='rgba(245,240,235,0.15)';ctx.fill();}
+        function drawGround(w,h){var gy=h-50;var gg=ctx.createLinearGradient(0,gy,0,h);gg.addColorStop(0,'#2a3a2a');gg.addColorStop(1,'#1a2a1a');ctx.fillStyle=gg;ctx.fillRect(0,gy,w,50);ctx.strokeStyle='rgba(143,169,143,0.3)';ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(0,gy);ctx.lineTo(w,gy);ctx.stroke();}
+        function drawTorii(pipe,h){var tH=pipe.gapY-PIPE_GAP/2,bY=pipe.gapY+PIPE_GAP/2,bH=h-50-bY,x=pipe.x,pw=PIPE_WIDTH;ctx.fillStyle='#C4424B';ctx.fillRect(x+5,0,10,tH);ctx.fillRect(x+pw-15,0,10,tH);ctx.fillStyle='#8B2020';ctx.fillRect(x-8,tH-12,pw+16,12);ctx.fillStyle='#C4424B';ctx.fillRect(x-5,tH-22,pw+10,12);ctx.fillStyle='#D4A84B';ctx.fillRect(x-5,tH-24,pw+10,3);ctx.fillStyle='#C4424B';ctx.fillRect(x+5,bY,10,bH);ctx.fillRect(x+pw-15,bY,10,bH);ctx.fillStyle='#8B2020';ctx.fillRect(x-8,bY,pw+16,12);ctx.fillStyle='#C4424B';ctx.fillRect(x-5,bY+10,pw+10,12);ctx.fillStyle='#D4A84B';ctx.fillRect(x-5,bY+22,pw+10,3);}
+        function drawCrane(){ctx.save();ctx.translate(crane.x,crane.y);ctx.rotate(crane.rotation*Math.PI/180);ctx.fillStyle='#F5F0EB';ctx.beginPath();ctx.ellipse(0,0,CRANE_SIZE,CRANE_SIZE*0.55,0,0,Math.PI*2);ctx.fill();var wa=crane.flapFrame>0?-25:10;ctx.save();ctx.rotate(wa*Math.PI/180);ctx.fillStyle='#E0D8D0';ctx.beginPath();ctx.ellipse(-5,-5,CRANE_SIZE*0.7,CRANE_SIZE*0.3,-0.3,0,Math.PI*2);ctx.fill();ctx.fillStyle='#2D3B2D';ctx.beginPath();ctx.ellipse(-15,-8,CRANE_SIZE*0.3,CRANE_SIZE*0.15,-0.3,0,Math.PI*2);ctx.fill();ctx.restore();ctx.strokeStyle='#F5F0EB';ctx.lineWidth=4;ctx.beginPath();ctx.moveTo(CRANE_SIZE*0.5,-3);ctx.quadraticCurveTo(CRANE_SIZE*0.8,-10,CRANE_SIZE*0.9,-15);ctx.stroke();ctx.fillStyle='#F5F0EB';ctx.beginPath();ctx.arc(CRANE_SIZE*0.9,-16,6,0,Math.PI*2);ctx.fill();ctx.fillStyle='#D4728C';ctx.beginPath();ctx.arc(CRANE_SIZE*0.9,-20,4,0,Math.PI*2);ctx.fill();ctx.fillStyle='#D4A84B';ctx.beginPath();ctx.moveTo(CRANE_SIZE*0.9+6,-16);ctx.lineTo(CRANE_SIZE*0.9+14,-15);ctx.lineTo(CRANE_SIZE*0.9+6,-14);ctx.closePath();ctx.fill();ctx.fillStyle='#1a1a2e';ctx.beginPath();ctx.arc(CRANE_SIZE*0.92,-16,1.5,0,Math.PI*2);ctx.fill();ctx.fillStyle='#2D3B2D';ctx.beginPath();ctx.moveTo(-CRANE_SIZE*0.7,0);ctx.lineTo(-CRANE_SIZE*1.1,-8);ctx.lineTo(-CRANE_SIZE*0.9,-2);ctx.lineTo(-CRANE_SIZE*1.2,-3);ctx.lineTo(-CRANE_SIZE*0.8,3);ctx.closePath();ctx.fill();ctx.restore();}
 
         // ==========================================
         // INIT
         // ==========================================
         buildCards();
-        if (localStorage.getItem(STORAGE_KEY) === CORRECT_PASSWORD) {
-            unlock();
-        } else {
-            scrollHint.style.display = 'none';
-        }
-
-        passwordBtn.addEventListener('click', function() {
-            var pw = passwordInput.value.trim();
-            if (pw === CORRECT_PASSWORD) { localStorage.setItem(STORAGE_KEY, pw); unlock(); }
-            else { passwordError.classList.add('visible'); passwordInput.style.borderColor='var(--accent-pink)'; setTimeout(function(){passwordError.classList.remove('visible');passwordInput.style.borderColor='';},2000); }
-        });
-        passwordInput.addEventListener('keydown', function(e) { if (e.key==='Enter') passwordBtn.click(); });
+        if(typeof lottie!=='undefined')initLottieFlowers();else document.getElementById('lottie-bg').style.display='none';
+        initGyroscope();
+        if(localStorage.getItem(STORAGE_KEY)===CORRECT_PASSWORD)unlock();else scrollHint.style.display='none';
+        passwordBtn.addEventListener('click',function(){var pw=passwordInput.value.trim();if(pw===CORRECT_PASSWORD){localStorage.setItem(STORAGE_KEY,pw);unlock();}else{passwordError.classList.add('visible');passwordInput.style.borderColor='var(--accent-pink)';setTimeout(function(){passwordError.classList.remove('visible');passwordInput.style.borderColor='';},2000);}});
+        passwordInput.addEventListener('keydown',function(e){if(e.key==='Enter')passwordBtn.click();});
     </script>
 </body>
 </html>
